@@ -15,15 +15,17 @@ public class DrawGame extends JPanel implements KeyListener, MouseListener, Mous
 	 */
 	private static final long serialVersionUID = 1L;
 	static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-	Room roomGround, roomLayer1;
+	Room centralZone, northZone, southZone, eastZone, westZone, caveZone;
 	Character character;
 
 	public DrawGame(){
-		roomGround = new Room(Engine.centralZoneGround);
-		roomLayer1 = new Room(Engine.centralZoneTop);
+		centralZone = new Room(Engine.centralZoneGround, Engine.centralZoneTop);
+		northZone = new Room(Engine.northZoneGround, Engine.northZoneTop);
+		southZone = new Room(Engine.southZoneGround, Engine.southZoneTop);
+		eastZone = new Room(Engine.eastZoneGround, Engine.eastZoneTop);
+		westZone = new Room(Engine.westZoneGround, Engine.westZoneTop);
+		caveZone = new Room(Engine.caveZoneGround, Engine.caveZoneTop);
 		character = new Character();
-		//roomGround = new Room(Engine.northZoneGround);
-		//roomLayer1 = new Room(Engine.northZoneTop);
 
 		addMouseListener(this);
 		addMouseMotionListener(this);
@@ -33,8 +35,7 @@ public class DrawGame extends JPanel implements KeyListener, MouseListener, Mous
 
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
-		roomGround.drawImage(g);
-		roomLayer1.drawImage(g);
+		centralZone.drawImage(g);
 		character.drawImage(g);
 	}
 
