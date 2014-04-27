@@ -8,25 +8,25 @@ import javax.imageio.ImageIO;
 public class Room {
 	private int[][] map;
 	private BufferedImage tileSheet;
-	
-	public Room(int[][] existingMap){
+
+	public Room(int[][] existingMap) {
 		map = new int[existingMap.length][existingMap[0].length];
-		for(int y = 0; y < map.length; y++){
-			for(int x = 0; x < map[y].length; x++){
+		for (int y = 0; y < map.length; y++) {
+			for (int x = 0; x < map[y].length; x++) {
 				map[y][x] = existingMap[y][x];
 			}
 		}
 		tileSheet = LoadTileSheet("tileset.png");
-		 
+
 	}
-	
-	public BufferedImage LoadTileSheet(String fileName){
+
+	public BufferedImage LoadTileSheet(String fileName) {
 		BufferedImage img = null;
-		
-		try{ 
+
+		try {
 			img = ImageIO.read(new File(fileName));
 		} catch (IOException e1) {
-			//e1.printStackTrace();
+			// e1.printStackTrace();
 			throw new IllegalArgumentException("Could not load the file.");
 		}
 		
