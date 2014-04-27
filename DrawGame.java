@@ -187,6 +187,18 @@ public class DrawGame extends JPanel implements KeyListener, MouseListener, Mous
 
 	@Override
 	public void mousePressed(MouseEvent arg0) {
+	
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
 		int keyCode = e.getKeyCode();
 	    	switch( keyCode ) { 
 	        	case KeyEvent.VK_W:
@@ -202,18 +214,6 @@ public class DrawGame extends JPanel implements KeyListener, MouseListener, Mous
 	        		character.moveRight();
 	        		break;
 	     }
-		
-	}
-
-	@Override
-	public void mouseReleased(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void keyPressed(KeyEvent e) {
-		// TODO Auto-generated method stub
 	}
 
 	@Override
