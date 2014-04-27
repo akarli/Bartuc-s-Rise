@@ -132,10 +132,12 @@ public class DrawGame extends JPanel implements KeyListener, MouseListener, Mous
 	
 	static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 	Room roomGround, roomLayer1;
+	Character character;
 	
 	public DrawGame(){
 		roomGround = new Room(middleZoneGround);
 		roomLayer1 = new Room(middleZoneLayer1);
+		character = new Character();
 		//roomGround = new Room(northZoneGround);
 		//roomLayer1 = new Room(northZoneLevel1);
 		
@@ -149,6 +151,7 @@ public class DrawGame extends JPanel implements KeyListener, MouseListener, Mous
 		super.paintComponent(g);
 		roomGround.drawImage(g);
 		roomLayer1.drawImage(g);
+		character.drawImage(g);
 	}
 	
 
@@ -184,7 +187,21 @@ public class DrawGame extends JPanel implements KeyListener, MouseListener, Mous
 
 	@Override
 	public void mousePressed(MouseEvent arg0) {
-		// TODO Auto-generated method stub
+		int keyCode = e.getKeyCode();
+	    	switch( keyCode ) { 
+	        	case KeyEvent.VK_W:
+	        		character.moveUp();
+	        		break;
+			case KeyEvent.VK_A:
+	        		character.moveLeft();
+	        		break;
+	        	case KeyEvent.VK_S:
+	        		character.moveDown();
+	        	 	break;
+		 	case KeyEvent.VK_D:
+	        		character.moveRight();
+	        		break;
+	     }
 		
 	}
 
@@ -207,20 +224,7 @@ public class DrawGame extends JPanel implements KeyListener, MouseListener, Mous
 
 	@Override
 	public void keyTyped(KeyEvent e) {
-		/**
-		int keyCode = e.getKeyCode();
-	    switch( keyCode ) { 
-	        case KeyEvent.VK_UP:
-	        	helicopter.accelerate();
-	        	break;
-	        case KeyEvent.VK_LEFT:
-	            helicopter.moveLeft();
-	            break;
-	        case KeyEvent.VK_RIGHT:
-	            helicopter.moveRight();
-	            break;
-	     }
-	     */
+
 		
 	}
 
