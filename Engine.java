@@ -5,6 +5,7 @@ public class Engine {
 	 * 
 	 * This is values for holding tile sizes, screen dimensions.
 	 */
+	
 	public static final int TILE_WIDTH = 32;
 	public static final int TILE_HEIGHT = 32;
 	public static final int MAP_ROW = 20;
