@@ -9,10 +9,11 @@ import javax.imageio.ImageIO;
 public class Room {
 	private int[][] map;
 	private int[][] map2;
+	private int[][] collisionMap;
 	private BufferedImage tileSheet;
 	private HashMap<String, Room> exits;
 
-	public Room(int[][] existingMap, int[][] existingMap2) {
+	public Room(int[][] existingMap, int[][] existingMap2, int[][]collision) {
 		map = new int[existingMap.length][existingMap[0].length];
 		for (int y = 0; y < map.length; y++) {
 			for (int x = 0; x < map[y].length; x++) {
@@ -23,6 +24,12 @@ public class Room {
 		for (int y = 0; y < map2.length; y++) {
 			for (int x = 0; x < map2[y].length; x++) {
 				map2[y][x] = existingMap2[y][x];
+			}
+		}
+		collisionMap = new int[collision.length][collision[0].length];
+		for (int y = 0; y < collisionMap.length; y++) {
+			for (int x = 0; x < collisionMap[y].length; x++) {
+				collisionMap[y][x] = collision[y][x];
 			}
 		}
 		tileSheet = LoadTileSheet("tileset.png");
@@ -47,6 +54,10 @@ public class Room {
 		return exits.get(direction);
 	}
 	
+	public int[][] getCollisionMap(){
+		return collisionMap;
+	}
+	
 	public void setExit(String direction, Room neighbor){
 		exits.put(direction, neighbor);
 	}
@@ -54,7 +65,7 @@ public class Room {
 	public void drawImage(Graphics g) {
 		for(int y = 0; y < map.length; y++){
 			for(int x = 0; x < map[y].length; x++){
-				int index = map[y][x];
+				int index = map[y][x]-1;
 				int yOffset = 0;
 				while(index > (tileSheet.getWidth() / Engine.TILE_WIDTH) - 1){
 					index = index - (tileSheet.getWidth() / Engine.TILE_WIDTH);
@@ -76,7 +87,7 @@ public class Room {
 
 		for(int y = 0; y < map2.length; y++){
 			for(int x = 0; x < map2[y].length; x++){
-				int index = map2[y][x];
+				int index = map2[y][x]-1;
 				int yOffset = 0;
 				while(index > (tileSheet.getWidth() / Engine.TILE_WIDTH) - 1){
 					index = index - (tileSheet.getWidth() / Engine.TILE_WIDTH);
