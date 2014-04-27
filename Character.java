@@ -21,16 +21,16 @@ public class Character {
 	}
 	public BufferedImage loadCharacterImage(String fileName){
 		BufferedImage img = null;
-		
+
 		try{ 
 			img = ImageIO.read(new File(fileName));
 		} catch (IOException e1) {
 			throw new IllegalArgumentException("Could not load the file.");
 		}
-		
+
 		return img;
 	}
-	
+
 	public void moveUp(){
 		yPosition -= 32;
 	}
@@ -38,23 +38,23 @@ public class Character {
 	public void moveDown(){
 		yPosition +=32;
 	}
-	
+
 	public void moveLeft(){
 		xPosition-= 32;
 	}
-	
+
 	public void moveRight(){
 		xPosition += 32;
 	}
-	
+
 	public void setX(int x){
 		xPosition = x;
 	}
-	
+
 	public void setY(int y){
 		yPosition = y;
 	}
-	
+
 	public void drawImage(Graphics g){
 		g.drawImage(character, xPosition, yPosition, null);
 	}
