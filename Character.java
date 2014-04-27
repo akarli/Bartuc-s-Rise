@@ -20,7 +20,13 @@ public class Character {
 		westZone = new Room(Engine.westZoneGround, Engine.westZoneTop);
 		caveZone = new Room(Engine.caveZoneGround, Engine.caveZoneTop);
 		centralZone.setExit("north", northZone);
+		centralZone.setExit("west", westZone);
+		centralZone.setExit("south", southZone);
+		centralZone.setExit("east", eastZone);
 		northZone.setExit("south", centralZone);
+		westZone.setExit("east", centralZone);
+		eastZone.setExit("west", centralZone);
+		southZone.setExit("north", centralZone);
 		character = loadCharacterImage("Character.png");
 		xPosition = 448;
 		yPosition = 416;
@@ -67,10 +73,18 @@ public class Character {
 	
 	public void moveLeft(){
 		xPosition-= 32;
+		if(xPosition < 0){
+			currentRoom = currentRoom.getExit("west");
+			xPosition = 992;
+		}
 	}
 	
 	public void moveRight(){
 		xPosition += 32;
+		if(xPosition > 992){
+			currentRoom = currentRoom.getExit("east");
+			xPosition = 0;
+		}
 	}
 	
 	public void setX(int x){
