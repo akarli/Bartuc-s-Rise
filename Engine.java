@@ -17,6 +17,9 @@ public class Engine {
 	 * This is the maps that draws the world. 
 	 * Each zone consists of three layers.
 	 * Ground layer, top layer and collision layer.
+	 * The world map consists of six zones.
+	 * The north, west, east, south and central zones.
+	 * There is also a cave zone that can be accessed from the central zone.
 	 */
 	
 	// North Zone ground layer
