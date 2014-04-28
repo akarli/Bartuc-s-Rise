@@ -15,6 +15,10 @@ public class DrawGame extends JPanel implements KeyListener, MouseListener, Mous
 	 */
 	private static final long serialVersionUID = 1L;
 	static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+	boolean up = false;
+	boolean down = false;
+	boolean left = false;
+	boolean right = false;
 	
 	Character character;
 
@@ -32,6 +36,18 @@ public class DrawGame extends JPanel implements KeyListener, MouseListener, Mous
 		super.paintComponent(g);
 		character.getCurrentRoom().drawImage(g);
 		character.drawImage(g);
+		if(left){
+			character.moveLeft();
+		}
+		if(right){
+			character.moveRight();
+		}
+		if(up){
+			character.moveUp();
+		}
+		if(down){
+			character.moveDown();
+		}
 	}
 
 
@@ -82,23 +98,49 @@ public class DrawGame extends JPanel implements KeyListener, MouseListener, Mous
 		int keyCode = e.getKeyCode();
 		switch( keyCode ) {
 		case KeyEvent.VK_W:
-			character.moveUp();
+			up = true;
+			left = false;
+			right = false;
+			down = false;
 			break;
 		case KeyEvent.VK_A:
-			character.moveLeft();
+			left = true;
+			right = false;
+			up = false;
+			down = false;
 			break;
 		case KeyEvent.VK_S:
-			character.moveDown();
+			down = true;
+			left = false;
+			up = false;
+			right = false;
 			break;
 		case KeyEvent.VK_D:
-			character.moveRight();
+			right = true;
+			left = false;
+			up = false;
+			down = false;
 			break;
 		}
 	}
 
 	@Override
-	public void keyReleased(KeyEvent arg0) {
-		// TODO Auto-generated method stub
+	public void keyReleased(KeyEvent e) {
+		int keyCode = e.getKeyCode();
+		switch( keyCode ) {
+		case KeyEvent.VK_W:
+			up = false;
+			break;
+		case KeyEvent.VK_A:
+			left = false;
+			break;
+		case KeyEvent.VK_S:
+			down = false;
+			break;
+		case KeyEvent.VK_D:
+			right = false;
+			break;
+		}
 
 	}
 
