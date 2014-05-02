@@ -40,6 +40,11 @@ public class Character {
 		return yPosition;
 	}
 	public void moveUp() {
+		if(currentRoom == Engine.centralZone && (xPosition/32 == 26 || xPosition/32 == 27) && yPosition/32 < 7){
+			currentRoom = currentRoom.getExit("cave");
+			xPosition = 15*Engine.TILE_WIDTH-2; //kompensera för förskjutning
+			yPosition = 19*Engine.TILE_HEIGHT-2;
+		}
 		if (yPosition <= 0) {
 			currentRoom = currentRoom.getExit("north");
 			yPosition = 608;
@@ -50,12 +55,18 @@ public class Character {
 
 	public void moveDown() {
 		if (yPosition >= 606) {
+			if(currentRoom != Engine.caveZone){
+				yPosition = 0;
+			}
+			else{
+				xPosition = 26*Engine.TILE_WIDTH;
+				yPosition = 7*Engine.TILE_HEIGHT;
+			}
 			currentRoom = currentRoom.getExit("south");
-			yPosition = 0;
 		} else if (currentRoom.getCollisionMap()[((yPosition + 34) / 32)][((xPosition + 16) / 32)] != 1) {
 			yPosition += 2;
-
 		}
+
 	}
 
 	public void moveLeft() {
