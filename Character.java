@@ -40,15 +40,16 @@ public class Character {
 		return yPosition;
 	}
 	public void moveUp() {
-		if(currentRoom == Engine.centralZone && (xPosition/32 == 26 || xPosition/32 == 27) && yPosition/32 < 7){
+		if(currentRoom == Engine.centralZone && (xPosition/32 == 26 || xPosition/32 == 27) && yPosition/32 < 7 && yPosition/32 > 5){
 			currentRoom = currentRoom.getExit("cave");
-			xPosition = 15*Engine.TILE_WIDTH-2; //kompensera för förskjutning
-			yPosition = 19*Engine.TILE_HEIGHT-2;
+			xPosition = 15*Engine.TILE_WIDTH;
+			yPosition = 19*Engine.TILE_HEIGHT;
 		}
 		if (yPosition <= 0) {
 			currentRoom = currentRoom.getExit("north");
 			yPosition = 608;
-		} else if (currentRoom.getCollisionMap()[((yPosition - 3) / 32)][((xPosition + 16) / 32)] != 1) {
+		}
+		if (currentRoom.getCollisionMap()[((yPosition - 2) / 32)][((xPosition) / 32)] != 1) {
 			yPosition -= 2;
 		}
 	}
@@ -63,26 +64,30 @@ public class Character {
 				yPosition = 7*Engine.TILE_HEIGHT;
 			}
 			currentRoom = currentRoom.getExit("south");
-		} else if (currentRoom.getCollisionMap()[((yPosition + 34) / 32)][((xPosition + 16) / 32)] != 1) {
+		} 
+		
+		if (currentRoom.getCollisionMap()[((yPosition + 32) / 32)][((xPosition) / 32)] != 1) {
 			yPosition += 2;
 		}
-
 	}
 
 	public void moveLeft() {
 		if (xPosition <= 0) {
 			currentRoom = currentRoom.getExit("west");
 			xPosition = 992;
-		} else if (currentRoom.getCollisionMap()[((yPosition + 16) / 32)][((xPosition - 3) / 32)] != 1) {
+		}
+		if (currentRoom.getCollisionMap()[((yPosition)/32)][((xPosition-2) / 32)] != 1) {
 			xPosition -= 2;
 		}
+
 	}
 
 	public void moveRight() {
 		if (xPosition >= 992) {
 			currentRoom = currentRoom.getExit("east");
 			xPosition = 0;
-		} else if (currentRoom.getCollisionMap()[((yPosition + 16) / 32)][((xPosition + 32) / 32)] != 1) {
+		}
+		if (currentRoom.getCollisionMap()[((yPosition) / 32)][((xPosition + 32) / 32)] != 1) {
 			xPosition += 2;
 		}
 	}
