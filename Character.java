@@ -9,36 +9,21 @@ import javax.imageio.ImageIO;
 public class Character {
 	private BufferedImage character;
 	private int xPosition, yPosition, maxHealth, currentHealth, damage;
-	Room centralZone, northZone, southZone, eastZone, westZone, caveZone, currentRoom;
-
+	private Room currentRoom;
 
 	public Character(){
-		centralZone = new Room(Engine.centralZoneGround, Engine.centralZoneTop, Engine.centralZoneCollision);
-		northZone = new Room(Engine.northZoneGround, Engine.northZoneTop, Engine.northZoneCollision);
-		southZone = new Room(Engine.southZoneGround, Engine.southZoneTop, Engine.southZoneCollision);
-		eastZone = new Room(Engine.eastZoneGround, Engine.eastZoneTop, Engine.eastZoneCollision);
-		westZone = new Room(Engine.westZoneGround, Engine.westZoneTop, Engine.westZoneCollision);
-		caveZone = new Room(Engine.caveZoneGround, Engine.caveZoneTop, Engine.caveZoneCollision);
-		centralZone.setExit("north", northZone);
-		centralZone.setExit("west", westZone);
-		centralZone.setExit("south", southZone);
-		centralZone.setExit("east", eastZone);
-		northZone.setExit("south", centralZone);
-		westZone.setExit("east", centralZone);
-		eastZone.setExit("west", centralZone);
-		southZone.setExit("north", centralZone);
 		character = loadCharacterImage("Character.png");
 		xPosition = 448;
 		yPosition = 416;
 		maxHealth = 100;
 		currentHealth = 100;
 		damage = 25;
-		currentRoom = centralZone;
+		currentRoom = Engine.centralZone;
 	}
 	public BufferedImage loadCharacterImage(String fileName){
 		BufferedImage img = null;
 
-		try{ 
+		try{
 			img = ImageIO.read(new File(fileName));
 		} catch (IOException e1) {
 			throw new IllegalArgumentException("Could not load the file.");
@@ -54,48 +39,42 @@ public class Character {
 	public int getY(){
 		return yPosition;
 	}
-
-	public void moveUp(){
-		if(yPosition <= 0){
+	public void moveUp() {
+		if (yPosition <= 0) {
 			currentRoom = currentRoom.getExit("north");
 			yPosition = 608;
-		}
-		else if(currentRoom.getCollisionMap()[((yPosition-2)/32)][((xPosition)/32)] != 1){
+		} else if (currentRoom.getCollisionMap()[((yPosition - 3) / 32)][((xPosition + 16) / 32)] != 1) {
 			yPosition -= 2;
 		}
 	}
 
-	public void moveDown(){
-		if(yPosition >= 608){
+	public void moveDown() {
+		if (yPosition >= 606) {
 			currentRoom = currentRoom.getExit("south");
 			yPosition = 0;
-		}
-		else if(currentRoom.getCollisionMap()[((yPosition+2)/32)][((xPosition)/32)] != 1){
-			yPosition +=2;
+		} else if (currentRoom.getCollisionMap()[((yPosition + 34) / 32)][((xPosition + 16) / 32)] != 1) {
+			yPosition += 2;
 
 		}
 	}
 
-	public void moveLeft(){
-		if(xPosition <= 0){
+	public void moveLeft() {
+		if (xPosition <= 0) {
 			currentRoom = currentRoom.getExit("west");
 			xPosition = 992;
-		}
-		else if(currentRoom.getCollisionMap()[((yPosition)/32)][((xPosition-2)/32)] != 1){
-			xPosition-= 2;
+		} else if (currentRoom.getCollisionMap()[((yPosition + 16) / 32)][((xPosition - 3) / 32)] != 1) {
+			xPosition -= 2;
 		}
 	}
 
-	public void moveRight(){
-		if(xPosition >= 992){
+	public void moveRight() {
+		if (xPosition >= 992) {
 			currentRoom = currentRoom.getExit("east");
 			xPosition = 0;
-		}
-		else if(currentRoom.getCollisionMap()[((yPosition)/32)][((xPosition+2)/32)] != 1){
+		} else if (currentRoom.getCollisionMap()[((yPosition + 16) / 32)][((xPosition + 32) / 32)] != 1) {
 			xPosition += 2;
 		}
 	}
-
 	public void setX(int x){
 		xPosition = x;
 	}
