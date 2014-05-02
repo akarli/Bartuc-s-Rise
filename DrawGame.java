@@ -21,21 +21,23 @@ public class DrawGame extends JPanel implements KeyListener, MouseListener, Mous
 	boolean left = false;
 	boolean right = false;
 	int moveCounter = 0;
-
-	Character character;
-
+	public static final Character character = new Character();
+	
 	public DrawGame(){
 
-		character = new Character();
-		Engine.centralZone.setExit("north", Engine.northZone);
-		Engine.centralZone.setExit("west", Engine.westZone);
-		Engine.centralZone.setExit("south", Engine.southZone);
-		Engine.centralZone.setExit("east", Engine.eastZone);
-		Engine.northZone.setExit("south", Engine.centralZone);
-		Engine.westZone.setExit("east", Engine.centralZone);
-		Engine.eastZone.setExit("west", Engine.centralZone);
-		Engine.southZone.setExit("north", Engine.centralZone);
+		  Engine.centralZone.setExit("north", Engine.northZone);
+		  Engine.centralZone.setExit("west", Engine.westZone);
+		  Engine.centralZone.setExit("south", Engine.southZone);
+		  Engine.centralZone.setExit("east", Engine.eastZone);
+		  Engine.centralZone.setExit("cave", Engine.caveZone);
+		  Engine.northZone.setExit("south", Engine.centralZone);
+		  Engine.westZone.setExit("east", Engine.centralZone);
+		  Engine.eastZone.setExit("west", Engine.centralZone);
+		  Engine.southZone.setExit("north", Engine.centralZone);
+		  Engine.caveZone.setExit("south", Engine.centralZone);
 
+		
+		
 		addMouseListener(this);
 		addMouseMotionListener(this);
 		addKeyListener(this);
@@ -45,7 +47,7 @@ public class DrawGame extends JPanel implements KeyListener, MouseListener, Mous
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
 		character.getCurrentRoom().drawImage(g);
-		character.drawImage(g);
+		//character.drawImage(g);
 
 		if(left && moveCounter < 16){
 			character.moveLeft();
@@ -122,27 +124,15 @@ public class DrawGame extends JPanel implements KeyListener, MouseListener, Mous
 			switch( keyCode ) {
 			case KeyEvent.VK_W:
 				up = true;
-				left = false;
-				right = false;
-				down = false;
 				break;
 			case KeyEvent.VK_A:
 				left = true;
-				right = false;
-				up = false;
-				down = false;
 				break;
 			case KeyEvent.VK_S:
 				down = true;
-				left = false;
-				up = false;
-				right = false;
 				break;
 			case KeyEvent.VK_D:
 				right = true;
-				left = false;
-				up = false;
-				down = false;
 				break;
 			}
 		}
