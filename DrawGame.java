@@ -6,6 +6,7 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+
 import javax.swing.JPanel;
 
 public class DrawGame extends JPanel implements KeyListener, MouseListener, MouseMotionListener{
@@ -19,12 +20,21 @@ public class DrawGame extends JPanel implements KeyListener, MouseListener, Mous
 	boolean down = false;
 	boolean left = false;
 	boolean right = false;
-	
+	int moveCounter = 0;
+
 	Character character;
 
 	public DrawGame(){
 
 		character = new Character();
+		Engine.centralZone.setExit("north", Engine.northZone);
+		Engine.centralZone.setExit("west", Engine.westZone);
+		Engine.centralZone.setExit("south", Engine.southZone);
+		Engine.centralZone.setExit("east", Engine.eastZone);
+		Engine.northZone.setExit("south", Engine.centralZone);
+		Engine.westZone.setExit("east", Engine.centralZone);
+		Engine.eastZone.setExit("west", Engine.centralZone);
+		Engine.southZone.setExit("north", Engine.centralZone);
 
 		addMouseListener(this);
 		addMouseMotionListener(this);
@@ -36,17 +46,29 @@ public class DrawGame extends JPanel implements KeyListener, MouseListener, Mous
 		super.paintComponent(g);
 		character.getCurrentRoom().drawImage(g);
 		character.drawImage(g);
-		if(left){
+
+		if(left && moveCounter < 16){
 			character.moveLeft();
+			moveCounter++;
 		}
-		if(right){
+		if(right && moveCounter < 16){
 			character.moveRight();
+			moveCounter++;
 		}
-		if(up){
+		if(up && moveCounter < 16){
 			character.moveUp();
+			moveCounter++;
 		}
-		if(down){
+		if(down && moveCounter < 16){
 			character.moveDown();
+			moveCounter++;
+		}
+		if(moveCounter == 16){
+			moveCounter = 0;
+			up = false;
+			left = false;
+			right = false;
+			down = false;
 		}
 	}
 
@@ -96,51 +118,39 @@ public class DrawGame extends JPanel implements KeyListener, MouseListener, Mous
 	@Override
 	public void keyPressed(KeyEvent e) {
 		int keyCode = e.getKeyCode();
-		switch( keyCode ) {
-		case KeyEvent.VK_W:
-			up = true;
-			left = false;
-			right = false;
-			down = false;
-			break;
-		case KeyEvent.VK_A:
-			left = true;
-			right = false;
-			up = false;
-			down = false;
-			break;
-		case KeyEvent.VK_S:
-			down = true;
-			left = false;
-			up = false;
-			right = false;
-			break;
-		case KeyEvent.VK_D:
-			right = true;
-			left = false;
-			up = false;
-			down = false;
-			break;
+		if(!up && !left && !right && !down){
+			switch( keyCode ) {
+			case KeyEvent.VK_W:
+				up = true;
+				left = false;
+				right = false;
+				down = false;
+				break;
+			case KeyEvent.VK_A:
+				left = true;
+				right = false;
+				up = false;
+				down = false;
+				break;
+			case KeyEvent.VK_S:
+				down = true;
+				left = false;
+				up = false;
+				right = false;
+				break;
+			case KeyEvent.VK_D:
+				right = true;
+				left = false;
+				up = false;
+				down = false;
+				break;
+			}
 		}
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		int keyCode = e.getKeyCode();
-		switch( keyCode ) {
-		case KeyEvent.VK_W:
-			up = false;
-			break;
-		case KeyEvent.VK_A:
-			left = false;
-			break;
-		case KeyEvent.VK_S:
-			down = false;
-			break;
-		case KeyEvent.VK_D:
-			right = false;
-			break;
-		}
+
 
 	}
 
