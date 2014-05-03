@@ -6,6 +6,8 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.util.LinkedList;
+import java.util.Queue;
 
 import javax.swing.JPanel;
 
@@ -23,6 +25,7 @@ public class DrawGame extends JPanel implements KeyListener, MouseListener, Mous
 	static int moveCounter = 0;
 	boolean pressed = false;
 	public static final Character character = new Character();
+	public Queue<Integer> Q;
 
 	public DrawGame(){
 
@@ -36,9 +39,7 @@ public class DrawGame extends JPanel implements KeyListener, MouseListener, Mous
 		Engine.eastZone.setExit("west", Engine.centralZone);
 		Engine.southZone.setExit("north", Engine.centralZone);
 		Engine.caveZone.setExit("south", Engine.centralZone);
-
-
-
+		Q = new LinkedList<Integer>();
 		addMouseListener(this);
 		addMouseMotionListener(this);
 		addKeyListener(this);
@@ -72,6 +73,21 @@ public class DrawGame extends JPanel implements KeyListener, MouseListener, Mous
 				left = false;
 				right = false;
 				down = false;
+			}
+			if(Q.size()!=0){
+				int direction = Q.remove();
+				if(direction == 1){
+					up = true;
+				}
+				if(direction == 2){
+					left = true;
+				}
+				if(direction == 3){
+					down = true;
+				}
+				if(direction == 4){
+					right = true;
+				}
 			}
 		}
 	}
@@ -126,28 +142,46 @@ public class DrawGame extends JPanel implements KeyListener, MouseListener, Mous
 			switch( keyCode ) {
 			case KeyEvent.VK_W:
 				pressed = true;
-					up = true;
-				
+				up = true;
 				break;
 			case KeyEvent.VK_A:
 				pressed = true;
-					left = true;
-				
+				left = true;
 				break;
 			case KeyEvent.VK_S:
 				pressed = true;
-
-					down = true;
-				
+				down = true;
 				break;
 			case KeyEvent.VK_D:
 				pressed = true;
-
-					right = true;
-				
+				right = true;
 				break;
 			case KeyEvent.VK_SPACE:
 				character.attack();
+			}
+		}
+		else{
+			switch(keyCode){
+			case KeyEvent.VK_W:
+				if(Q.size()<1){
+					Q.add(1);
+				}
+				break;
+			case KeyEvent.VK_A:
+				if(Q.size()<1){
+					Q.add(2);
+				}
+				break;
+			case KeyEvent.VK_S:
+				if(Q.size()<1){
+					Q.add(3);
+				}
+				break;
+			case KeyEvent.VK_D:
+				if(Q.size()<1){
+					Q.add(4);
+				}
+				break;
 			}
 		}
 
