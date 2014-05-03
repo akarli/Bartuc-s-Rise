@@ -6,6 +6,8 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -22,13 +24,23 @@ public class DrawGame extends JPanel implements KeyListener, MouseListener, Mous
 	static boolean down = false;
 	static boolean left = false;
 	static boolean right = false;
+	static boolean newZone = true;
 	static int moveCounter = 0;
 	boolean pressed = false;
 	public static final Character character = new Character();
 	public Queue<Integer> Q;
+	public ArrayList[] monsterList;
+	private HashMap<Room, Integer> monsterHash;
+	int monsterMoveCounter = 0;
+
 
 	public DrawGame(){
-
+		monsterHash = new HashMap<Room, Integer>();
+		monsterHash.put(Engine.centralZone, 0);
+		monsterHash.put(Engine.northZone, 1);
+		monsterHash.put(Engine.westZone, 2);
+		monsterHash.put(Engine.southZone, 3);
+		monsterHash.put(Engine.eastZone, 4);
 		Engine.centralZone.setExit("north", Engine.northZone);
 		Engine.centralZone.setExit("west", Engine.westZone);
 		Engine.centralZone.setExit("south", Engine.southZone);
@@ -40,16 +52,47 @@ public class DrawGame extends JPanel implements KeyListener, MouseListener, Mous
 		Engine.southZone.setExit("north", Engine.centralZone);
 		Engine.caveZone.setExit("south", Engine.centralZone);
 		Q = new LinkedList<Integer>();
+		monsterList = new ArrayList[5];
+		for(int i = 0; i < 5; i++){
+			monsterList[i] = new ArrayList<Monster>();
+		}
 		addMouseListener(this);
 		addMouseMotionListener(this);
 		addKeyListener(this);
 		setFocusable(true);
 	}
 
+	@SuppressWarnings("unchecked")
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
 		character.getCurrentRoom().drawImage(g);
+		monsterMoveCounter++;
+		if(newZone){
+			for(int i = 0;i < monsterList.length;i++){
+				if(monsterList[i] == null || monsterList[i].size() == 0){
+					for(int j = 0; j< 4; j++){
+						monsterList[i].add(new Monster());
+						Monster a = (Monster) monsterList[i].get(j);
+						a.place();
+					}
+				}
+			}
+			newZone = false;
 
+		}
+		for(int j = 0; j < monsterList[monsterHash.get(character.getCurrentRoom())].size();j++){
+			Monster a = (Monster) monsterList[monsterHash.get(character.getCurrentRoom())].get(j);
+			a.drawImage(g);
+		}
+		
+		if(monsterMoveCounter >= 120 ){
+			for(int j = 0; j < monsterList[monsterHash.get(character.getCurrentRoom())].size();j++){
+				Monster a = (Monster) monsterList[monsterHash.get(character.getCurrentRoom())].get(j);
+				a.move();
+			}
+			monsterMoveCounter = 0;
+		}
+		
 		if(left && moveCounter < 16){
 			character.moveLeft();
 			moveCounter++;
