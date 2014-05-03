@@ -65,22 +65,24 @@ public class Character {
 		return img;
 	}
 
-	public int getX(){
-		return xPosition;
+	public int getXTile(){
+		return xPosition/32;
 	}
 
-	public int getY(){
-		return yPosition;
+	public int getYTile(){
+		return yPosition/32;
 	}
 	public void moveUp() {
 		if(currentRoom == Engine.centralZone && (xPosition/32 == 26 || xPosition/32 == 27) && yPosition/32 < 7 && yPosition/32 > 5){
 			currentRoom = currentRoom.getExit("cave");
 			xPosition = 15*Engine.TILE_WIDTH;
 			yPosition = 19*Engine.TILE_HEIGHT-2;
+			DrawGame.newZone = true;
 		}
 		if (yPosition <= 0) {
 			currentRoom = currentRoom.getExit("north");
 			yPosition = 608;
+			DrawGame.newZone = true;
 		}
 		if (currentRoom.getCollisionMap()[((yPosition - 2) / 32)][((xPosition) / 32)] != 1) {
 			yPosition -= 2;
@@ -97,6 +99,7 @@ public class Character {
 				yPosition = 7*Engine.TILE_HEIGHT;
 			}
 			currentRoom = currentRoom.getExit("south");
+			DrawGame.newZone = true;
 		} 
 
 		if (currentRoom.getCollisionMap()[((yPosition + 32) / 32)][((xPosition) / 32)] != 1) {
@@ -107,6 +110,7 @@ public class Character {
 	public void moveLeft() {
 		if (xPosition <= 0) {
 			currentRoom = currentRoom.getExit("west");
+			DrawGame.newZone = true;
 			xPosition = 992;
 		}
 		if (currentRoom.getCollisionMap()[((yPosition)/32)][((xPosition-2) / 32)] != 1) {
@@ -118,12 +122,18 @@ public class Character {
 	public void moveRight() {
 		if (xPosition >= 992) {
 			currentRoom = currentRoom.getExit("east");
+			DrawGame.newZone = true;
 			xPosition = 0;
 		}
 		if (currentRoom.getCollisionMap()[((yPosition) / 32)][((xPosition + 32) / 32)] != 1) {
 			xPosition += 2;
 		}
 	}
+	
+	public void attack(){
+		
+	}
+	
 	public void setX(int x){
 		xPosition = x;
 	}
