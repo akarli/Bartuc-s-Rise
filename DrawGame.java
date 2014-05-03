@@ -16,28 +16,29 @@ public class DrawGame extends JPanel implements KeyListener, MouseListener, Mous
 	 */
 	private static final long serialVersionUID = 1L;
 	static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-	boolean up = false;
-	boolean down = false;
-	boolean left = false;
-	boolean right = false;
-	int moveCounter = 0;
+	static boolean up = false;
+	static boolean down = false;
+	static boolean left = false;
+	static boolean right = false;
+	static int moveCounter = 0;
+	boolean pressed = false;
 	public static final Character character = new Character();
-	
+
 	public DrawGame(){
 
-		  Engine.centralZone.setExit("north", Engine.northZone);
-		  Engine.centralZone.setExit("west", Engine.westZone);
-		  Engine.centralZone.setExit("south", Engine.southZone);
-		  Engine.centralZone.setExit("east", Engine.eastZone);
-		  Engine.centralZone.setExit("cave", Engine.caveZone);
-		  Engine.northZone.setExit("south", Engine.centralZone);
-		  Engine.westZone.setExit("east", Engine.centralZone);
-		  Engine.eastZone.setExit("west", Engine.centralZone);
-		  Engine.southZone.setExit("north", Engine.centralZone);
-		  Engine.caveZone.setExit("south", Engine.centralZone);
+		Engine.centralZone.setExit("north", Engine.northZone);
+		Engine.centralZone.setExit("west", Engine.westZone);
+		Engine.centralZone.setExit("south", Engine.southZone);
+		Engine.centralZone.setExit("east", Engine.eastZone);
+		Engine.centralZone.setExit("cave", Engine.caveZone);
+		Engine.northZone.setExit("south", Engine.centralZone);
+		Engine.westZone.setExit("east", Engine.centralZone);
+		Engine.eastZone.setExit("west", Engine.centralZone);
+		Engine.southZone.setExit("north", Engine.centralZone);
+		Engine.caveZone.setExit("south", Engine.centralZone);
 
-		
-		
+
+
 		addMouseListener(this);
 		addMouseMotionListener(this);
 		addKeyListener(this);
@@ -47,7 +48,6 @@ public class DrawGame extends JPanel implements KeyListener, MouseListener, Mous
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
 		character.getCurrentRoom().drawImage(g);
-		//character.drawImage(g);
 
 		if(left && moveCounter < 16){
 			character.moveLeft();
@@ -67,10 +67,12 @@ public class DrawGame extends JPanel implements KeyListener, MouseListener, Mous
 		}
 		if(moveCounter == 16){
 			moveCounter = 0;
-			up = false;
-			left = false;
-			right = false;
-			down = false;
+			if(!pressed){
+				up = false;
+				left = false;
+				right = false;
+				down = false;
+			}
 		}
 	}
 
@@ -120,26 +122,55 @@ public class DrawGame extends JPanel implements KeyListener, MouseListener, Mous
 	@Override
 	public void keyPressed(KeyEvent e) {
 		int keyCode = e.getKeyCode();
-		if(!up && !left && !right && !down){
+		if(!up && !left && !down && !right){
 			switch( keyCode ) {
 			case KeyEvent.VK_W:
-				up = true;
+				pressed = true;
+					up = true;
+				
 				break;
 			case KeyEvent.VK_A:
-				left = true;
+				pressed = true;
+					left = true;
+				
 				break;
 			case KeyEvent.VK_S:
-				down = true;
+				pressed = true;
+
+					down = true;
+				
 				break;
 			case KeyEvent.VK_D:
-				right = true;
+				pressed = true;
+
+					right = true;
+				
 				break;
+			case KeyEvent.VK_SPACE:
+				character.attack();
 			}
 		}
+
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
+		int keyCode = e.getKeyCode();
+
+		switch( keyCode ) {
+		case KeyEvent.VK_W:
+			pressed = false;
+			break;
+		case KeyEvent.VK_A:
+			pressed = false;
+			break;
+		case KeyEvent.VK_S:
+			pressed = false;
+			break;
+		case KeyEvent.VK_D:
+			pressed = false;
+			break;
+		}
 
 
 	}
