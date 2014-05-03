@@ -16,7 +16,7 @@ public class Character {
 	private BufferedImage[] moveRight;
 	private BufferedImage lastSprite;
 	private int currentSprite = 0;
-	private int animationCounter=0;
+	private int animationCounter=1;
 	private int x = 0;
 
 	public Character(){
@@ -141,25 +141,24 @@ public class Character {
 	}
 
 	public BufferedImage getImage(){
-		animationCounter++;
 		if(animationCounter == 8){
 			currentSprite++;
-			animationCounter = 0;
+			animationCounter = 1;
 		}
 		if(currentSprite >= 4){
-			currentSprite = 1;
+			currentSprite = 0;
 		}
 		if(DrawGame.up){
 			lastSprite = moveUp[1];
-			return moveUp[currentSprite-1];
+			return moveUp[currentSprite];
 		}
 		if(DrawGame.down){
 			lastSprite = moveDown[1];
-			return moveDown[currentSprite-1];
+			return moveDown[currentSprite];
 		}
 		if(DrawGame.right){
 			lastSprite = moveRight[1];
-			return moveRight[currentSprite-1];
+			return moveRight[currentSprite];
 		}
 		if(DrawGame.left){
 			lastSprite = moveLeft[1];
@@ -170,6 +169,9 @@ public class Character {
 
 	public void drawImage(Graphics g){
 		g.drawImage(getImage(), xPosition, yPosition, null);
+		if(DrawGame.up || DrawGame.down || DrawGame.left || DrawGame.right){
+			animationCounter++;
+		}
 	}
 
 }
