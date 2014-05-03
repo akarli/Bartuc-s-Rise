@@ -23,6 +23,8 @@ public class Character {
 		character = loadCharacterImage("charWalk.png");
 		moveUp = new BufferedImage[4];
 		moveDown = new BufferedImage[4];
+		moveRight = new BufferedImage[4];
+		moveLeft = new BufferedImage[4];
 		for(int i = 0; i < 4; i++){
 			moveUp[i] = character.getSubimage(x+(i*34), 64, 34, 53);
 			x = x+3;
@@ -33,7 +35,16 @@ public class Character {
 			moveDown[i] = character.getSubimage(x+(i*38), 4, 38, 57);
 			x=x+4;
 		}
-
+		x=249;
+		for(int i = 0; i < 4; i++){
+			moveRight[i] = character.getSubimage(x+(i*42), 67, 42, 50);
+			x=x+1;
+		}
+		x= 270;
+		for(int i = 0; i < 4; i++){
+			moveLeft[i] = character.getSubimage(x+(i*45), 7, 45, 53);
+			x=x+2;
+		}
 		xPosition = 448;
 		yPosition = 416;
 		maxHealth = 100;
@@ -136,19 +147,19 @@ public class Character {
 			animationCounter = 0;
 		}
 		if(currentSprite >= 4){
-			currentSprite = 0;
+			currentSprite = 1;
 		}
 		if(DrawGame.up){
 			lastSprite = moveUp[1];
-			return moveUp[currentSprite];
+			return moveUp[currentSprite-1];
 		}
 		if(DrawGame.down){
 			lastSprite = moveDown[1];
-			return moveDown[currentSprite];
+			return moveDown[currentSprite-1];
 		}
 		if(DrawGame.right){
 			lastSprite = moveRight[1];
-			return moveRight[currentSprite];
+			return moveRight[currentSprite-1];
 		}
 		if(DrawGame.left){
 			lastSprite = moveLeft[1];
