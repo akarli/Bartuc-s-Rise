@@ -27,7 +27,7 @@ public class GameMain extends JFrame implements ActionListener {
 		 */
 		
 		setLayout(null); // Allows for free placement of components in this window
-		setPreferredSize(new Dimension(32*Engine.TILE_WIDTH, 20*Engine.TILE_HEIGHT+225)); // Sets the size for the game window
+		setPreferredSize(new Dimension(32*Engine.TILE_WIDTH, 20*Engine.TILE_HEIGHT+220)); // Sets the size for the game window
 		setResizable(false);
 		setUndecorated(false);
 		setBackground(Color.WHITE);  
@@ -38,7 +38,7 @@ public class GameMain extends JFrame implements ActionListener {
 		 */
 		
 		gamePanel.setBounds(0, -5, 1024, 640); // Sets the size and position of the game panel
-		infoPanel.setBounds(0, 640, 1024, 200); // Sets the size and position for the info panel
+		infoPanel.setBounds(0, 635, 1024, 200); // Sets the size and position for the info panel
 		infoPanel.setBackground(Color.WHITE);
 		infoPanel.setLayout(null); // Allows for free placement of components in this panel
 
