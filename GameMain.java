@@ -37,7 +37,7 @@ public class GameMain extends JFrame implements ActionListener {
 		 * PANEL PREFERENCES
 		 */
 		
-		gamePanel.setBounds(0, 0, 1024, 640); // Sets the size and position of the game panel
+		gamePanel.setBounds(0, -5, 1024, 640); // Sets the size and position of the game panel
 		infoPanel.setBounds(0, 640, 1024, 200); // Sets the size and position for the info panel
 		infoPanel.setBackground(Color.WHITE);
 		infoPanel.setLayout(null); // Allows for free placement of components in this panel
@@ -53,7 +53,7 @@ public class GameMain extends JFrame implements ActionListener {
 		 */
 		
 		getContentPane().add(gamePanel); // Adds the game panel to its position
-		getContentPane().add(infoPanel); // Adds the info pnale to its position
+		getContentPane().add(infoPanel); // Adds the info panel to its position
 		gamePanel.add(draw); // Adds the game to the game panel
 		
 		pack();
