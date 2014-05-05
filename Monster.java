@@ -8,7 +8,8 @@ import javax.imageio.ImageIO;
 
 public class Monster {
 	private BufferedImage monster;
-	private int xPosition, yPosition, maxHealth, currentHealth, damage;
+	private int xPosition, yPosition, maxHealth, currentHealth, damage, moveCounter;
+	String strDirection;
 	Random rand = new Random();
 
 	public Monster(){
@@ -16,6 +17,7 @@ public class Monster {
 		maxHealth = rand.nextInt((20*DrawGame.character.getLevel()) + (5*DrawGame.character.getLevel()));
 		currentHealth = maxHealth;
 		damage = rand.nextInt(DrawGame.character.getLevel()*5 + DrawGame.character.getLevel()*2);
+		moveCounter = 16;
 	}
 
 	public BufferedImage loadMonsterImage(String fileName){
@@ -49,32 +51,53 @@ public class Monster {
 	public void drawImage(Graphics g){
 		g.drawImage(monster, xPosition, yPosition, null);
 	}
-	
+
 	public void takeDamage(int damage){
 		currentHealth -= damage;
 	}
-	
+
 	public void move(){
-		if(DrawGame.character.getXTile() > currentXTile()){
-			xPosition += 32;
+		if(strDirection.matches("y")){
+			if(DrawGame.character.getYTile() > currentYTile() && DrawGame.character.getCurrentRoom().getCollisionMap()[((yPosition + 32) / 32)][((xPosition) / 32)] != 1){
+				yPosition += 2;
+			}
+			if(DrawGame.character.getYTile() < currentYTile() && DrawGame.character.getCurrentRoom().getCollisionMap()[((yPosition - 2) / 32)][((xPosition) / 32)] != 1){
+				yPosition -= 2;
+			}
 		}
-		if(DrawGame.character.getXTile() < currentXTile()){
-			xPosition -= 32;
+		else{
+			if(DrawGame.character.getXTile() > currentXTile() && DrawGame.character.getCurrentRoom().getCollisionMap()[((yPosition) / 32)][((xPosition + 32) / 32)] != 1){
+				xPosition += 2;
+			}
+			if(DrawGame.character.getXTile() < currentXTile() && DrawGame.character.getCurrentRoom().getCollisionMap()[((yPosition)/32)][((xPosition-2) / 32)] != 1){
+				xPosition -= 2;
+			}
 		}
-		if(DrawGame.character.getYTile() > currentYTile()){
-			yPosition += 32;
-		}
-		if(DrawGame.character.getYTile() < currentYTile()){
-			yPosition -= 32;
-		}
+
+		moveCounter++;
 	}
-	
+
 	public int currentXTile(){
 		return xPosition/32;
 	}
-	
+
 	public int currentYTile(){
 		return yPosition/32;
+	}
+
+
+	public void startMoving(int direction){
+		moveCounter = 0;
+		if(direction == 0){
+			strDirection = "y";
+		}
+		else{
+			strDirection = "x";
+		}
+	}
+
+	public int getMoveCounter(){
+		return moveCounter;
 	}
 
 }
