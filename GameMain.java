@@ -16,7 +16,7 @@ public class GameMain extends JFrame implements ActionListener {
 	
 	DrawGame draw = new DrawGame(); // The game
 	
-	Timer t = new Timer(1000/60, this);
+	Timer t = new Timer(1000/60, this); // The game timer
 	
 	public GameMain(){
 		super("Bartuc's Rise"); // Names the window
