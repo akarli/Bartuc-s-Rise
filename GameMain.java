@@ -126,8 +126,41 @@ public class GameMain extends JFrame implements ActionListener {
 		 * COMMAND AREA PREFERENCES
 		 */
 		
+		sendButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e)
+            {
+            	String input = commandBox.getText();
+				if(input.trim().equals("")){
+					infoBox.append("\n No command entered.");
+					infoBox.setCaretPosition(infoBox.getDocument().getLength());
+				}
+            	else{
+					commandBox.setText("");
+					infoBox.append("\n Command entered: \"" + input + "\".");
+					infoBox.setCaretPosition(infoBox.getDocument().getLength());
+					parseCommand(input.trim());
+				}
+            }
+        }); 
 		sendButton.setBounds(430, 170, 74, 25); // Sets the size and position of the send button
 		sendButton.setFont(new Font("Serif", Font.PLAIN, 14)); // Sets the font of the send button
+		
+		commandBox.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e)
+			{
+				String input = commandBox.getText();
+				if(input.trim().equals("")){
+					infoBox.append("\n No command entered.");
+					infoBox.setCaretPosition(infoBox.getDocument().getLength());
+				}
+            	else{
+					commandBox.setText("");
+					infoBox.append("\n Command entered: \"" + input + "\".");
+					infoBox.setCaretPosition(infoBox.getDocument().getLength());
+					parseCommand(input.trim());
+				}
+			}
+		});
 		commandBox.setBounds(0, 170, 430, 25); // Sets the size and position of the command box
 		commandBox.setFont(new Font("Serif", Font.PLAIN, 14)); // Sets the font of the command box
 
@@ -167,7 +200,7 @@ public class GameMain extends JFrame implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent a) {
-		
+
 		/**
 		 * Updates all labels with the current information.
 		 */
@@ -180,5 +213,25 @@ public class GameMain extends JFrame implements ActionListener {
 		characterMana.setText("Mana: " + DrawGame.character.getMana() + "/" + DrawGame.character.getMaxMana());
 
 		draw.repaint();
+	}
+	
+	public void parseCommand(String command){
+		String inputCommand = command;
+		if(inputCommand.trim().equals("help") || inputCommand.trim().equals("Help") ){
+			infoBox.append("\n " + Engine.helpMessage);
+			infoBox.setCaretPosition(infoBox.getDocument().getLength());
+		}
+		else if(inputCommand.trim().equals("load") || inputCommand.trim().equals("Load") ){
+			infoBox.append("\n " + Engine.loadMessage);
+			infoBox.setCaretPosition(infoBox.getDocument().getLength());
+		}
+		else if(inputCommand.trim().equals("save") || inputCommand.trim().equals("Save") ){
+			infoBox.append("\n " + Engine.saveMessage);
+			infoBox.setCaretPosition(infoBox.getDocument().getLength());
+		}
+		else{
+			infoBox.append("\n That is not a valid command.");
+			infoBox.setCaretPosition(infoBox.getDocument().getLength());
+		}
 	}
 }
