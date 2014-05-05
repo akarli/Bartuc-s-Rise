@@ -9,6 +9,17 @@ public class Engine {
 	public static final int TILE_HEIGHT = 32;
 	public static final int MAP_ROW = 32;
 	public static final int MAP_COLUMN = 20;
+	
+	/**
+	 * GAME SETTINGS
+	 * 
+	 * Values for stat increases etc.
+	 */
+	
+	public final static int HP_LVL_UP = 10;
+	public final static int MANA_LVL_UP = 20;
+	public final static int DAMAGE_LVL_UP = 5;
+	public final static int ARMOR_LVL_UP = 2;
 
 	/**
 	 * GAME MAPS
@@ -596,6 +607,16 @@ public class Engine {
 		{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
 		{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
 	};
+	
+	/**
+	 * MESSAGES
+	 * Messages that is displayed when you start the game, level up, die etc.
+	 */
+	
+	public static final String startMessage = " Welcome to Bartuc's Rise! \n If you want to load a character use the command load. \n Type help for instructions."; // Start message
+	public static final String helpMessage = "";
+	public static final String levelUpMessage = "\n You gained a level! \n Health and mana restored. \n Health increased by " + HP_LVL_UP + ".\n Mana increased by " + MANA_LVL_UP + ".\n Damage increased by " + DAMAGE_LVL_UP + ".\n Armor increased by " + ARMOR_LVL_UP + ".";
+	
 
 	public static final Room centralZone = new Room(Engine.centralZoneLayer1, Engine.centralZoneLayer2, Engine.centralZoneLayer3, Engine.centralZoneCollision);
 	public static final Room northZone = new Room(Engine.northZoneLayer1, Engine.northZoneLayer2, Engine.northZoneLayer3, Engine.northZoneCollision);
