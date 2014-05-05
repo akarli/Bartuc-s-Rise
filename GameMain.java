@@ -12,7 +12,13 @@ public class GameMain extends JFrame implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	static GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 	static GraphicsDevice gs = ge.getDefaultScreenDevice();
-	private String buttonString = "Send";
+	
+	private static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+	private int screenWidth = (int) screenSize.getWidth();
+	private int screenHeight = (int) screenSize.getHeight();
+	
+	private String buttonString = "Send"; // The text string for the send button
+	
 	JPanel gamePanel = new JPanel(); // Panel containing the game
 	JPanel statsPanel = new JPanel(); // Panel containing the stats
 	JPanel infoPanel = new JPanel(); // Panel containing the info box
@@ -53,6 +59,7 @@ public class GameMain extends JFrame implements ActionListener {
 
 		setLayout(null); // Allows for free placement of components in this window
 		setPreferredSize(new Dimension(32 * Engine.TILE_WIDTH, 20 * Engine.TILE_HEIGHT + 220)); // Sets the size for the game window
+		setLocation((screenWidth/2) - 512, (screenHeight/2) - 430); // Centers the window
 		setResizable(false);
 		setUndecorated(false);
 		setBackground(Color.WHITE);
