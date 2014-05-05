@@ -189,8 +189,6 @@ public class GameMain extends JFrame implements ActionListener {
 		pack();
 
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		//infoBox.append("asda\ns\ndss\n\nsss\nssss\nssada\nssdads\nahgd\nsaghsdagdsh\njdjhsdsaj\nhgdsajgh\nsadkjh\nadsjk\nhadshg\njka\nsdhj\nkadsgsssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssshjds");
-		//infoBox.append("\nHej!");
 	}
 
 	public static void main(String args[]) {
