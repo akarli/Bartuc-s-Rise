@@ -144,6 +144,10 @@ public class Character {
 
 	}
 	
+	public void increaseXP(int xp){
+		currentExperience += xp;
+	}
+	
 	public void levelUp(){
 		level++;
 		currentExperience = currentExperience - maxExperience;
