@@ -3,6 +3,7 @@ import java.awt.event.*;
 
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
+import javax.swing.text.DefaultCaret;
 
 public class GameMain extends JFrame implements ActionListener {
 
@@ -18,8 +19,6 @@ public class GameMain extends JFrame implements ActionListener {
 	private int screenHeight = (int) screenSize.getHeight();
 	
 	private String buttonString = "Send"; // The text string for the send button
-	
-	private static String startMessage = " Welcome to Bartuc's Rise! \n If you want to load a character use the command load. \n Type help for instructions."; // Start message
 	
 	JPanel gamePanel = new JPanel(); // Panel containing the game
 	JPanel statsPanel = new JPanel(); // Panel containing the stats
@@ -40,11 +39,11 @@ public class GameMain extends JFrame implements ActionListener {
 	JLabel characterMana = new JLabel("Mana: " + DrawGame.character.getMana() + "/" + DrawGame.character.getMaxMana(), JLabel.CENTER);
 	
 	
-	public static JTextArea infoBox = new JTextArea(startMessage); // The box containing all info text
+	public static JTextArea infoBox = new JTextArea(Engine.startMessage); // The box containing all info text
 	public static JTextField commandBox = new JTextField(); // The box containing all info text
 	
 	JScrollPane scroll = new JScrollPane(infoBox, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED); // Making the infoBox scrollable
-	
+
 	JButton sendButton = new JButton(buttonString); // The button that will send the input command.
 	
 	DrawGame draw = new DrawGame(); // The game
@@ -182,5 +181,4 @@ public class GameMain extends JFrame implements ActionListener {
 
 		draw.repaint();
 	}
-
 }
