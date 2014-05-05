@@ -11,7 +11,7 @@ public class Monster {
 	private int xPosition, yPosition, maxHealth, currentHealth, damage, moveCounter;
 	String strDirection;
 	Random rand = new Random();
-	private boolean moveToPlayer = false, moving = false, moveLeft = false, moveRight = false, moveUp = false, moveDown = false;
+	private boolean moveToPlayer = false, moveLeft = false, moveRight = false, moveUp = false, moveDown = false;
 
 	public Monster(){
 		monster = loadMonsterImage("Character.png");
@@ -41,7 +41,7 @@ public class Monster {
 			y = rand.nextInt(Engine.MAP_COLUMN);
 			x = rand.nextInt(Engine.MAP_ROW);
 
-			if(DrawGame.character.getCurrentRoom().getCollisionMap()[y][x] == 0){
+			if(DrawGame.character.getCurrentRoom().getCollisionMap()[y][x] == 0 && (x != DrawGame.character.getXTile() && y != DrawGame.character.getYTile())){
 				placeable = true;
 			}
 		}
@@ -99,7 +99,6 @@ public class Monster {
 
 	public void doneMoving(){
 		moveToPlayer = false;
-		moving = false;
 		moveLeft = false;
 		moveRight = false;
 		moveUp = false;
@@ -109,18 +108,20 @@ public class Monster {
 
 	public void startMoving(int direction){
 		moveCounter = 0;
-		moving = true;
 		if(Math.abs(DrawGame.character.getYTile()-currentYTile()) <= 7 && Math.abs(DrawGame.character.getXTile()-currentXTile()) <= 7){
 			moveToPlayer=true;
 		}
 		if(direction == 0){
 			strDirection = "y";
 			if(moveToPlayer){
-				if(DrawGame.character.getYTile() >= currentYTile()){
+				if(DrawGame.character.getYTile() > currentYTile()){
 					moveDown = true;
 				}
 				if(DrawGame.character.getYTile() < currentYTile()){
 					moveUp = true;
+				}
+				if(DrawGame.character.getYTile() == currentYTile()){
+					strDirection = "x";
 				}
 			}
 			else{
@@ -136,11 +137,14 @@ public class Monster {
 		else{
 			strDirection = "x";
 			if(moveToPlayer){
-				if(DrawGame.character.getXTile() >=currentXTile()){
+				if(DrawGame.character.getXTile() >currentXTile()){
 					moveRight = true;
 				}
 				if(DrawGame.character.getXTile() < currentXTile()){
 					moveLeft = true;
+				}
+				if(DrawGame.character.getXTile() == currentXTile()){
+					strDirection = "y";
 				}
 			}
 			else{
