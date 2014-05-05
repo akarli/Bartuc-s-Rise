@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.Random;
 
 import javax.swing.JPanel;
 
@@ -24,25 +25,25 @@ public class DrawGame extends JPanel implements KeyListener, MouseListener, Mous
 	static boolean down = false;
 	static boolean left = false;
 	static boolean right = false;
-	static boolean newZone = true;
+	static boolean newZone = true; //blir true när man går in i en ny zone
 	static int moveCounter = 0;
 	boolean pressed = false;
 	public static final Character character = new Character();
-	public Queue<Integer> Q;
-	public ArrayList[] monsterList;
-	private HashMap<Room, Integer> monsterHash;
+	public Queue<Integer> Q; //kö för knapptryckningar vid move för character
+	public ArrayList[] monsterList; //en array med arraylists vid varje position, där platsen i arrayen är zonen och platserna i arraylisten är monstren i zonen
+	private HashMap<Room, Integer> monsterHash; // en hashmap där varje room tilldelas en siffra
 	int monsterMoveCounter = 0;
-
+	Random rand = new Random();
 
 	public DrawGame(){
 		monsterHash = new HashMap<Room, Integer>();
-		monsterHash.put(Engine.centralZone, 0);
+		monsterHash.put(Engine.centralZone, 0); //tilldelar rum till siffror
 		monsterHash.put(Engine.northZone, 1);
 		monsterHash.put(Engine.westZone, 2);
 		monsterHash.put(Engine.southZone, 3);
 		monsterHash.put(Engine.eastZone, 4);
 		monsterHash.put(Engine.caveZone, 5);
-		Engine.centralZone.setExit("north", Engine.northZone);
+		Engine.centralZone.setExit("north", Engine.northZone); // sätter exits för rummen och vart de leder
 		Engine.centralZone.setExit("west", Engine.westZone);
 		Engine.centralZone.setExit("south", Engine.southZone);
 		Engine.centralZone.setExit("east", Engine.eastZone);
@@ -53,9 +54,9 @@ public class DrawGame extends JPanel implements KeyListener, MouseListener, Mous
 		Engine.southZone.setExit("north", Engine.centralZone);
 		Engine.caveZone.setExit("south", Engine.centralZone);
 		Q = new LinkedList<Integer>();
-		monsterList = new ArrayList[6];
+		monsterList = new ArrayList[6]; //skapar 6 platser i arrayen (6 zoner)
 		for(int i = 0; i < 6; i++){
-			monsterList[i] = new ArrayList<Monster>();
+			monsterList[i] = new ArrayList<Monster>(); //skapar arraylistorna i varje zon
 		}
 		addMouseListener(this);
 		addMouseMotionListener(this);
@@ -68,33 +69,37 @@ public class DrawGame extends JPanel implements KeyListener, MouseListener, Mous
 		super.paintComponent(g);
 		character.getCurrentRoom().drawImage(g);
 		monsterMoveCounter++;
-		if(newZone){
-
+		if(newZone){ //om du går in i en ny zon, detta körs bara en gång när du går in i en ny zon
 			if(monsterList[monsterHash.get(character.getCurrentRoom())].size() == 0 ||
-				monsterList[monsterHash.get(character.getCurrentRoom())] == null){
-				for(int j = 0; j< 4; j++){
+				monsterList[monsterHash.get(character.getCurrentRoom())] == null){ 	// kollar om listan i zonen du går in i är tom
+				for(int j = 0; j< rand.nextInt(5)+3; j++){							//skapar i så fall ett slumpat antal nya mosnter
 					monsterList[monsterHash.get(character.getCurrentRoom())].add(new Monster());
 					Monster a = (Monster) monsterList[monsterHash.get(character.getCurrentRoom())].get(j);
 					a.place();
 				}
 			}
-			
-			newZone = false;
-
+			newZone = false; 
 		}
-		for(int j = 0; j < monsterList[monsterHash.get(character.getCurrentRoom())].size();j++){
+		for(int j = 0; j < monsterList[monsterHash.get(character.getCurrentRoom())].size();j++){ //ritar alla monster
 			Monster a = (Monster) monsterList[monsterHash.get(character.getCurrentRoom())].get(j);
 			a.drawImage(g);
+			int random = rand.nextInt(100);
+			if(random == 99){
+				int randDirection = rand.nextInt(2); //slumpar åt vilket håll monstret ska gå
+				if(a.getMoveCounter() == 16 || a.getMoveCounter() == 0){
+					a.startMoving(randDirection);
+				}
+			}
 		}
 		
-		if(monsterMoveCounter >= 120 ){
-			for(int j = 0; j < monsterList[monsterHash.get(character.getCurrentRoom())].size();j++){
-				Monster a = (Monster) monsterList[monsterHash.get(character.getCurrentRoom())].get(j);
+		for(int i = 0; i < monsterList[monsterHash.get(character.getCurrentRoom())].size();i++){
+			Monster a = (Monster) monsterList[monsterHash.get(character.getCurrentRoom())].get(i);
+			if(a.getMoveCounter() < 16){
 				a.move();
 			}
-			monsterMoveCounter = 0;
 		}
 		
+
 		if(left && moveCounter < 16){
 			character.moveLeft();
 			moveCounter++;
