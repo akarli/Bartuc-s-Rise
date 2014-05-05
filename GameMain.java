@@ -121,13 +121,16 @@ public class GameMain extends JFrame implements ActionListener {
 		infoBox.setEditable(false); // Makes the info box uneditable
 		scroll.setBounds(0, 0, 507, 170); // Sets the size and position of the info box
 		infoBox.setBackground(Color.WHITE); // Sets the background color of the info box
+		infoBox.setFont(new Font("Serif", Font.PLAIN, 14)); // Sets the font of the info box
 		
 		/**
 		 * COMMAND AREA PREFERENCES
 		 */
 		
 		sendButton.setBounds(430, 170, 74, 25); // Sets the size and position of the send button
+		sendButton.setFont(new Font("Serif", Font.PLAIN, 14)); // Sets the font of the send button
 		commandBox.setBounds(0, 170, 430, 25); // Sets the size and position of the command box
+		commandBox.setFont(new Font("Serif", Font.PLAIN, 14)); // Sets the font of the command box
 
 		/**
 		 * BUILDNING THE WINDOW
