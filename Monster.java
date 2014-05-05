@@ -45,13 +45,13 @@ public class Monster {
 		for(int i = 0; i < 4; i++){
 			if(i == 1){
 				offset = 10;
-				offsetx= 10;
+				offsetx= 12;
 			}
 			else{
 				offsetx = 0;
 			}
-			moveRightPic[i] = monster.getSubimage(x+(i*30 + offset), 133, 30 , 48);
-			x += 0;
+			moveRightPic[i] = monster.getSubimage(x+(i*30 + offset), 133, 30, 48);
+			x += 2;
 		}
 		x= 0;
 		offset = 0;
@@ -59,7 +59,7 @@ public class Monster {
 		for(int i = 0; i < 4; i++){
 			if(i == 1){
 				offset = 8;
-				offsetx= 8;
+				offsetx= 4;
 			}
 			else{
 				offsetx = 0;
@@ -106,19 +106,19 @@ public class Monster {
 			currentSprite = 0;
 		}
 		if(moveUp){
-			lastSprite = moveUpPic[1];
+			lastSprite = moveUpPic[0];
 			return moveUpPic[currentSprite];
 		}
 		if(moveDown){
-			lastSprite = moveDownPic[1];
+			lastSprite = moveDownPic[0];
 			return moveDownPic[currentSprite];
 		}
 		if(moveRight){
-			lastSprite = moveRightPic[1];
+			lastSprite = moveRightPic[0];
 			return moveRightPic[currentSprite];
 		}
 		if(moveLeft){
-			lastSprite = moveLeftPic[1];
+			lastSprite = moveLeftPic[0];
 			return moveLeftPic[currentSprite];
 		}
 		return lastSprite;
