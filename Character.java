@@ -1,4 +1,6 @@
 import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -15,12 +17,14 @@ public class Character {
 	private BufferedImage[] moveLeft;
 	private BufferedImage[] moveRight;
 	private BufferedImage lastSprite;
+	private Image fireBall;
 	private int currentSprite = 0;
 	private int animationCounter=1;
 	private int x = 0;
 
 	public Character(){
 		character = loadCharacterImage("charWalk.png");
+		fireBall = Toolkit.getDefaultToolkit().getImage("fireball.gif");
 		moveUp = new BufferedImage[4];
 		moveDown = new BufferedImage[4];
 		moveRight = new BufferedImage[4];
@@ -80,6 +84,7 @@ public class Character {
 	public void moveUp() {
 		if(currentRoom == Engine.centralZone && (xPosition/32 == 26 || xPosition/32 == 27) && yPosition/32 < 7 && yPosition/32 > 5){
 			currentRoom = currentRoom.getExit("cave");
+			levelUp();
 			xPosition = 15*Engine.TILE_WIDTH;
 			yPosition = 19*Engine.TILE_HEIGHT-2;
 			DrawGame.newZone = true;
@@ -137,6 +142,23 @@ public class Character {
 
 	public void attack(){
 
+	}
+	
+	public void levelUp(){
+		level++;
+		currentExperience = currentExperience - maxExperience;
+		maxExperience = level*100;
+		
+		maxHealth += Engine.HP_LVL_UP;
+		maxMana += Engine.MANA_LVL_UP;
+		damage += Engine.DAMAGE_LVL_UP;
+		armor += Engine.ARMOR_LVL_UP;
+		
+		currentHealth = maxHealth;
+		currentMana = maxMana;
+		
+		GameMain.infoBox.append(Engine.levelUpMessage);
+		GameMain.infoBox.setCaretPosition(GameMain.infoBox.getDocument().getLength());
 	}
 
 	public void setX(int x){
