@@ -60,18 +60,18 @@ public class Monster {
 	public void move(){
 
 		if(strDirection.matches("y")){
-			if(moveDown && DrawGame.character.getCurrentRoom().getCollisionMap()[((yPosition + 32) / 32)][((xPosition) / 32)] != 1){
+			if(moveDown && DrawGame.character.getCurrentRoom().getCollisionMap()[((yPosition + 32) / 32)][((xPosition) / 32)] != 1 && currentYTile() != 19){
 				yPosition += 2;
 			}
-			if(moveUp && DrawGame.character.getCurrentRoom().getCollisionMap()[((yPosition - 2) / 32)][((xPosition) / 32)] != 1){
+			if(moveUp && DrawGame.character.getCurrentRoom().getCollisionMap()[((yPosition - 2) / 32)][((xPosition) / 32)] != 1 && currentYTile() != 0){
 				yPosition -= 2;
 			}
 		}
 		if(strDirection.matches("x")){
-			if(moveRight && DrawGame.character.getCurrentRoom().getCollisionMap()[((yPosition) / 32)][((xPosition + 32) / 32)] != 1){
+			if(moveRight && DrawGame.character.getCurrentRoom().getCollisionMap()[((yPosition) / 32)][((xPosition + 32) / 32)] != 1 && currentXTile() != 31){
 				xPosition += 2;
 			}
-			if(moveLeft && DrawGame.character.getCurrentRoom().getCollisionMap()[((yPosition)/32)][((xPosition-2) / 32)] != 1){
+			if(moveLeft && DrawGame.character.getCurrentRoom().getCollisionMap()[((yPosition)/32)][((xPosition-2) / 32)] != 1 && currentXTile() != 0){
 				xPosition -= 2;
 			}
 		}
