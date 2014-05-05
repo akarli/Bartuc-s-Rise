@@ -12,13 +12,61 @@ public class Monster {
 	String strDirection;
 	Random rand = new Random();
 	private boolean moveToPlayer = false, moveLeft = false, moveRight = false, moveUp = false, moveDown = false;
+	private BufferedImage[] moveUpPic;
+	private BufferedImage[] moveDownPic;
+	private BufferedImage[] moveLeftPic;
+	private BufferedImage[] moveRightPic;
+	private BufferedImage lastSprite;
+	private int currentSprite = 0;
+	private int x = 2;
+	private int animationCounter=1;
+	private int offset = 0, offsetx = 0;
 
 	public Monster(){
-		monster = loadMonsterImage("Character.png");
+		monster = loadMonsterImage("skeleton.png");
 		maxHealth = rand.nextInt((20*DrawGame.character.getLevel()) + (5*DrawGame.character.getLevel()));
 		currentHealth = maxHealth;
 		damage = rand.nextInt(DrawGame.character.getLevel()*5 + DrawGame.character.getLevel()*2);
 		moveCounter = 16;
+		moveUpPic = new BufferedImage[4];
+		moveDownPic = new BufferedImage[4];
+		moveRightPic = new BufferedImage[4];
+		moveLeftPic = new BufferedImage[4];
+		for(int i = 0; i < 4; i++){
+			moveUpPic[i] = monster.getSubimage(x+(i*19), 133, 19, 50);
+		}
+		x=462;
+		lastSprite = moveUpPic[1];
+		for(int i = 0; i < 4; i++){
+			moveDownPic[i] = monster.getSubimage(x+(i*20), 134, 20, 49);
+			x=x+1;
+		}
+		x=181;
+		for(int i = 0; i < 4; i++){
+			if(i == 1){
+				offset = 10;
+				offsetx= 10;
+			}
+			else{
+				offsetx = 0;
+			}
+			moveRightPic[i] = monster.getSubimage(x+(i*30 + offset), 133, 30 , 48);
+			x += 0;
+		}
+		x= 0;
+		offset = 0;
+		offsetx= 0;
+		for(int i = 0; i < 4; i++){
+			if(i == 1){
+				offset = 8;
+				offsetx= 8;
+			}
+			else{
+				offsetx = 0;
+			}
+			moveLeftPic[i] = monster.getSubimage(x+(i*32 + offset), 81, 32 + offsetx, 48);
+			x +=2;
+		}
 	}
 
 	public BufferedImage loadMonsterImage(String fileName){
@@ -48,9 +96,39 @@ public class Monster {
 		xPosition = x * Engine.TILE_WIDTH;
 		yPosition = y * Engine.TILE_HEIGHT;
 	}
+	
+	public BufferedImage getImage(){
+		if(animationCounter == 8){
+			currentSprite++;
+			animationCounter = 1;
+		}
+		if(currentSprite >= 4){
+			currentSprite = 0;
+		}
+		if(moveUp){
+			lastSprite = moveUpPic[1];
+			return moveUpPic[currentSprite];
+		}
+		if(moveDown){
+			lastSprite = moveDownPic[1];
+			return moveDownPic[currentSprite];
+		}
+		if(moveRight){
+			lastSprite = moveRightPic[1];
+			return moveRightPic[currentSprite];
+		}
+		if(moveLeft){
+			lastSprite = moveLeftPic[1];
+			return moveLeftPic[currentSprite];
+		}
+		return lastSprite;
+	}
 
 	public void drawImage(Graphics g){
-		g.drawImage(monster, xPosition, yPosition, null);
+		g.drawImage(getImage(), xPosition, yPosition, null);
+		if(moveUp || moveDown || moveRight || moveLeft){
+			animationCounter++;
+		}
 	}
 
 	public void takeDamage(int damage){
