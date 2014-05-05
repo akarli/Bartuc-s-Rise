@@ -19,7 +19,7 @@ public class GameMain extends JFrame implements ActionListener {
 	
 	private String buttonString = "Send"; // The text string for the send button
 	
-	private static String startMessage = "Welcome to Bartuc's Rise! \nIf you want to load a character use the command load. \nType help for instructions.";
+	private static String startMessage = "Welcome to Bartuc's Rise! \nIf you want to load a character use the command load. \nType help for instructions."; // Start message
 	
 	JPanel gamePanel = new JPanel(); // Panel containing the game
 	JPanel statsPanel = new JPanel(); // Panel containing the stats
@@ -40,10 +40,10 @@ public class GameMain extends JFrame implements ActionListener {
 	JLabel characterMana = new JLabel("Mana: " + DrawGame.character.getMana() + "/" + DrawGame.character.getMaxMana(), JLabel.CENTER);
 	
 	
-	public static TextArea infoBox = new TextArea(startMessage); // The box containing all info text
-	public static TextField commandBox = new TextField(); // The box containing all info text
+	public static JTextArea infoBox = new JTextArea(startMessage); // The box containing all info text
+	public static JTextField commandBox = new JTextField(); // The box containing all info text
 	
-	JScrollPane scroll = new JScrollPane(infoBox, JScrollPane.VERTICAL_SCROLLBAR_NEVER, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER); // Making the infoBox scrollable
+	JScrollPane scroll = new JScrollPane(infoBox, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED); // Making the infoBox scrollable
 	
 	JButton sendButton = new JButton(buttonString); // The button that will send the input command.
 	
@@ -78,7 +78,7 @@ public class GameMain extends JFrame implements ActionListener {
 		statsPanel.setLayout(null); // Allows for free placement of components in this panel
 		statsPanel.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED)); // Adds a border to the panel
 
-		infoPanel.setBounds(512, 635, 512, 200); // Sets the size and position for the info panel
+		infoPanel.setBounds(513, 635, 512, 200); // Sets the size and position for the info panel
 		infoPanel.setBackground(Color.WHITE);
 		infoPanel.setLayout(null); // Allows for free placement of components in this panel
 
@@ -119,14 +119,14 @@ public class GameMain extends JFrame implements ActionListener {
 		 */
 
 		infoBox.setEditable(false); // Makes the info box uneditable
-		scroll.setBounds(0, 0, 508, 170); // Sets the size and position of the info box
+		scroll.setBounds(0, 0, 507, 170); // Sets the size and position of the info box
 		infoBox.setBackground(Color.WHITE); // Sets the background color of the info box
 		
 		/**
 		 * COMMAND AREA PREFERENCES
 		 */
 		
-		sendButton.setBounds(430, 170, 75, 25); // Sets the size and position of the send button
+		sendButton.setBounds(430, 170, 74, 25); // Sets the size and position of the send button
 		commandBox.setBounds(0, 170, 430, 25); // Sets the size and position of the command box
 
 		/**
