@@ -218,19 +218,19 @@ public class GameMain extends JFrame implements ActionListener {
 	public void parseCommand(String command){
 		String inputCommand = command;
 		if(inputCommand.trim().equals("help") || inputCommand.trim().equals("Help") ){
-			infoBox.append("\n " + Engine.helpMessage);
+			infoBox.append(Engine.helpMessage);
 			infoBox.setCaretPosition(infoBox.getDocument().getLength());
 		}
 		else if(inputCommand.trim().equals("load") || inputCommand.trim().equals("Load") ){
-			infoBox.append("\n " + Engine.loadMessage);
+			infoBox.append(Engine.loadMessage);
 			infoBox.setCaretPosition(infoBox.getDocument().getLength());
 		}
 		else if(inputCommand.trim().equals("save") || inputCommand.trim().equals("Save") ){
-			infoBox.append("\n " + Engine.saveMessage);
+			infoBox.append(Engine.saveMessage);
 			infoBox.setCaretPosition(infoBox.getDocument().getLength());
 		}
 		else{
-			infoBox.append("\n That is not a valid command.");
+			infoBox.append(Engine.noSuchCommandMessage);
 			infoBox.setCaretPosition(infoBox.getDocument().getLength());
 		}
 	}
