@@ -614,7 +614,10 @@ public class Engine {
 	 */
 	
 	public static final String startMessage = " Welcome to Bartuc's Rise! \n If you want to load a character, typ \"load\". \n Type \"help\" for instructions."; // Start message
-	public static final String helpMessage = "";
+	public static final String helpMessage = "\n Help will be here soon!";
+	public static final String loadMessage = "\n Character loaded.";
+	public static final String saveMessage = "\n Character saved.";
+	public static final String noSuchCommandMessage = "\n That is not a valid command.";
 	public static final String levelUpMessage = "\n You gained a level! \n Health and mana restored. \n Health increased by " + HP_LVL_UP + ".\n Mana increased by " + MANA_LVL_UP + ".\n Damage increased by " + DAMAGE_LVL_UP + ".\n Armor increased by " + ARMOR_LVL_UP + ".";
 	
 
