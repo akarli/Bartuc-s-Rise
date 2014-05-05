@@ -175,7 +175,7 @@ public class DrawGame extends JPanel implements KeyListener, MouseListener, Mous
 
 	@Override
 	public void mousePressed(MouseEvent arg0) {
-
+		requestFocus();
 
 	}
 
