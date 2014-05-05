@@ -613,7 +613,7 @@ public class Engine {
 	 * Messages that is displayed when you start the game, level up, die etc.
 	 */
 	
-	public static final String startMessage = " Welcome to Bartuc's Rise! \n If you want to load a character use the command load. \n Type help for instructions."; // Start message
+	public static final String startMessage = " Welcome to Bartuc's Rise! \n If you want to load a character, typ \"load\". \n Type \"help\" for instructions."; // Start message
 	public static final String helpMessage = "";
 	public static final String levelUpMessage = "\n You gained a level! \n Health and mana restored. \n Health increased by " + HP_LVL_UP + ".\n Mana increased by " + MANA_LVL_UP + ".\n Damage increased by " + DAMAGE_LVL_UP + ".\n Armor increased by " + ARMOR_LVL_UP + ".";
 	
