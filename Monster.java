@@ -11,6 +11,7 @@ public class Monster {
 	private int xPosition, yPosition, maxHealth, currentHealth, damage, moveCounter;
 	String strDirection;
 	Random rand = new Random();
+	private boolean moveToPlayer = false, moving = false, moveLeft = false, moveRight = false, moveUp = false, moveDown = false;
 
 	public Monster(){
 		monster = loadMonsterImage("Character.png");
@@ -57,24 +58,28 @@ public class Monster {
 	}
 
 	public void move(){
+
 		if(strDirection.matches("y")){
-			if(DrawGame.character.getYTile() > currentYTile() && DrawGame.character.getCurrentRoom().getCollisionMap()[((yPosition + 32) / 32)][((xPosition) / 32)] != 1){
+			if(moveDown && DrawGame.character.getCurrentRoom().getCollisionMap()[((yPosition + 32) / 32)][((xPosition) / 32)] != 1){
 				yPosition += 2;
 			}
-			if(DrawGame.character.getYTile() < currentYTile() && DrawGame.character.getCurrentRoom().getCollisionMap()[((yPosition - 2) / 32)][((xPosition) / 32)] != 1){
+			if(moveUp && DrawGame.character.getCurrentRoom().getCollisionMap()[((yPosition - 2) / 32)][((xPosition) / 32)] != 1){
 				yPosition -= 2;
 			}
 		}
-		else{
-			if(DrawGame.character.getXTile() > currentXTile() && DrawGame.character.getCurrentRoom().getCollisionMap()[((yPosition) / 32)][((xPosition + 32) / 32)] != 1){
+		if(strDirection.matches("x")){
+			if(moveRight && DrawGame.character.getCurrentRoom().getCollisionMap()[((yPosition) / 32)][((xPosition + 32) / 32)] != 1){
 				xPosition += 2;
 			}
-			if(DrawGame.character.getXTile() < currentXTile() && DrawGame.character.getCurrentRoom().getCollisionMap()[((yPosition)/32)][((xPosition-2) / 32)] != 1){
+			if(moveLeft && DrawGame.character.getCurrentRoom().getCollisionMap()[((yPosition)/32)][((xPosition-2) / 32)] != 1){
 				xPosition -= 2;
 			}
 		}
 
 		moveCounter++;
+		if(moveCounter == 16){
+			doneMoving();
+		}
 	}
 
 	public int currentXTile(){
@@ -85,14 +90,61 @@ public class Monster {
 		return yPosition/32;
 	}
 
+	public void doneMoving(){
+		moveToPlayer = false;
+		moving = false;
+		moveLeft = false;
+		moveRight = false;
+		moveUp = false;
+		moveDown = false;
+	}
+
 
 	public void startMoving(int direction){
 		moveCounter = 0;
+		moving = true;
+		if(Math.abs(DrawGame.character.getYTile()-currentYTile()) <= 7 && Math.abs(DrawGame.character.getXTile()-currentXTile()) <= 7){
+			moveToPlayer=true;
+		}
 		if(direction == 0){
 			strDirection = "y";
+			if(moveToPlayer){
+				if(DrawGame.character.getYTile() >= currentYTile()){
+					moveDown = true;
+				}
+				if(DrawGame.character.getYTile() < currentYTile()){
+					moveUp = true;
+				}
+			}
+			else{
+				int a = rand.nextInt(2);
+				if(a == 1){
+					moveDown = true;
+				}
+				else{
+					moveUp = true;
+				}
+			}
 		}
 		else{
 			strDirection = "x";
+			if(moveToPlayer){
+				if(DrawGame.character.getXTile() >=currentXTile()){
+					moveRight = true;
+				}
+				if(DrawGame.character.getXTile() < currentXTile()){
+					moveLeft = true;
+				}
+			}
+			else{
+				int a = rand.nextInt(2);
+				if(a == 1){
+					moveRight = true;
+				}
+				else{
+					moveLeft = true;
+				}
+			}
 		}
 	}
 
