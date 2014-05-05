@@ -8,7 +8,7 @@ import javax.imageio.ImageIO;
 
 public class Character {
 	private BufferedImage character;
-	private int xPosition, yPosition, maxHealth, currentHealth, damage, level;
+	private int xPosition, yPosition, maxHealth, currentHealth, damage, level, armor, currentExperience, maxExperience, currentMana, maxMana;
 	private Room currentRoom;
 	private BufferedImage[] moveUp;
 	private BufferedImage[] moveDown;
@@ -50,8 +50,13 @@ public class Character {
 		maxHealth = 100;
 		currentHealth = 100;
 		damage = 25;
+		armor = 0;
 		level = 1;
+		currentExperience = 0;
+		maxExperience = level*100;
 		currentRoom = Engine.centralZone;
+		currentMana = 100;
+		maxMana = 100;
 	}
 	public BufferedImage loadCharacterImage(String fileName){
 		BufferedImage img = null;
@@ -129,11 +134,11 @@ public class Character {
 			xPosition += 2;
 		}
 	}
-	
+
 	public void attack(){
-		
+
 	}
-	
+
 	public void setX(int x){
 		xPosition = x;
 	}
@@ -144,6 +149,38 @@ public class Character {
 
 	public int getLevel(){
 		return level;
+	}
+	
+	public int getCurrHP(){
+		return currentHealth;
+	}
+	
+	public int getMaxHP(){
+		return maxHealth;
+	}
+	
+	public int getDamage(){
+		return damage;
+	}
+	
+	public int getArmor(){
+		return armor;
+	}
+	
+	public int getXP(){
+		return currentExperience;
+	}
+	
+	public int getMaxXP(){
+		return maxExperience;
+	}
+	
+	public int getMana(){
+		return currentMana;
+	}
+
+	public int getMaxMana(){
+		return maxMana;
 	}
 
 	public Room getCurrentRoom(){
