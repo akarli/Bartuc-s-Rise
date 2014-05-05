@@ -19,13 +19,15 @@ public class GameMain extends JFrame implements ActionListener {
 	
 	private String buttonString = "Send"; // The text string for the send button
 	
+	private static String startMessage = "Welcome to Bartuc's Rise! \nIf you want to load a character use the command load. \nType help for instructions.";
+	
 	JPanel gamePanel = new JPanel(); // Panel containing the game
 	JPanel statsPanel = new JPanel(); // Panel containing the stats
 	JPanel infoPanel = new JPanel(); // Panel containing the info box
 	
 	/**
 	 * CHARACTER SATISTICS LABELS
-	 * These labels track the stats of the character.
+	 * These labels track the statistics of the character.
 	 * Here they are created with centered text.
 	 */
 	
@@ -38,7 +40,7 @@ public class GameMain extends JFrame implements ActionListener {
 	JLabel characterMana = new JLabel("Mana: " + DrawGame.character.getMana() + "/" + DrawGame.character.getMaxMana(), JLabel.CENTER);
 	
 	
-	public static TextArea infoBox = new TextArea(); // The box containing all info text
+	public static TextArea infoBox = new TextArea(startMessage); // The box containing all info text
 	public static TextField commandBox = new TextField(); // The box containing all info text
 	
 	JScrollPane scroll = new JScrollPane(infoBox, JScrollPane.VERTICAL_SCROLLBAR_NEVER, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER); // Making the infoBox scrollable
@@ -152,8 +154,8 @@ public class GameMain extends JFrame implements ActionListener {
 		pack();
 
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		infoBox.append("asda\ns\ndss\n\nsss\nssss\nssada\nssdads\nahgd\nsaghsdagdsh\njdjhsdsaj\nhgdsajgh\nsadkjh\nadsjk\nhadshg\njka\nsdhj\nkadsgsssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssshjds");
-		infoBox.append("\nHej!");
+		//infoBox.append("asda\ns\ndss\n\nsss\nssss\nssada\nssdads\nahgd\nsaghsdagdsh\njdjhsdsaj\nhgdsajgh\nsadkjh\nadsjk\nhadshg\njka\nsdhj\nkadsgsssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssshjds");
+		//infoBox.append("\nHej!");
 	}
 
 	public static void main(String args[]) {
@@ -174,7 +176,7 @@ public class GameMain extends JFrame implements ActionListener {
 		characterLevel.setText("Level: " + DrawGame.character.getLevel());
 		characterXP.setText("Experience: " + DrawGame.character.getXP() + "/" + DrawGame.character.getMaxXP());
 		characterMana.setText("Mana: " + DrawGame.character.getMana() + "/" + DrawGame.character.getMaxMana());
-		
+
 		draw.repaint();
 	}
 
