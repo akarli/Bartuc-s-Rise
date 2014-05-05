@@ -19,7 +19,7 @@ public class GameMain extends JFrame implements ActionListener {
 	
 	private String buttonString = "Send"; // The text string for the send button
 	
-	private static String startMessage = "Welcome to Bartuc's Rise! \nIf you want to load a character use the command load. \nType help for instructions."; // Start message
+	private static String startMessage = " Welcome to Bartuc's Rise! \n If you want to load a character use the command load. \n Type help for instructions."; // Start message
 	
 	JPanel gamePanel = new JPanel(); // Panel containing the game
 	JPanel statsPanel = new JPanel(); // Panel containing the stats
