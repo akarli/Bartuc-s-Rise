@@ -41,6 +41,7 @@ public class DrawGame extends JPanel implements KeyListener, MouseListener, Mous
 		monsterHash.put(Engine.westZone, 2);
 		monsterHash.put(Engine.southZone, 3);
 		monsterHash.put(Engine.eastZone, 4);
+		monsterHash.put(Engine.caveZone, 5);
 		Engine.centralZone.setExit("north", Engine.northZone);
 		Engine.centralZone.setExit("west", Engine.westZone);
 		Engine.centralZone.setExit("south", Engine.southZone);
@@ -52,8 +53,8 @@ public class DrawGame extends JPanel implements KeyListener, MouseListener, Mous
 		Engine.southZone.setExit("north", Engine.centralZone);
 		Engine.caveZone.setExit("south", Engine.centralZone);
 		Q = new LinkedList<Integer>();
-		monsterList = new ArrayList[5];
-		for(int i = 0; i < 5; i++){
+		monsterList = new ArrayList[6];
+		for(int i = 0; i < 6; i++){
 			monsterList[i] = new ArrayList<Monster>();
 		}
 		addMouseListener(this);
@@ -68,15 +69,16 @@ public class DrawGame extends JPanel implements KeyListener, MouseListener, Mous
 		character.getCurrentRoom().drawImage(g);
 		monsterMoveCounter++;
 		if(newZone){
-			for(int i = 0;i < monsterList.length;i++){
-				if(monsterList[i] == null || monsterList[i].size() == 0){
-					for(int j = 0; j< 4; j++){
-						monsterList[i].add(new Monster());
-						Monster a = (Monster) monsterList[i].get(j);
-						a.place();
-					}
+
+			if(monsterList[monsterHash.get(character.getCurrentRoom())].size() == 0 ||
+				monsterList[monsterHash.get(character.getCurrentRoom())] == null){
+				for(int j = 0; j< 4; j++){
+					monsterList[monsterHash.get(character.getCurrentRoom())].add(new Monster());
+					Monster a = (Monster) monsterList[monsterHash.get(character.getCurrentRoom())].get(j);
+					a.place();
 				}
 			}
+			
 			newZone = false;
 
 		}
