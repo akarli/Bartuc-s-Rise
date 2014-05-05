@@ -27,7 +27,9 @@ public class DrawGame extends JPanel implements KeyListener, MouseListener, Mous
 	static boolean right = false;
 	static boolean newZone = true; //blir true när man går in i en ny zone
 	static int moveCounter = 0;
+	static int magicCounter = 0;
 	boolean pressed = false;
+	boolean magicAttack = false;
 	public static final Character character = new Character();
 	public Queue<Integer> Q; //kö för knapptryckningar vid move för character
 	public ArrayList[] monsterList; //en array med arraylists vid varje position, där platsen i arrayen är zonen och platserna i arraylisten är monstren i zonen
@@ -208,6 +210,7 @@ public class DrawGame extends JPanel implements KeyListener, MouseListener, Mous
 				break;
 			case KeyEvent.VK_SPACE:
 				character.attack();
+				break;
 			}
 		}
 		else{
