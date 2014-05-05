@@ -28,7 +28,7 @@ public class GameMain extends JFrame implements ActionListener {
 	JLabel characterDamage = new JLabel("Damage: " + DrawGame.character.getDamage(), JLabel.CENTER);
 	JLabel characterArmor = new JLabel("Armor: " + DrawGame.character.getArmor(), JLabel.CENTER);
 	JLabel characterLevel = new JLabel("Level: " + DrawGame.character.getLevel(), JLabel.CENTER);
-	JLabel characterXP = new JLabel("Experience to next level: " + DrawGame.character.getXP() + "/" + DrawGame.character.getMaxXP(), JLabel.CENTER);
+	JLabel characterXP = new JLabel("Experience: " + DrawGame.character.getXP() + "/" + DrawGame.character.getMaxXP(), JLabel.CENTER);
 	JLabel characterMana = new JLabel("Mana: " + DrawGame.character.getMana() + "/" + DrawGame.character.getMaxMana(), JLabel.CENTER);
 	
 	
@@ -97,13 +97,13 @@ public class GameMain extends JFrame implements ActionListener {
 		characterArmor.setBounds(40, 140, 170, 50);
 		
 		characterLevel.setFont(new Font("Serif", Font.PLAIN, 14));
-		characterLevel.setBounds(250, 40, 170, 50);
+		characterLevel.setBounds(260, 40, 170, 50);
 		
 		characterXP.setFont(new Font("Serif", Font.PLAIN, 14));
-		characterXP.setBounds(250, 90, 175, 50);
+		characterXP.setBounds(260, 90, 170, 50);
 		
 		characterMana.setFont(new Font("Serif", Font.PLAIN, 14));
-		characterMana.setBounds(250, 140, 170, 50);
+		characterMana.setBounds(260, 140, 170, 50);
 
 		/**
 		 * SCROLL AREA PREFERENCES
@@ -165,7 +165,7 @@ public class GameMain extends JFrame implements ActionListener {
 		characterDamage.setText("Damage: " + DrawGame.character.getDamage());
 		characterArmor.setText("Armor: " + DrawGame.character.getArmor());
 		characterLevel.setText("Level: " + DrawGame.character.getLevel());
-		characterXP.setText("Experience to next level: " + DrawGame.character.getXP() + "/" + DrawGame.character.getMaxXP());
+		characterXP.setText("Experience: " + DrawGame.character.getXP() + "/" + DrawGame.character.getMaxXP());
 		characterMana.setText("Mana: " + DrawGame.character.getMana() + "/" + DrawGame.character.getMaxMana());
 		
 		draw.repaint();
