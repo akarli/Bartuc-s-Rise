@@ -9,26 +9,31 @@ import javax.imageio.ImageIO;
 
 
 public class Character {
-	private BufferedImage character;
+	private BufferedImage character, levelup;
 	private int xPosition, yPosition, maxHealth, currentHealth, damage, level, armor, currentExperience, maxExperience, currentMana, maxMana;
 	private Room currentRoom;
 	private BufferedImage[] moveUp;
 	private BufferedImage[] moveDown;
 	private BufferedImage[] moveLeft;
 	private BufferedImage[] moveRight;
+	private BufferedImage[] levelUp;
 	private BufferedImage lastSprite;
 	private Image fireBall;
 	private int currentSprite = 0;
 	private int animationCounter=1;
 	private int x = 0;
+	private int sprite =0;
+	private boolean levelingUp;
 
 	public Character(){
 		character = loadCharacterImage("charWalk.png");
+		levelup = loadCharacterImage("LEVELUP.png");
 		fireBall = Toolkit.getDefaultToolkit().getImage("fireball.gif");
 		moveUp = new BufferedImage[4];
 		moveDown = new BufferedImage[4];
 		moveRight = new BufferedImage[4];
 		moveLeft = new BufferedImage[4];
+		levelUp = new BufferedImage[39];
 		for(int i = 0; i < 4; i++){
 			moveUp[i] = character.getSubimage(x+(i*34), 64, 34, 53);
 			x = x+3;
@@ -48,6 +53,9 @@ public class Character {
 		for(int i = 0; i < 4; i++){
 			moveLeft[i] = character.getSubimage(x+(i*45), 7, 45, 53);
 			x=x+2;
+		}
+		for(int i = 0; i < 39 ;i++){
+			levelUp[i] = levelup.getSubimage(0 + (i*128), 0, 128, 128);
 		}
 		xPosition = 448;
 		yPosition = 416;
@@ -163,6 +171,7 @@ public class Character {
 
 		GameMain.infoBox.append(Engine.levelUpMessage);
 		GameMain.infoBox.setCaretPosition(GameMain.infoBox.getDocument().getLength());
+		levelingUp = true;
 	}
 
 	public void setX(int x){
@@ -176,7 +185,7 @@ public class Character {
 	public int getLevel(){
 		return level;
 	}
-	
+
 	public void setLevel(int level){
 		this.level = level;
 	}
@@ -188,7 +197,7 @@ public class Character {
 	public int getMaxHP(){
 		return maxHealth;
 	}
-	
+
 	public void setHP(int HP){
 		maxHealth = HP;
 	}
@@ -196,7 +205,7 @@ public class Character {
 	public int getDamage(){
 		return damage;
 	}
-	
+
 	public void setDamage(int damage){
 		this.damage = damage;
 	}
@@ -204,7 +213,7 @@ public class Character {
 	public int getArmor(){
 		return armor;
 	}
-	
+
 	public void setArmor(int armor){
 		this.armor = armor;
 	}
@@ -216,7 +225,7 @@ public class Character {
 	public int getMaxXP(){
 		return maxExperience;
 	}
-	
+
 	public void setXP(int xp){
 		currentExperience = xp;
 	}
@@ -228,7 +237,7 @@ public class Character {
 	public int getMaxMana(){
 		return maxMana;
 	}
-	
+
 	public void setMana(int mana){
 		maxMana = mana;
 	}
@@ -236,11 +245,11 @@ public class Character {
 	public Room getCurrentRoom(){
 		return currentRoom;
 	}
-	
+
 	public void setCurrHP(int hp){
 		currentHealth = hp;
 	}
-	
+
 	public void setCurrMana(int mana){
 		currentMana = mana;
 	}
@@ -271,9 +280,20 @@ public class Character {
 		}
 		return lastSprite;
 	}
+	
+	public BufferedImage getLevelupImage(){
+		if(sprite == 38){
+			sprite = 0;
+		}
+		return levelUp[sprite];
+	}
 
 	public void drawImage(Graphics g){
 		g.drawImage(getImage(), xPosition, yPosition, null);
+		if(levelingUp){
+			g.drawImage(getLevelupImage(), xPosition -50, yPosition- 50, null);
+			sprite++;
+		}
 		if(DrawGame.up || DrawGame.down || DrawGame.left || DrawGame.right){
 			animationCounter++;
 		}
