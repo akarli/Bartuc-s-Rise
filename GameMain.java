@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
@@ -291,8 +290,9 @@ public class GameMain extends JFrame implements ActionListener {
 		    DrawGame.character.setCurrMana(loadList.get(4));
 		    DrawGame.character.setDamage(loadList.get(5));
 		    DrawGame.character.setArmor(loadList.get(6));
-		    DrawGame.character.setXP(loadList.get(7));
+		    DrawGame.character.setXP(loadList.get(7));   
 		    
+		    DrawGame.character.setMaxXP();
 		    
 		} catch (FileNotFoundException a){
 			infoBox.append("\n The save file was not found. Game not loaded.");
