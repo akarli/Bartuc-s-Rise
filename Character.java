@@ -94,7 +94,7 @@ public class Character {
 			yPosition = 608;
 			DrawGame.newZone = true;
 		}
-		if (currentRoom.getCollisionMap()[((yPosition - 2) / 32)][((xPosition) / 32)] != 1) {
+		if (currentRoom.getCollisionMap()[((yPosition - 2) / 32)][((xPosition) / 32)] != 1 && DrawGame.collision()) {
 			yPosition -= 2;
 		}
 	}
@@ -110,9 +110,9 @@ public class Character {
 			}
 			currentRoom = currentRoom.getExit("south");
 			DrawGame.newZone = true;
-		} 
+		}
 
-		if (currentRoom.getCollisionMap()[((yPosition + 32) / 32)][((xPosition) / 32)] != 1) {
+		if (currentRoom.getCollisionMap()[((yPosition + 32) / 32)][((xPosition) / 32)] != 1 && DrawGame.collision()) {
 			yPosition += 2;
 		}
 	}
@@ -123,7 +123,7 @@ public class Character {
 			DrawGame.newZone = true;
 			xPosition = 992;
 		}
-		if (currentRoom.getCollisionMap()[((yPosition)/32)][((xPosition-2) / 32)] != 1) {
+		if (currentRoom.getCollisionMap()[((yPosition)/32)][((xPosition-2) / 32)] != 1 && DrawGame.collision()) {
 			xPosition -= 2;
 		}
 
@@ -135,7 +135,7 @@ public class Character {
 			DrawGame.newZone = true;
 			xPosition = 0;
 		}
-		if (currentRoom.getCollisionMap()[((yPosition) / 32)][((xPosition + 32) / 32)] != 1) {
+		if (currentRoom.getCollisionMap()[((yPosition) / 32)][((xPosition + 32) / 32)] != 1 && DrawGame.collision()) {
 			xPosition += 2;
 		}
 	}
@@ -143,24 +143,24 @@ public class Character {
 	public void attack(){
 
 	}
-	
+
 	public void increaseXP(int xp){
 		currentExperience += xp;
 	}
-	
+
 	public void levelUp(){
 		level++;
 		currentExperience = currentExperience - maxExperience;
 		maxExperience = level*100;
-		
+
 		maxHealth += Engine.HP_LVL_UP;
 		maxMana += Engine.MANA_LVL_UP;
 		damage += Engine.DAMAGE_LVL_UP;
 		armor += Engine.ARMOR_LVL_UP;
-		
+
 		currentHealth = maxHealth;
 		currentMana = maxMana;
-		
+
 		GameMain.infoBox.append(Engine.levelUpMessage);
 		GameMain.infoBox.setCaretPosition(GameMain.infoBox.getDocument().getLength());
 	}
@@ -176,31 +176,31 @@ public class Character {
 	public int getLevel(){
 		return level;
 	}
-	
+
 	public int getCurrHP(){
 		return currentHealth;
 	}
-	
+
 	public int getMaxHP(){
 		return maxHealth;
 	}
-	
+
 	public int getDamage(){
 		return damage;
 	}
-	
+
 	public int getArmor(){
 		return armor;
 	}
-	
+
 	public int getXP(){
 		return currentExperience;
 	}
-	
+
 	public int getMaxXP(){
 		return maxExperience;
 	}
-	
+
 	public int getMana(){
 		return currentMana;
 	}
