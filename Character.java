@@ -17,7 +17,6 @@ public class Character {
 	private BufferedImage[] moveLeft;
 	private BufferedImage[] moveRight;
 	private BufferedImage[] levelUp;
-	private BufferedImage[] fireBall;
 	private BufferedImage[] attackUp;
 	private BufferedImage[] attackDown;
 	private BufferedImage[] attackLeft;
@@ -29,7 +28,7 @@ public class Character {
 	private int animationCounter=1;
 	private int x = 0;
 	private int sprite =0, spriteFire = 0;
-	private boolean levelingUp, castingFireBall;
+	private boolean levelingUp, castingFireBall, aLeft, aRight, aUp, aDown;
 	private fireBall eldBoll;
 
 	public Character(){
@@ -42,7 +41,7 @@ public class Character {
 		moveRight = new BufferedImage[4];
 		moveLeft = new BufferedImage[4];
 		levelUp = new BufferedImage[39];
-		fireBall = new BufferedImage[42];
+
 		attackUp = new BufferedImage[4];
 		attackDown = new BufferedImage[4];
 		attackLeft = new BufferedImage[4];
@@ -118,9 +117,7 @@ public class Character {
 		for(int i = 0; i < 39 ;i++){
 			levelUp[i] = levelup.getSubimage(0 + (i*128), 0, 128, 128);
 		}
-		for(int i = 0; i < 42 ;i++){
-			fireBall[i] = fireball.getSubimage(0 + (i*128), 0, 128, 128);
-		}
+
 		xPosition = 448;
 		yPosition = 416;
 		maxHealth = 100;
@@ -213,7 +210,18 @@ public class Character {
 	}
 
 	public void attack(){
-
+		if(lastSprite == moveRight[1]){
+			aRight = true;
+		}
+		if(lastSprite == moveLeft[1]){
+			aLeft=true;
+		}
+		if(lastSprite == moveUp[1]){
+			aUp=true;
+		}
+		if(lastSprite == moveDown[1]){
+			aDown=true;
+		}
 	}
 
 	public void increaseXP(int xp){
@@ -362,6 +370,10 @@ public class Character {
 		}
 		if(currentSprite >= 4){
 			currentSprite = 0;
+			aLeft = false;
+			aRight = false;
+			aUp = false;
+			aDown = false;
 		}
 		if(DrawGame.up){
 			lastSprite = moveUp[1];
@@ -378,6 +390,18 @@ public class Character {
 		if(DrawGame.left){
 			lastSprite = moveLeft[1];
 			return moveLeft[currentSprite];
+		}
+		if(aLeft){
+			return attackLeft[currentSprite];
+		}
+		if(aRight){
+			return attackRight[currentSprite];
+		}
+		if(aUp){
+			return attackUp[currentSprite];
+		}
+		if(aDown){
+			return attackDown[currentSprite];
 		}
 		return lastSprite;
 	}
@@ -399,6 +423,10 @@ public class Character {
 		}
 		if(castingFireBall){
 			eldBoll.drawImage(g);
+		}
+		
+		if(aLeft || aRight || aUp || aDown){
+			animationCounter++;
 		}
 
 		if(DrawGame.up || DrawGame.down || DrawGame.left || DrawGame.right){
