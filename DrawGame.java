@@ -29,11 +29,11 @@ public class DrawGame extends JPanel implements KeyListener, MouseListener, Mous
 	static int moveCounter = 0;
 	static int magicCounter = 0;
 	boolean pressed = false;
-	boolean magicAttack = false;
+	static boolean attacking = false;
 	public static final Character character = new Character();
 	public Queue<Integer> Q; //kö för knapptryckningar vid move för character
 	public static ArrayList[] monsterList; //en array med arraylists vid varje position, där platsen i arrayen är zonen och platserna i arraylisten är monstren i zonen
-	private static HashMap<Room, Integer> monsterHash; // en hashmap där varje room tilldelas en siffra
+	static HashMap<Room, Integer> monsterHash; // en hashmap där varje room tilldelas en siffra
 	private HashMap <Room, RoomOverlay> overlay;
 	int monsterMoveCounter = 0;
 	Random rand = new Random();
@@ -95,14 +95,16 @@ public class DrawGame extends JPanel implements KeyListener, MouseListener, Mous
 		for(int j = 0; j < monsterList[monsterHash.get(character.getCurrentRoom())].size();j++){ //ritar alla monster
 			Monster a = (Monster) monsterList[monsterHash.get(character.getCurrentRoom())].get(j);
 			a.drawImage(g);
-			int random = rand.nextInt(1000);
-			if(random >= 99){
+			int random = rand.nextInt(100); //slumpar när monstret ska gå
+			if(random >= 98){
 				int randDirection = rand.nextInt(2); //slumpar åt vilket håll monstret ska gå
 				if(a.getMoveCounter() == 16 || a.getMoveCounter() == 0){
 					a.startMoving(randDirection);
 				}
 			}
 		}
+		
+		character.drawImage(g);
 
 		for(int i = 0; i < monsterList[monsterHash.get(character.getCurrentRoom())].size();i++){
 			Monster a = (Monster) monsterList[monsterHash.get(character.getCurrentRoom())].get(i);
@@ -153,6 +155,9 @@ public class DrawGame extends JPanel implements KeyListener, MouseListener, Mous
 			}
 		}
 		overlay.get(character.getCurrentRoom()).drawImage(g);
+		if(character.getXP() >= character.getMaxXP()){
+			   character.levelUp();
+		}
 	}
 
 	public static boolean collision(){
@@ -175,6 +180,7 @@ public class DrawGame extends JPanel implements KeyListener, MouseListener, Mous
 	}
 
 
+
 	@Override
 	public void mouseDragged(MouseEvent arg0) {
 		// TODO Auto-generated method stub
@@ -188,9 +194,7 @@ public class DrawGame extends JPanel implements KeyListener, MouseListener, Mous
 	}
 
 	@Override
-	public void mouseClicked(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-
+	public void mouseClicked(MouseEvent e) {
 	}
 
 	@Override
@@ -220,7 +224,7 @@ public class DrawGame extends JPanel implements KeyListener, MouseListener, Mous
 	@Override
 	public void keyPressed(KeyEvent e) {
 		int keyCode = e.getKeyCode();
-		if(!up && !left && !down && !right){
+		if(!up && !left && !down && !right && !attacking){
 			switch( keyCode ) {
 			case KeyEvent.VK_W:
 				pressed = true;
@@ -238,7 +242,11 @@ public class DrawGame extends JPanel implements KeyListener, MouseListener, Mous
 				pressed = true;
 				right = true;
 				break;
+			case KeyEvent.VK_C:
+				character.castFireBall();
+				break;
 			case KeyEvent.VK_SPACE:
+				attacking = true;
 				character.attack();
 				break;
 			}
