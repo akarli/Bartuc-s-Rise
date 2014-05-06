@@ -202,7 +202,7 @@ public class Character {
 				}
 			}
 			else{
-				GameMain.infoBox.append("\n NOT ENOUGH MANAS");
+				GameMain.infoBox.append(Engine.noManaMessage);
 				GameMain.infoBox.setCaretPosition(GameMain.infoBox.getDocument().getLength());
 			}
 		}
@@ -256,6 +256,10 @@ public class Character {
 		return currentExperience;
 	}
 
+	public void setMaxXP(){
+		maxExperience = level*100;
+	}
+	
 	public int getMaxXP(){
 		return maxExperience;
 	}
