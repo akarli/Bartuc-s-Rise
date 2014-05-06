@@ -1,18 +1,18 @@
 import java.awt.*;
 import java.awt.event.*;
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-import java.io.Writer;
+import java.util.ArrayList;
 
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
-import javax.swing.text.DefaultCaret;
 
 public class GameMain extends JFrame implements ActionListener {
 
@@ -229,13 +229,13 @@ public class GameMain extends JFrame implements ActionListener {
 			infoBox.setCaretPosition(infoBox.getDocument().getLength());
 		}
 		else if(inputCommand.trim().equals("load") || inputCommand.trim().equals("Load") ){
-			infoBox.append(Engine.loadMessage);
+			infoBox.append("\n Loading...");
+			loadGame();
 			infoBox.setCaretPosition(infoBox.getDocument().getLength());
 		}
 		else if(inputCommand.trim().equals("save") || inputCommand.trim().equals("Save") ){
 			infoBox.append("\n Saving...");
 			saveGame();
-			infoBox.append(Engine.saveMessage);
 			infoBox.setCaretPosition(infoBox.getDocument().getLength());
 		}
 		else{
@@ -250,10 +250,14 @@ public class GameMain extends JFrame implements ActionListener {
 		    writer = new PrintWriter(new OutputStreamWriter(new FileOutputStream("savegame.txt"), "utf-8"));
 		    writer.println("Level: ");
 		    writer.println(DrawGame.character.getLevel());
-		    writer.println("Health: ");
+		    writer.println("Max Health: ");
 		    writer.println(DrawGame.character.getMaxHP());
-		    writer.println("Mana: ");
+		    writer.println("Current Health: ");
+		    writer.println(DrawGame.character.getCurrHP());
+		    writer.println("Max Mana: ");
 		    writer.println(DrawGame.character.getMaxMana());
+		    writer.println("Current Mana: ");
+		    writer.println(DrawGame.character.getMana());
 		    writer.println("Damage: ");
 		    writer.println(DrawGame.character.getDamage());
 		    writer.println("Armor: ");
@@ -261,11 +265,45 @@ public class GameMain extends JFrame implements ActionListener {
 		    writer.println("Experience: ");
 		    writer.println(DrawGame.character.getXP());
 		} catch (IOException ex) {
-		  infoBox.append("\n Something went wrong, game not saved.");
+		  infoBox.append("\n Something went wrong, game not saved");
 		  return;
 		} finally {
 		   writer.close();
+		   infoBox.append(Engine.saveMessage);
 		}
 	}
 	
+	public void loadGame() {
+		try {
+			BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream("savegame.txt"), "UTF-8"));
+			ArrayList<Integer> loadList = new ArrayList<Integer>();
+		    String line;
+		    while ((line = in.readLine()) != null)
+		    	if (line.matches("^[0-9]+$")) {
+					loadList.add(Integer.parseInt(line));
+				}
+		    in.close();
+		    
+		    DrawGame.character.setLevel(loadList.get(0));
+		    DrawGame.character.setHP(loadList.get(1));
+		    DrawGame.character.setCurrHP(loadList.get(2));
+		    DrawGame.character.setMana(loadList.get(3));
+		    DrawGame.character.setCurrMana(loadList.get(4));
+		    DrawGame.character.setDamage(loadList.get(5));
+		    DrawGame.character.setArmor(loadList.get(6));
+		    DrawGame.character.setXP(loadList.get(7));
+		    
+		    
+		} catch (FileNotFoundException a){
+			infoBox.append("\n The save file was not found. Game not loaded.");
+			return;
+		}
+		catch (IOException e) {
+			infoBox.append("\n There was a problem with the save file. Game not loaded.");
+			return;
+		}
+		finally{
+			infoBox.append(Engine.loadMessage);
+		}
+	}
 }
