@@ -96,7 +96,7 @@ public class Monster {
 		xPosition = x * Engine.TILE_WIDTH;
 		yPosition = y * Engine.TILE_HEIGHT;
 	}
-	
+
 	public BufferedImage getImage(){
 		if(animationCounter == 8){
 			currentSprite++;
@@ -134,28 +134,43 @@ public class Monster {
 	public void takeDamage(int damage){
 		currentHealth -= damage;
 	}
+	
+	public boolean checkCollision(){
+		if(DrawGame.character.getYTile() == currentYTile()+1 && DrawGame.character.getXTile() == currentXTile() && moveDown){
+			return true;
+		}
+		if(DrawGame.character.getXTile() == currentXTile()+1 && DrawGame.character.getYTile() == currentYTile() && moveRight){
+			return true;
+		}
+		if(DrawGame.character.getYTile() == currentYTile()-1 && DrawGame.character.getXTile() == currentXTile() && moveUp){
+			return true;
+		}
+		if(DrawGame.character.getXTile() == currentXTile()-1 && DrawGame.character.getYTile() == currentYTile() && moveLeft){
+			return true;
+		}
+		return false;
+	}
 
 	public void move(){
-
 		if(strDirection.matches("y")){
 			if(currentYTile() != 19)
-				if(moveDown && DrawGame.character.getCurrentRoom().getCollisionMap()[((yPosition + 32) / 32)][((xPosition) / 32)] != 1){
+				if(moveDown && DrawGame.character.getCurrentRoom().getCollisionMap()[((yPosition + 32) / 32)][((xPosition) / 32)] != 1 && !checkCollision()){
 					yPosition += 2;
 				}
 			if(currentYTile() != 0){
-				if(moveUp && DrawGame.character.getCurrentRoom().getCollisionMap()[((yPosition - 2) / 32)][((xPosition) / 32)] != 1){
+				if(moveUp && DrawGame.character.getCurrentRoom().getCollisionMap()[((yPosition - 2) / 32)][((xPosition) / 32)] != 1 && !checkCollision()){
 					yPosition -= 2;
 				}
 			}
 		}
 		if(strDirection.matches("x")){
 			if(currentXTile() != 31){
-				if(moveRight && DrawGame.character.getCurrentRoom().getCollisionMap()[((yPosition) / 32)][((xPosition + 32) / 32)] != 1){
+				if(moveRight && DrawGame.character.getCurrentRoom().getCollisionMap()[((yPosition) / 32)][((xPosition + 32) / 32)] != 1 && !checkCollision()){
 					xPosition += 2;
 				}
 			}
 			if(currentXTile() != 0){
-				if(moveLeft && DrawGame.character.getCurrentRoom().getCollisionMap()[((yPosition)/32)][((xPosition-2) / 32)] != 1){
+				if(moveLeft && DrawGame.character.getCurrentRoom().getCollisionMap()[((yPosition)/32)][((xPosition-2) / 32)] != 1  && !checkCollision()){
 					xPosition -= 2;
 				}
 			}
@@ -173,6 +188,10 @@ public class Monster {
 
 	public int currentYTile(){
 		return yPosition/32;
+	}
+	
+	public void setCollision(){
+		
 	}
 
 	public void doneMoving(){
