@@ -613,13 +613,16 @@ public class Engine {
 	 * Messages that is displayed when you start the game, level up, die etc.
 	 */
 
-	public static final String startMessage = " Welcome to Bartuc's Rise! \n If you want to load a character, typ \"load\". \n Type \"help\" for instructions."; // Start message
+	public static final String startMessage = " Welcome to Bartuc's Rise! \n If you want to load a character, type \"load\". \n Type \"help\" for instructions."; // Start message
 	public static final String helpMessage = "\n Help will be here soon!";
 	public static final String loadMessage = "\n Character loaded.";
 	public static final String saveMessage = "\n Character saved.";
 	public static final String noSuchCommandMessage = "\n That is not a valid command.";
 	public static final String levelUpMessage = "\n You gained a level! \n Health and mana restored. \n Health increased by " + HP_LVL_UP + ".\n Mana increased by " + MANA_LVL_UP + ".\n Damage increased by " + DAMAGE_LVL_UP + ".\n Armor increased by " + ARMOR_LVL_UP + ".";
-
+	public static final String noManaMessage = "\n You don't have enough mana to cast that.";
+	public static final String controlsMessage = "\n Use controls to control!";
+	public static final String commandsMessage = "\n These commands work!";
+	public static final String statsMessage = "\n You have killed zero monsters.";
 
 	public static final Room centralZone = new Room(Engine.centralZoneLayer1, Engine.centralZoneLayer2, Engine.centralZoneCollision);
 	public static final Room northZone = new Room(Engine.northZoneLayer1, Engine.northZoneLayer2, Engine.northZoneCollision);
