@@ -34,11 +34,14 @@ public class DrawGame extends JPanel implements KeyListener, MouseListener, Mous
 	public Queue<Integer> Q; //kö för knapptryckningar vid move för character
 	public static ArrayList[] monsterList; //en array med arraylists vid varje position, där platsen i arrayen är zonen och platserna i arraylisten är monstren i zonen
 	private static HashMap<Room, Integer> monsterHash; // en hashmap där varje room tilldelas en siffra
+	private HashMap <Room, RoomOverlay> overlay;
 	int monsterMoveCounter = 0;
 	Random rand = new Random();
 
+
 	public DrawGame(){
 		monsterHash = new HashMap<Room, Integer>();
+		overlay = new HashMap<Room, RoomOverlay>();
 		monsterHash.put(Engine.centralZone, 0); //tilldelar rum till siffror
 		monsterHash.put(Engine.northZone, 1);
 		monsterHash.put(Engine.westZone, 2);
@@ -55,6 +58,12 @@ public class DrawGame extends JPanel implements KeyListener, MouseListener, Mous
 		Engine.eastZone.setExit("west", Engine.centralZone);
 		Engine.southZone.setExit("north", Engine.centralZone);
 		Engine.caveZone.setExit("south", Engine.centralZone);
+		overlay.put(Engine.centralZone, Engine.centralOverlay);
+		overlay.put(Engine.northZone, Engine.northOverlay);
+		overlay.put(Engine.westZone, Engine.westOverlay);
+		overlay.put(Engine.eastZone, Engine.eastOverlay);
+		overlay.put(Engine.southZone, Engine.southOverlay);
+		overlay.put(Engine.caveZone, Engine.caveOverlay);
 		Q = new LinkedList<Integer>();
 		monsterList = new ArrayList[6]; //skapar 6 platser i arrayen (6 zoner)
 		for(int i = 0; i < 6; i++){
@@ -70,6 +79,7 @@ public class DrawGame extends JPanel implements KeyListener, MouseListener, Mous
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
 		character.getCurrentRoom().drawImage(g);
+
 		monsterMoveCounter++;
 		if(newZone){ //om du går in i en ny zon, detta körs bara en gång när du går in i en ny zon
 			if(monsterList[monsterHash.get(character.getCurrentRoom())].size() == 0 ||
@@ -142,8 +152,9 @@ public class DrawGame extends JPanel implements KeyListener, MouseListener, Mous
 				}
 			}
 		}
+		overlay.get(character.getCurrentRoom()).drawImage(g);
 	}
-	
+
 	public static boolean collision(){
 		for(int i = 0; i < monsterList[monsterHash.get(character.getCurrentRoom())].size();i++){
 			Monster a = (Monster) monsterList[monsterHash.get(character.getCurrentRoom())].get(i);
