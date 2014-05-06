@@ -29,7 +29,7 @@ public class Character {
 	private int x = 0;
 	private int sprite =0, spriteFire = 0;
 	private boolean levelingUp, castingFireBall, aLeft, aRight, aUp, aDown;
-	private fireBall eldBoll;
+	private FireBall eldBoll;
 
 	public Character(){
 		character = loadCharacterImage("charWalk.png");
@@ -210,6 +210,8 @@ public class Character {
 	}
 
 	public void attack(){
+		animationCounter = 0;
+		currentSprite = 0;
 		if(lastSprite == moveRight[1]){
 			aRight = true;
 		}
@@ -252,19 +254,19 @@ public class Character {
 				currentMana -=30;
 				castingFireBall = true;
 				if(lastSprite == moveRight[1]){
-					eldBoll = new fireBall(xPosition + 32, yPosition, currentRoom);
+					eldBoll = new FireBall(xPosition + 32, yPosition, currentRoom);
 					eldBoll.cast();
 				}
 				if(lastSprite == moveLeft[1]){
-					eldBoll = new fireBall(xPosition - 32, yPosition, currentRoom);
+					eldBoll = new FireBall(xPosition - 32, yPosition, currentRoom);
 					eldBoll.cast();
 				}
 				if(lastSprite == moveUp[1]){
-					eldBoll = new fireBall(xPosition, yPosition - 32, currentRoom);
+					eldBoll = new FireBall(xPosition, yPosition - 32, currentRoom);
 					eldBoll.cast();
 				}
 				if(lastSprite == moveDown[1]){
-					eldBoll = new fireBall(xPosition, yPosition + 32, currentRoom);
+					eldBoll = new FireBall(xPosition, yPosition + 32, currentRoom);
 					eldBoll.cast();
 				}
 			}
@@ -374,6 +376,7 @@ public class Character {
 			aRight = false;
 			aUp = false;
 			aDown = false;
+			DrawGame.attacking = false;
 		}
 		if(DrawGame.up){
 			lastSprite = moveUp[1];
@@ -432,7 +435,6 @@ public class Character {
 		if(DrawGame.up || DrawGame.down || DrawGame.left || DrawGame.right){
 			animationCounter++;
 		}
-		currentMana++;
 	}
 
 }
