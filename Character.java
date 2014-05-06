@@ -176,6 +176,10 @@ public class Character {
 	public int getLevel(){
 		return level;
 	}
+	
+	public void setLevel(int level){
+		this.level = level;
+	}
 
 	public int getCurrHP(){
 		return currentHealth;
@@ -184,13 +188,25 @@ public class Character {
 	public int getMaxHP(){
 		return maxHealth;
 	}
+	
+	public void setHP(int HP){
+		maxHealth = HP;
+	}
 
 	public int getDamage(){
 		return damage;
 	}
+	
+	public void setDamage(int damage){
+		this.damage = damage;
+	}
 
 	public int getArmor(){
 		return armor;
+	}
+	
+	public void setArmor(int armor){
+		this.armor = armor;
 	}
 
 	public int getXP(){
@@ -200,6 +216,10 @@ public class Character {
 	public int getMaxXP(){
 		return maxExperience;
 	}
+	
+	public void setXP(int xp){
+		currentExperience = xp;
+	}
 
 	public int getMana(){
 		return currentMana;
@@ -208,9 +228,21 @@ public class Character {
 	public int getMaxMana(){
 		return maxMana;
 	}
+	
+	public void setMana(int mana){
+		maxMana = mana;
+	}
 
 	public Room getCurrentRoom(){
 		return currentRoom;
+	}
+	
+	public void setCurrHP(int hp){
+		currentHealth = hp;
+	}
+	
+	public void setCurrMana(int mana){
+		currentMana = mana;
 	}
 
 	public BufferedImage getImage(){
