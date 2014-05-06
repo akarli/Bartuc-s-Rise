@@ -237,6 +237,18 @@ public class GameMain extends JFrame implements ActionListener {
 			saveGame();
 			infoBox.setCaretPosition(infoBox.getDocument().getLength());
 		}
+		else if(inputCommand.trim().equals("controls") || inputCommand.trim().equals("Controls") ){
+			infoBox.append(Engine.controlsMessage);
+			infoBox.setCaretPosition(infoBox.getDocument().getLength());
+		}
+		else if(inputCommand.trim().equals("commands") || inputCommand.trim().equals("Commands") ){
+			infoBox.append(Engine.commandsMessage);
+			infoBox.setCaretPosition(infoBox.getDocument().getLength());
+		}
+		else if(inputCommand.trim().equals("stats") || inputCommand.trim().equals("Stats") ){
+			infoBox.append(Engine.statsMessage);
+			infoBox.setCaretPosition(infoBox.getDocument().getLength());
+		}
 		else{
 			infoBox.append(Engine.noSuchCommandMessage);
 			infoBox.setCaretPosition(infoBox.getDocument().getLength());
@@ -263,12 +275,13 @@ public class GameMain extends JFrame implements ActionListener {
 		    writer.println(DrawGame.character.getArmor());
 		    writer.println("Experience: ");
 		    writer.println(DrawGame.character.getXP());
+		    
+		    infoBox.append(Engine.saveMessage);
 		} catch (IOException ex) {
 		  infoBox.append("\n Something went wrong, game not saved");
 		  return;
 		} finally {
 		   writer.close();
-		   infoBox.append(Engine.saveMessage);
 		}
 	}
 	
@@ -294,16 +307,13 @@ public class GameMain extends JFrame implements ActionListener {
 		    
 		    DrawGame.character.setMaxXP();
 		    
+			infoBox.append(Engine.loadMessage);
+		    
 		} catch (FileNotFoundException a){
 			infoBox.append("\n The save file was not found. Game not loaded.");
-			return;
 		}
 		catch (IOException e) {
 			infoBox.append("\n There was a problem with the save file. Game not loaded.");
-			return;
-		}
-		finally{
-			infoBox.append(Engine.loadMessage);
 		}
 	}
 }
