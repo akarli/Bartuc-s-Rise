@@ -131,8 +131,12 @@ public class Monster {
 		}
 	}
 
-	public void takeDamage(int damage){
+	public boolean takeDamage(int damage){
 		currentHealth -= damage;
+		if(currentHealth <= 0){
+			return true;
+		}
+		return false;
 	}
 	
 	public boolean checkCollision(){
@@ -201,7 +205,7 @@ public class Monster {
 		moveUp = false;
 		moveDown = false;
 	}
-
+	
 
 	public void startMoving(int direction){
 		moveCounter = 0;
