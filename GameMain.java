@@ -261,7 +261,7 @@ public class GameMain extends JFrame implements ActionListener {
 		    writer.println("Experience: ");
 		    writer.println(DrawGame.character.getXP());
 		} catch (IOException ex) {
-		  infoBox.append("\n Something went wrong, game not saved");
+		  infoBox.append("\n Something went wrong, game not saved.");
 		  return;
 		} finally {
 		   writer.close();
