@@ -19,6 +19,7 @@ public class Character {
 	private BufferedImage[] levelUp;
 	private BufferedImage[] fireBall;
 	private BufferedImage lastSprite;
+	private int fireBallX = 0, fireBallY=0;
 	private int currentSprite = 0;
 	private int animationCounter=1;
 	private int x = 0;
@@ -134,7 +135,6 @@ public class Character {
 			currentRoom = currentRoom.getExit("west");
 			DrawGame.newZone = true;
 			xPosition = 992;
-			castFireBall();
 		}
 		if (currentRoom.getCollisionMap()[((yPosition)/32)][((xPosition-2) / 32)] != 1 && DrawGame.collision()) {
 			xPosition -= 2;
@@ -178,9 +178,34 @@ public class Character {
 		GameMain.infoBox.setCaretPosition(GameMain.infoBox.getDocument().getLength());
 		levelingUp = true;
 	}
-	
+
 	public void castFireBall(){
-		castingFireBall = true;
+		if(!castingFireBall){
+			if(currentMana-30 >= 0){
+				currentMana -=30;
+				castingFireBall = true;
+				if(lastSprite == moveRight[1]){
+					fireBallX = xPosition + 32;
+					fireBallY = yPosition;
+				}
+				if(lastSprite == moveLeft[1]){
+					fireBallX = xPosition - 32;
+					fireBallY = yPosition;
+				}
+				if(lastSprite == moveUp[1]){
+					fireBallX = xPosition;
+					fireBallY = yPosition- 32;
+				}
+				if(lastSprite == moveDown[1]){
+					fireBallX = xPosition;
+					fireBallY = yPosition + 32;
+				}
+			}
+			else{
+				GameMain.infoBox.append("\n NOT ENOUGH MANAS");
+				GameMain.infoBox.setCaretPosition(GameMain.infoBox.getDocument().getLength());
+			}
+		}
 	}
 
 	public void setX(int x){
@@ -289,7 +314,7 @@ public class Character {
 		}
 		return lastSprite;
 	}
-	
+
 	public BufferedImage getLevelupImage(){
 		if(sprite == 76){
 			sprite = 0;
@@ -297,7 +322,7 @@ public class Character {
 		}
 		return levelUp[sprite/2];
 	}
-	
+
 	public BufferedImage castFireBallImage(){
 		if(spriteFire == 84){
 			spriteFire = 0;
@@ -313,7 +338,7 @@ public class Character {
 			sprite++;
 		}
 		if(castingFireBall){
-			g.drawImage(castFireBallImage(), xPosition -46, yPosition- 50, null);
+			g.drawImage(castFireBallImage(), fireBallX-46, fireBallY - 50, null);
 			spriteFire++;
 		}
 		if(DrawGame.up || DrawGame.down || DrawGame.left || DrawGame.right){
