@@ -32,8 +32,8 @@ public class DrawGame extends JPanel implements KeyListener, MouseListener, Mous
 	boolean magicAttack = false;
 	public static final Character character = new Character();
 	public Queue<Integer> Q; //kö för knapptryckningar vid move för character
-	public ArrayList[] monsterList; //en array med arraylists vid varje position, där platsen i arrayen är zonen och platserna i arraylisten är monstren i zonen
-	private HashMap<Room, Integer> monsterHash; // en hashmap där varje room tilldelas en siffra
+	public static ArrayList[] monsterList; //en array med arraylists vid varje position, där platsen i arrayen är zonen och platserna i arraylisten är monstren i zonen
+	private static HashMap<Room, Integer> monsterHash; // en hashmap där varje room tilldelas en siffra
 	int monsterMoveCounter = 0;
 	Random rand = new Random();
 
@@ -73,34 +73,34 @@ public class DrawGame extends JPanel implements KeyListener, MouseListener, Mous
 		monsterMoveCounter++;
 		if(newZone){ //om du går in i en ny zon, detta körs bara en gång när du går in i en ny zon
 			if(monsterList[monsterHash.get(character.getCurrentRoom())].size() == 0 ||
-				monsterList[monsterHash.get(character.getCurrentRoom())] == null){ 	// kollar om listan i zonen du går in i är tom
-				for(int j = 0; j< rand.nextInt(5)+3; j++){							//skapar i så fall ett slumpat antal nya mosnter
+					monsterList[monsterHash.get(character.getCurrentRoom())] == null){ // kollar om listan i zonen du går in i är tom
+				for(int j = 0; j< rand.nextInt(5)+3; j++){	//skapar i så fall ett slumpat antal nya mosnter
 					monsterList[monsterHash.get(character.getCurrentRoom())].add(new Monster());
 					Monster a = (Monster) monsterList[monsterHash.get(character.getCurrentRoom())].get(j);
 					a.place();
 				}
 			}
-			newZone = false; 
+			newZone = false;
 		}
 		for(int j = 0; j < monsterList[monsterHash.get(character.getCurrentRoom())].size();j++){ //ritar alla monster
 			Monster a = (Monster) monsterList[monsterHash.get(character.getCurrentRoom())].get(j);
 			a.drawImage(g);
-			int random = rand.nextInt(100);
-			if(random == 99){
+			int random = rand.nextInt(1000);
+			if(random >= 99){
 				int randDirection = rand.nextInt(2); //slumpar åt vilket håll monstret ska gå
 				if(a.getMoveCounter() == 16 || a.getMoveCounter() == 0){
 					a.startMoving(randDirection);
 				}
 			}
 		}
-		
+
 		for(int i = 0; i < monsterList[monsterHash.get(character.getCurrentRoom())].size();i++){
 			Monster a = (Monster) monsterList[monsterHash.get(character.getCurrentRoom())].get(i);
 			if(a.getMoveCounter() < 16){
 				a.move();
 			}
 		}
-		
+
 
 		if(left && moveCounter < 16){
 			character.moveLeft();
@@ -142,6 +142,25 @@ public class DrawGame extends JPanel implements KeyListener, MouseListener, Mous
 				}
 			}
 		}
+	}
+	
+	public static boolean collision(){
+		for(int i = 0; i < monsterList[monsterHash.get(character.getCurrentRoom())].size();i++){
+			Monster a = (Monster) monsterList[monsterHash.get(character.getCurrentRoom())].get(i);
+			if(DrawGame.character.getYTile()+1 == a.currentYTile() && DrawGame.character.getXTile() == a.currentXTile() && down){
+				return false;
+			}
+			if(DrawGame.character.getXTile()+1 == a.currentXTile() && DrawGame.character.getYTile() == a.currentYTile() && right){
+				return false;
+			}
+			if(DrawGame.character.getYTile()-1 == a.currentYTile()-1 && DrawGame.character.getXTile() == a.currentXTile() && up){
+				return false;
+			}
+			if(DrawGame.character.getXTile()-1 == a.currentXTile()-1 && DrawGame.character.getYTile() == a.currentYTile() && left){
+				return false;
+			}
+		}
+		return true;
 	}
 
 
