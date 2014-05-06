@@ -9,7 +9,7 @@ import javax.imageio.ImageIO;
 
 
 public class Character {
-	private BufferedImage character, levelup;
+	private BufferedImage character, levelup, fireball;
 	private int xPosition, yPosition, maxHealth, currentHealth, damage, level, armor, currentExperience, maxExperience, currentMana, maxMana;
 	private Room currentRoom;
 	private BufferedImage[] moveUp;
@@ -17,23 +17,24 @@ public class Character {
 	private BufferedImage[] moveLeft;
 	private BufferedImage[] moveRight;
 	private BufferedImage[] levelUp;
+	private BufferedImage[] fireBall;
 	private BufferedImage lastSprite;
-	private Image fireBall;
 	private int currentSprite = 0;
 	private int animationCounter=1;
 	private int x = 0;
-	private int sprite =0;
-	private boolean levelingUp;
+	private int sprite =0, spriteFire = 0;
+	private boolean levelingUp, castingFireBall;
 
 	public Character(){
 		character = loadCharacterImage("charWalk.png");
 		levelup = loadCharacterImage("LEVELUP.png");
-		fireBall = Toolkit.getDefaultToolkit().getImage("fireball.gif");
+		fireball = loadCharacterImage("FIREBALL.png");
 		moveUp = new BufferedImage[4];
 		moveDown = new BufferedImage[4];
 		moveRight = new BufferedImage[4];
 		moveLeft = new BufferedImage[4];
 		levelUp = new BufferedImage[39];
+		fireBall = new BufferedImage[42];
 		for(int i = 0; i < 4; i++){
 			moveUp[i] = character.getSubimage(x+(i*34), 64, 34, 53);
 			x = x+3;
@@ -56,6 +57,9 @@ public class Character {
 		}
 		for(int i = 0; i < 39 ;i++){
 			levelUp[i] = levelup.getSubimage(0 + (i*128), 0, 128, 128);
+		}
+		for(int i = 0; i < 42 ;i++){
+			fireBall[i] = fireball.getSubimage(0 + (i*128), 0, 128, 128);
 		}
 		xPosition = 448;
 		yPosition = 416;
@@ -130,6 +134,7 @@ public class Character {
 			currentRoom = currentRoom.getExit("west");
 			DrawGame.newZone = true;
 			xPosition = 992;
+			castFireBall();
 		}
 		if (currentRoom.getCollisionMap()[((yPosition)/32)][((xPosition-2) / 32)] != 1 && DrawGame.collision()) {
 			xPosition -= 2;
@@ -172,6 +177,10 @@ public class Character {
 		GameMain.infoBox.append(Engine.levelUpMessage);
 		GameMain.infoBox.setCaretPosition(GameMain.infoBox.getDocument().getLength());
 		levelingUp = true;
+	}
+	
+	public void castFireBall(){
+		castingFireBall = true;
 	}
 
 	public void setX(int x){
@@ -282,17 +291,30 @@ public class Character {
 	}
 	
 	public BufferedImage getLevelupImage(){
-		if(sprite == 38){
+		if(sprite == 76){
 			sprite = 0;
+			levelingUp = false;
 		}
-		return levelUp[sprite];
+		return levelUp[sprite/2];
+	}
+	
+	public BufferedImage castFireBallImage(){
+		if(spriteFire == 84){
+			spriteFire = 0;
+			castingFireBall = false;
+		}
+		return fireBall[spriteFire/2];
 	}
 
 	public void drawImage(Graphics g){
 		g.drawImage(getImage(), xPosition, yPosition, null);
 		if(levelingUp){
-			g.drawImage(getLevelupImage(), xPosition -50, yPosition- 50, null);
+			g.drawImage(getLevelupImage(), xPosition -46, yPosition- 50, null);
 			sprite++;
+		}
+		if(castingFireBall){
+			g.drawImage(castFireBallImage(), xPosition -46, yPosition- 50, null);
+			spriteFire++;
 		}
 		if(DrawGame.up || DrawGame.down || DrawGame.left || DrawGame.right){
 			animationCounter++;
