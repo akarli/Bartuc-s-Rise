@@ -18,24 +18,35 @@ public class Character {
 	private BufferedImage[] moveRight;
 	private BufferedImage[] levelUp;
 	private BufferedImage[] fireBall;
+	private BufferedImage[] attackUp;
+	private BufferedImage[] attackDown;
+	private BufferedImage[] attackLeft;
+	private BufferedImage[] attackRight;
 	private BufferedImage lastSprite;
-	private int fireBallX = 0, fireBallY=0;
+	private BufferedImage charAttack;
+	private int fireBallX = 0, fireBallY=0, offsetx = 0;
 	private int currentSprite = 0;
 	private int animationCounter=1;
 	private int x = 0;
 	private int sprite =0, spriteFire = 0;
 	private boolean levelingUp, castingFireBall;
+	private fireBall eldBoll;
 
 	public Character(){
 		character = loadCharacterImage("charWalk.png");
 		levelup = loadCharacterImage("LEVELUP.png");
 		fireball = loadCharacterImage("FIREBALL.png");
+		charAttack = loadCharacterImage("charAttack.png");
 		moveUp = new BufferedImage[4];
 		moveDown = new BufferedImage[4];
 		moveRight = new BufferedImage[4];
 		moveLeft = new BufferedImage[4];
 		levelUp = new BufferedImage[39];
 		fireBall = new BufferedImage[42];
+		attackUp = new BufferedImage[4];
+		attackDown = new BufferedImage[4];
+		attackLeft = new BufferedImage[4];
+		attackRight = new BufferedImage[4];
 		for(int i = 0; i < 4; i++){
 			moveUp[i] = character.getSubimage(x+(i*34), 64, 34, 53);
 			x = x+3;
@@ -55,6 +66,54 @@ public class Character {
 		for(int i = 0; i < 4; i++){
 			moveLeft[i] = character.getSubimage(x+(i*45), 7, 45, 53);
 			x=x+2;
+		}
+		x = 35;
+		for(int i = 0; i < 4; i++){
+			if(i>1){
+				offsetx = 12;
+			}
+			else{
+				offsetx = 0;
+			}
+			attackDown[i] = charAttack.getSubimage(x+(i*39 - offsetx), 0, 39, 70);
+			x = x+2;
+		}
+		x = 55;
+		for(int i = 0; i < 4; i++){
+			if(i>1){
+				offsetx = 10;
+			}
+			else{
+				offsetx = 0;
+			}
+			attackUp[i] = charAttack.getSubimage(x+(i*39 - offsetx), 79, 39, 67);
+		}
+		x = 345;
+		for(int i = 0; i < 4; i++){
+			if(i==2){
+				offsetx = 14;
+			}
+			else{
+				offsetx = 0;
+			}
+			attackLeft[i] = charAttack.getSubimage(x+(i*39), 4, 37 + offsetx, 64);
+			x = x + offsetx;
+			x = x + 2;
+		}
+		x = 356;
+		for(int i = 0; i < 4; i++){
+			if(i==2){
+				offsetx = 16;
+			}
+			if(i==3){
+				offsetx = 6;
+			}
+			else{
+				offsetx = 0;
+			}
+			attackRight[i] = charAttack.getSubimage(x+(i*39), 72, 34, 73);
+			x = x + offsetx;
+			x = x + 2;
 		}
 		for(int i = 0; i < 39 ;i++){
 			levelUp[i] = levelup.getSubimage(0 + (i*128), 0, 128, 128);
@@ -185,20 +244,20 @@ public class Character {
 				currentMana -=30;
 				castingFireBall = true;
 				if(lastSprite == moveRight[1]){
-					fireBallX = xPosition + 32;
-					fireBallY = yPosition;
+					eldBoll = new fireBall(xPosition + 32, yPosition, currentRoom);
+					eldBoll.cast();
 				}
 				if(lastSprite == moveLeft[1]){
-					fireBallX = xPosition - 32;
-					fireBallY = yPosition;
+					eldBoll = new fireBall(xPosition - 32, yPosition, currentRoom);
+					eldBoll.cast();
 				}
 				if(lastSprite == moveUp[1]){
-					fireBallX = xPosition;
-					fireBallY = yPosition- 32;
+					eldBoll = new fireBall(xPosition, yPosition - 32, currentRoom);
+					eldBoll.cast();
 				}
 				if(lastSprite == moveDown[1]){
-					fireBallX = xPosition;
-					fireBallY = yPosition + 32;
+					eldBoll = new fireBall(xPosition, yPosition + 32, currentRoom);
+					eldBoll.cast();
 				}
 			}
 			else{
@@ -206,6 +265,10 @@ public class Character {
 				GameMain.infoBox.setCaretPosition(GameMain.infoBox.getDocument().getLength());
 			}
 		}
+	}
+
+	public void stopCasting(){
+		castingFireBall = false;
 	}
 
 	public void setX(int x){
@@ -256,10 +319,6 @@ public class Character {
 		return currentExperience;
 	}
 
-	public void setMaxXP(){
-		maxExperience = level*100;
-	}
-	
 	public int getMaxXP(){
 		return maxExperience;
 	}
@@ -290,6 +349,10 @@ public class Character {
 
 	public void setCurrMana(int mana){
 		currentMana = mana;
+	}
+
+	public void setMaxXP(){
+		maxExperience = level*100;
 	}
 
 	public BufferedImage getImage(){
@@ -327,13 +390,6 @@ public class Character {
 		return levelUp[sprite/2];
 	}
 
-	public BufferedImage castFireBallImage(){
-		if(spriteFire == 84){
-			spriteFire = 0;
-			castingFireBall = false;
-		}
-		return fireBall[spriteFire/2];
-	}
 
 	public void drawImage(Graphics g){
 		g.drawImage(getImage(), xPosition, yPosition, null);
@@ -342,12 +398,13 @@ public class Character {
 			sprite++;
 		}
 		if(castingFireBall){
-			g.drawImage(castFireBallImage(), fireBallX-46, fireBallY - 50, null);
-			spriteFire++;
+			eldBoll.drawImage(g);
 		}
+
 		if(DrawGame.up || DrawGame.down || DrawGame.left || DrawGame.right){
 			animationCounter++;
 		}
+		currentMana++;
 	}
 
 }
