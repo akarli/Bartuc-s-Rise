@@ -152,25 +152,29 @@ public class Monster {
 		}
 		if(aUp){
 			attackCounter++;
+			lastSprite = moveUpPic[0];
 			return attackUp[currentSprite];
 		}
 		if(aDown){
 			attackCounter++;
+			lastSprite = moveDownPic[0];
 			return attackDown[currentSprite];
 		}
 		if(aRight){
 			attackCounter++;
+			lastSprite = moveLeftPic[0];
 			return attackLeft[currentSprite];
 		}
 		if(aLeft){
 			attackCounter++;
+			lastSprite = moveRightPic[0];
 			return attackRight[currentSprite];
 		}
 		return lastSprite;
 	}
 
 	public void drawImage(Graphics g){
-		g.drawImage(getImage(), xPosition, yPosition, null);
+			g.drawImage(getImage(), xPosition, yPosition, null);
 		if(moveUp || moveDown || moveRight || moveLeft || aUp || aDown || aLeft || aRight){
 			animationCounter++;
 		}
@@ -181,10 +185,10 @@ public class Monster {
 		attackCounter = 0;
 		if(currentXTile() == DrawGame.character.getXTile()){
 			if(currentYTile() < DrawGame.character.getYTile()){
-				aUp = true;
+				aDown = true;
 			}
 			else{
-				aDown = true;
+				aUp = true;
 			}
 		}
 		if(currentYTile() ==  DrawGame.character.getYTile()){
