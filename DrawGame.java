@@ -158,28 +158,10 @@ public class DrawGame extends JPanel implements KeyListener, MouseListener, Mous
 		if(character.getXP() >= character.getMaxXP()){
 			   character.levelUp();
 		}
-	}
-
-	public static boolean collision(){
-		for(int i = 0; i < monsterList[monsterHash.get(character.getCurrentRoom())].size();i++){
-			Monster a = (Monster) monsterList[monsterHash.get(character.getCurrentRoom())].get(i);
-			if(DrawGame.character.getYTile()+1 == a.currentYTile() && DrawGame.character.getXTile() == a.currentXTile() && down){
-				return false;
-			}
-			if(DrawGame.character.getXTile()+1 == a.currentXTile() && DrawGame.character.getYTile() == a.currentYTile() && right){
-				return false;
-			}
-			if(DrawGame.character.getYTile()-1 == a.currentYTile()-1 && DrawGame.character.getXTile() == a.currentXTile() && up){
-				return false;
-			}
-			if(DrawGame.character.getXTile()-1 == a.currentXTile()-1 && DrawGame.character.getYTile() == a.currentYTile() && left){
-				return false;
-			}
+		if(character.getCurrHP() <= 0){
+			character.die();
 		}
-		return true;
 	}
-
-
 
 	@Override
 	public void mouseDragged(MouseEvent arg0) {
