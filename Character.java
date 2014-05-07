@@ -10,7 +10,7 @@ import javax.imageio.ImageIO;
 
 public class Character {
 	private BufferedImage character, levelup, fireball;
-	private int xPosition, yPosition, maxHealth, currentHealth, damage, level, armor, currentExperience, maxExperience, currentMana, maxMana;
+	private int xPosition, yPosition, maxHealth, currentHealth, damage, level, armor, currentExperience, maxExperience, currentMana, maxMana, manaCounter, healthCounter ;
 	private Room currentRoom;
 	private BufferedImage[] moveUp;
 	private BufferedImage[] moveDown;
@@ -100,6 +100,8 @@ public class Character {
 		currentRoom = Engine.centralZone;
 		currentMana = 100;
 		maxMana = 100;
+		manaCounter = 60;
+		healthCounter = 60;
 	}
 	public BufferedImage loadCharacterImage(String fileName){
 		BufferedImage img = null;
@@ -431,6 +433,22 @@ public class Character {
 		return levelUp[sprite/2];
 	}
 
+	public void die(){
+		level = 1;
+		currentHealth = 100;
+		maxHealth = 100;
+		currentMana = 100;
+		maxMana = 100;
+		damage = 25;
+		armor = 0;
+		currentExperience = 0;
+		maxExperience = level*100;
+		
+		currentRoom = Engine.centralZone;
+		setX(448);
+		setY(416);
+		
+	}
 
 	public void drawImage(Graphics g){
 		g.drawImage(getImage(), xPosition, yPosition, null);
@@ -449,7 +467,16 @@ public class Character {
 		if(DrawGame.up || DrawGame.down || DrawGame.left || DrawGame.right){
 			animationCounter++;
 		}
-		currentMana++;
+		if(currentHealth < maxHealth && healthCounter >= 60){
+			currentHealth++;
+			healthCounter = 0;
+		}
+		if(currentMana < maxMana && manaCounter >= 60){
+			currentMana++;
+			manaCounter = 0;
+		}
+		manaCounter++;
+		healthCounter++;
 	}
 
 }
