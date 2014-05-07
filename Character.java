@@ -215,7 +215,7 @@ public class Character {
 				}
 			}
 			else if(aUp){
-				if((a.currentXTile() == getXTile()) && (a.currentYTile() - getYTile()) == -1){
+				if((a.currentXTile() == getXTile()) && (a.currentYTile() == getYTile() || a.currentYTile() - getYTile() == -1)){
 					if(a.takeDamage(DrawGame.character.getDamage())){
 						DrawGame.monsterList[DrawGame.monsterHash.get(currentRoom)].remove(j);
 						DrawGame.character.increaseXP(25);
@@ -223,16 +223,12 @@ public class Character {
 				}
 			}
 			else if(aDown){
-				if((a.currentXTile() == getXTile()) && (a.currentYTile() - getYTile()) == 1){
+				if((a.currentXTile() == getXTile()) && (a.currentYTile() == getYTile() || a.currentYTile() - getYTile() == 1)){
 					if(a.takeDamage(DrawGame.character.getDamage())){
 						DrawGame.monsterList[DrawGame.monsterHash.get(currentRoom)].remove(j);
 						DrawGame.character.increaseXP(25);
 					}
 				}
-			}
-
-			if(Math.abs(a.currentXTile()- getXTile()) < 2 && Math.abs(a.currentYTile() - getYTile()) < 2){
-
 			}
 		}
 		aLeft = false;
