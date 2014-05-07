@@ -66,7 +66,7 @@ public class Character {
 			moveLeft[i] = character.getSubimage(x+(i*45), 7, 45, 53);
 			x=x+2;
 		}
-		
+
 		attackDown[0]= charAttack.getSubimage(35, 0, 37, 70);
 		attackDown[1]= charAttack.getSubimage(72, 0, 38, 70);
 		attackDown[2]= charAttack.getSubimage(112, 0, 29, 70);
@@ -194,7 +194,7 @@ public class Character {
 			aDown=true;
 		}
 	}
-	
+
 	public void stopAttack(){
 		for(int j = 0; j < DrawGame.monsterList[DrawGame.monsterHash.get(currentRoom)].size();j++){ 
 			Monster a = (Monster) DrawGame.monsterList[DrawGame.monsterHash.get(currentRoom)].get(j);
@@ -230,9 +230,9 @@ public class Character {
 					}
 				}
 			}
-			
+
 			if(Math.abs(a.currentXTile()- getXTile()) < 2 && Math.abs(a.currentYTile() - getYTile()) < 2){
-				
+
 			}
 		}
 		aLeft = false;
@@ -240,7 +240,7 @@ public class Character {
 		aUp = false;
 		aDown = false;
 	}
-	
+
 	public void increaseXP(int xp){
 		currentExperience += xp;
 	}
@@ -379,6 +379,10 @@ public class Character {
 	public void setMaxXP(){
 		maxExperience = level*100;
 	}
+	
+	public void takeDamage(int damage){
+		currentHealth -= damage;
+	}
 
 	public BufferedImage getImage(){
 		if(animationCounter == 8){
@@ -441,7 +445,7 @@ public class Character {
 		if(castingFireBall){
 			eldBoll.drawImage(g);
 		}
-		
+
 		if(aLeft || aRight || aUp || aDown){
 			animationCounter++;
 		}
