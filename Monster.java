@@ -199,22 +199,22 @@ public class Monster {
 	
 	public void stopAttacking(){
 		if(aLeft){
-			if((DrawGame.character.getXTile() == currentXTile() || DrawGame.character.getXTile() - currentXTile() == -1) && DrawGame.character.getYTile() == currentYTile()){
+			if((DrawGame.character.getXTile() == currentXTile() || DrawGame.character.getXTile() - currentXTile() == 1) && DrawGame.character.getYTile() == currentYTile()){
 				DrawGame.character.takeDamage(damage);
 			}
 		}
 		if(aRight){
-			if((DrawGame.character.getXTile() == currentXTile() ||DrawGame.character.getXTile() - currentXTile() == 1) && (DrawGame.character.getYTile() == currentYTile())){
+			if((DrawGame.character.getXTile() == currentXTile() || DrawGame.character.getXTile() - currentXTile() == -1) && (DrawGame.character.getYTile() == currentYTile())){
 				DrawGame.character.takeDamage(damage);
 			}
 		}
 		if(aUp){
-			if((DrawGame.character.getXTile() == currentXTile()) && (DrawGame.character.getYTile() - currentYTile()) == -1){
+			if((DrawGame.character.getXTile() == currentXTile()) && (DrawGame.character.getYTile() - currentYTile() == 1)){
 				DrawGame.character.takeDamage(damage);
 			}
 		}
 		if(aDown){
-			if((DrawGame.character.getXTile() == currentXTile()) && (DrawGame.character.getYTile() - currentYTile()) == 1){
+			if((DrawGame.character.getXTile() == currentXTile()) && (DrawGame.character.getYTile() - currentYTile() == -1)){
 				DrawGame.character.takeDamage(damage);
 			}
 		}
@@ -305,7 +305,7 @@ public class Monster {
 
 
 	public void startMoving(int direction){
-		if(Math.abs(currentXTile() - DrawGame.character.getXTile()) <= 2 && Math.abs(currentYTile() - DrawGame.character.getYTile()) <= 2){
+		if(Math.abs(currentXTile() - DrawGame.character.getXTile()) <= 1 && Math.abs(currentYTile() - DrawGame.character.getYTile()) <= 1){
 			attack();
 		}
 		else{
