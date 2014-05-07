@@ -199,6 +199,9 @@ public class Monster {
 				aLeft = true;
 			}
 		}
+		if(currentYTile() == DrawGame.character.getYTile() && currentXTile() == DrawGame.character.getYTile()){
+			aUp = true;
+		}
 	}
 	
 	public void stopAttacking(){
@@ -213,12 +216,12 @@ public class Monster {
 			}
 		}
 		if(aUp){
-			if((DrawGame.character.getXTile() == currentXTile()) && (DrawGame.character.getYTile() - currentYTile() == 1)){
+			if((DrawGame.character.getXTile() == currentXTile()) && (DrawGame.character.getYTile() - currentYTile() == -1) || (currentYTile() == DrawGame.character.getYTile() && currentXTile() == DrawGame.character.getYTile())){
 				DrawGame.character.takeDamage(damage);
 			}
 		}
 		if(aDown){
-			if((DrawGame.character.getXTile() == currentXTile()) && (DrawGame.character.getYTile() - currentYTile() == -1)){
+			if((DrawGame.character.getXTile() == currentXTile()) && (DrawGame.character.getYTile() - currentYTile() == 1)){
 				DrawGame.character.takeDamage(damage);
 			}
 		}
