@@ -66,54 +66,24 @@ public class Character {
 			moveLeft[i] = character.getSubimage(x+(i*45), 7, 45, 53);
 			x=x+2;
 		}
-		x = 35;
-		for(int i = 0; i < 4; i++){
-			if(i>1){
-				offsetx = 12;
-			}
-			else{
-				offsetx = 0;
-			}
-			attackDown[i] = charAttack.getSubimage(x+(i*39 - offsetx), 0, 39, 70);
-			x = x+2;
-		}
-		x = 55;
-		for(int i = 0; i < 4; i++){
-			if(i>1){
-				offsetx = 10;
-			}
-			else{
-				offsetx = 0;
-			}
-			attackUp[i] = charAttack.getSubimage(x+(i*39 - offsetx), 79, 39, 67);
-		}
-		x = 345;
-		for(int i = 0; i < 4; i++){
-			if(i==2){
-				offsetx = 14;
-			}
-			else{
-				offsetx = 0;
-			}
-			attackLeft[i] = charAttack.getSubimage(x+(i*39), 4, 37 + offsetx, 64);
-			x = x + offsetx;
-			x = x + 2;
-		}
-		x = 356;
-		for(int i = 0; i < 4; i++){
-			if(i==2){
-				offsetx = 16;
-			}
-			if(i==3){
-				offsetx = 6;
-			}
-			else{
-				offsetx = 0;
-			}
-			attackRight[i] = charAttack.getSubimage(x+(i*39), 72, 34, 73);
-			x = x + offsetx;
-			x = x + 2;
-		}
+		
+		attackDown[0]= charAttack.getSubimage(35, 0, 37, 70);
+		attackDown[1]= charAttack.getSubimage(72, 0, 38, 70);
+		attackDown[2]= charAttack.getSubimage(112, 0, 29, 70);
+		attackDown[3]= charAttack.getSubimage(143, 0, 30, 70);
+		attackUp[0] = charAttack.getSubimage(55, 79, 39, 67);
+		attackUp[1] = charAttack.getSubimage(96, 79, 39, 67);
+		attackUp[2] = charAttack.getSubimage(135, 79, 31, 67);
+		attackUp[3] = charAttack.getSubimage(167, 79, 30, 67);
+		attackLeft[0] = charAttack.getSubimage(345, 4, 37, 64);
+		attackLeft[1] = charAttack.getSubimage(385, 4, 35, 64);
+		attackLeft[2] = charAttack.getSubimage(423, 4, 51, 64);
+		attackLeft[3] = charAttack.getSubimage(474, 4, 39, 64);
+		attackRight[0] = charAttack.getSubimage(356, 72, 38, 73);
+		attackRight[1] = charAttack.getSubimage(396, 72, 34, 73);
+		attackRight[2] = charAttack.getSubimage(432, 72, 51, 73);
+		attackRight[3] = charAttack.getSubimage(485, 72, 41, 73);
+
 		for(int i = 0; i < 39 ;i++){
 			levelUp[i] = levelup.getSubimage(0 + (i*128), 0, 128, 128);
 		}
@@ -163,7 +133,7 @@ public class Character {
 			yPosition = 608;
 			DrawGame.newZone = true;
 		}
-		if (currentRoom.getCollisionMap()[((yPosition - 2) / 32)][((xPosition) / 32)] != 1 && DrawGame.collision()) {
+		if (currentRoom.getCollisionMap()[((yPosition - 2) / 32)][((xPosition) / 32)] != 1) {
 			yPosition -= 2;
 		}
 	}
@@ -181,7 +151,7 @@ public class Character {
 			DrawGame.newZone = true;
 		}
 
-		if (currentRoom.getCollisionMap()[((yPosition + 32) / 32)][((xPosition) / 32)] != 1 && DrawGame.collision()) {
+		if (currentRoom.getCollisionMap()[((yPosition + 32) / 32)][((xPosition) / 32)] != 1 ) {
 			yPosition += 2;
 		}
 	}
@@ -192,7 +162,7 @@ public class Character {
 			DrawGame.newZone = true;
 			xPosition = 992;
 		}
-		if (currentRoom.getCollisionMap()[((yPosition)/32)][((xPosition-2) / 32)] != 1 && DrawGame.collision()) {
+		if (currentRoom.getCollisionMap()[((yPosition)/32)][((xPosition-2) / 32)] != 1) {
 			xPosition -= 2;
 		}
 
@@ -204,7 +174,7 @@ public class Character {
 			DrawGame.newZone = true;
 			xPosition = 0;
 		}
-		if (currentRoom.getCollisionMap()[((yPosition) / 32)][((xPosition + 32) / 32)] != 1 && DrawGame.collision()) {
+		if (currentRoom.getCollisionMap()[((yPosition) / 32)][((xPosition + 32) / 32)] != 1) {
 			xPosition += 2;
 		}
 	}
@@ -376,6 +346,17 @@ public class Character {
 			aRight = false;
 			aUp = false;
 			aDown = false;
+			if(DrawGame.attacking){
+				for(int j = 0; j < DrawGame.monsterList[DrawGame.monsterHash.get(currentRoom)].size();j++){ 
+					Monster a = (Monster) DrawGame.monsterList[DrawGame.monsterHash.get(currentRoom)].get(j);
+					if(Math.abs(a.currentXTile()- getXTile()) < 2 && Math.abs(a.currentYTile() - getYTile()) < 2){
+						if(a.takeDamage(DrawGame.character.getDamage())){
+							DrawGame.monsterList[DrawGame.monsterHash.get(currentRoom)].remove(j);
+							DrawGame.character.increaseXP(25);
+						}
+					}
+				}
+			}
 			DrawGame.attacking = false;
 		}
 		if(DrawGame.up){
@@ -435,6 +416,7 @@ public class Character {
 		if(DrawGame.up || DrawGame.down || DrawGame.left || DrawGame.right){
 			animationCounter++;
 		}
+		currentMana++;
 	}
 
 }
