@@ -28,7 +28,7 @@ public class DrawGame extends JPanel implements KeyListener, MouseListener, Mous
 	static boolean newZone = true; //blir true när man går in i en ny zone
 	static int moveCounter = 0;
 	static int magicCounter = 0;
-	boolean pressed = false;
+	static boolean pressed = false;
 	static boolean attacking = false;
 	public static final Character character = new Character();
 	public Queue<Integer> Q; //kö för knapptryckningar vid move för character
@@ -103,7 +103,7 @@ public class DrawGame extends JPanel implements KeyListener, MouseListener, Mous
 				}
 			}
 		}
-		
+
 		character.drawImage(g);
 
 		for(int i = 0; i < monsterList[monsterHash.get(character.getCurrentRoom())].size();i++){
@@ -156,10 +156,31 @@ public class DrawGame extends JPanel implements KeyListener, MouseListener, Mous
 		}
 		overlay.get(character.getCurrentRoom()).drawImage(g);
 		if(character.getXP() >= character.getMaxXP()){
-			   character.levelUp();
+			character.levelUp();
 		}
 		if(character.getCurrHP() <= 0){
 			character.die();
+		}
+	}
+
+	public static void reset(){
+		up = false;
+		down = false;
+		left = false;
+		right = false;
+		newZone = true; 
+		moveCounter = 0;
+		magicCounter = 0;
+		pressed = false;
+		attacking = false;
+		for(int i = 0; i < monsterList.length; i++){
+			if(monsterList[i] != null){
+				int a = monsterList[i].size();
+				for(int j = 0; j < a; j++){
+					monsterList[i].remove(j);
+					a--;
+				}
+			}
 		}
 	}
 
