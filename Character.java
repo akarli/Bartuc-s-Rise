@@ -123,7 +123,6 @@ public class Character {
 	public void moveUp() {
 		if(currentRoom == Engine.centralZone && (xPosition/32 == 26 || xPosition/32 == 27) && yPosition/32 < 7 && yPosition/32 > 5){
 			currentRoom = currentRoom.getExit("cave");
-			levelUp();
 			xPosition = 15*Engine.TILE_WIDTH;
 			yPosition = 19*Engine.TILE_HEIGHT-2;
 			DrawGame.newZone = true;
@@ -195,7 +194,53 @@ public class Character {
 			aDown=true;
 		}
 	}
-
+	
+	public void stopAttack(){
+		for(int j = 0; j < DrawGame.monsterList[DrawGame.monsterHash.get(currentRoom)].size();j++){ 
+			Monster a = (Monster) DrawGame.monsterList[DrawGame.monsterHash.get(currentRoom)].get(j);
+			if(aLeft){
+				if((a.currentXTile() == getXTile() || a.currentXTile() - getXTile() == -1) && a.currentYTile() == getYTile()){
+					if(a.takeDamage(DrawGame.character.getDamage())){
+						DrawGame.monsterList[DrawGame.monsterHash.get(currentRoom)].remove(j);
+						DrawGame.character.increaseXP(25);
+					}
+				}
+			}
+			else if(aRight){
+				if((a.currentXTile() == getXTile() || a.currentXTile() - getXTile() == 1) && (a.currentYTile() == getYTile())){
+					if(a.takeDamage(DrawGame.character.getDamage())){
+						DrawGame.monsterList[DrawGame.monsterHash.get(currentRoom)].remove(j);
+						DrawGame.character.increaseXP(25);
+					}
+				}
+			}
+			else if(aUp){
+				if((a.currentXTile() == getXTile()) && (a.currentYTile() - getYTile()) == -1){
+					if(a.takeDamage(DrawGame.character.getDamage())){
+						DrawGame.monsterList[DrawGame.monsterHash.get(currentRoom)].remove(j);
+						DrawGame.character.increaseXP(25);
+					}
+				}
+			}
+			else if(aDown){
+				if((a.currentXTile() == getXTile()) && (a.currentYTile() - getYTile()) == 1){
+					if(a.takeDamage(DrawGame.character.getDamage())){
+						DrawGame.monsterList[DrawGame.monsterHash.get(currentRoom)].remove(j);
+						DrawGame.character.increaseXP(25);
+					}
+				}
+			}
+			
+			if(Math.abs(a.currentXTile()- getXTile()) < 2 && Math.abs(a.currentYTile() - getYTile()) < 2){
+				
+			}
+		}
+		aLeft = false;
+		aRight = false;
+		aUp = false;
+		aDown = false;
+	}
+	
 	public void increaseXP(int xp){
 		currentExperience += xp;
 	}
@@ -342,20 +387,8 @@ public class Character {
 		}
 		if(currentSprite >= 4){
 			currentSprite = 0;
-			aLeft = false;
-			aRight = false;
-			aUp = false;
-			aDown = false;
 			if(DrawGame.attacking){
-				for(int j = 0; j < DrawGame.monsterList[DrawGame.monsterHash.get(currentRoom)].size();j++){ 
-					Monster a = (Monster) DrawGame.monsterList[DrawGame.monsterHash.get(currentRoom)].get(j);
-					if(Math.abs(a.currentXTile()- getXTile()) < 2 && Math.abs(a.currentYTile() - getYTile()) < 2){
-						if(a.takeDamage(DrawGame.character.getDamage())){
-							DrawGame.monsterList[DrawGame.monsterHash.get(currentRoom)].remove(j);
-							DrawGame.character.increaseXP(25);
-						}
-					}
-				}
+				stopAttack();
 			}
 			DrawGame.attacking = false;
 		}
