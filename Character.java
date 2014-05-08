@@ -31,8 +31,10 @@ public class Character {
 	private int sprite =0, spriteFire = 0;
 	private boolean levelingUp, castingFireBall, aLeft, aRight, aUp, aDown;
 	private FireBall eldBoll;
+	Random rand = new Random();
 
 	public Character(){
+		Random rand = new Random();
 		character = loadCharacterImage("charWalk.png");
 		levelup = loadCharacterImage("LEVELUP.png");
 		fireball = loadCharacterImage("FIREBALL.png");
@@ -215,7 +217,7 @@ public class Character {
 			Monster a = (Monster) DrawGame.monsterList[DrawGame.monsterHash.get(currentRoom)].get(j);
 			if(aLeft){
 				if((a.currentXTile() == getXTile() || a.currentXTile() - getXTile() == -1) && a.currentYTile() == getYTile()){
-					if(a.takeDamage(DrawGame.character.getDamage())){
+					if(a.takeDamage(DrawGame.character.getAttackDamage())){
 						DrawGame.monsterList[DrawGame.monsterHash.get(currentRoom)].remove(j);
 						DrawGame.character.increaseXP(25);
 					}
@@ -223,7 +225,7 @@ public class Character {
 			}
 			else if(aRight){
 				if((a.currentXTile() == getXTile() || a.currentXTile() - getXTile() == 1) && (a.currentYTile() == getYTile())){
-					if(a.takeDamage(DrawGame.character.getDamage())){
+					if(a.takeDamage(DrawGame.character.getAttackDamage())){
 						DrawGame.monsterList[DrawGame.monsterHash.get(currentRoom)].remove(j);
 						DrawGame.character.increaseXP(25);
 					}
@@ -231,7 +233,7 @@ public class Character {
 			}
 			else if(aUp){
 				if((a.currentXTile() == getXTile()) && (a.currentYTile() == getYTile() || a.currentYTile() - getYTile() == -1)){
-					if(a.takeDamage(DrawGame.character.getDamage())){
+					if(a.takeDamage(DrawGame.character.getAttackDamage())){
 						DrawGame.monsterList[DrawGame.monsterHash.get(currentRoom)].remove(j);
 						DrawGame.character.increaseXP(25);
 					}
@@ -239,7 +241,7 @@ public class Character {
 			}
 			else if(aDown){
 				if((a.currentXTile() == getXTile()) && (a.currentYTile() == getYTile() || a.currentYTile() - getYTile() == 1)){
-					if(a.takeDamage(DrawGame.character.getDamage())){
+					if(a.takeDamage(DrawGame.character.getAttackDamage())){
 						DrawGame.monsterList[DrawGame.monsterHash.get(currentRoom)].remove(j);
 						DrawGame.character.increaseXP(25);
 					}
@@ -338,6 +340,11 @@ public class Character {
 	public int getDamage(){
 		return damage;
 	}
+	
+	public int getAttackDamage(){
+		int randDamage = rand.nextInt((damage/10))+(damage - damage/20);
+		return randDamage;
+	}
 
 	public void setDamage(int damage){
 		this.damage = damage;
@@ -392,7 +399,7 @@ public class Character {
 	}
 
 	public void takeDamage(int damage){
-		damage -= armor;
+		damage -= armor*2;
 		if(damage < 0){
 			damage = 0;
 		}
@@ -400,7 +407,6 @@ public class Character {
 	}
 
 	public void getLoot(){
-		Random rand = new Random();
 		Boolean epicGear = false;
 		int drop = rand.nextInt(100);
 		if(drop >= 84){
