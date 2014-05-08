@@ -250,6 +250,12 @@ public class DrawGame extends JPanel implements KeyListener, MouseListener, Mous
 				attacking = true;
 				character.attack();
 				break;
+			case KeyEvent.VK_Q:
+				character.useHPPot();
+				break;
+			case KeyEvent.VK_E:
+				character.useManaPot();
+				break;
 			}
 		}
 		else{
