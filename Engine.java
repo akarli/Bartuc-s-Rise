@@ -21,6 +21,8 @@ public class Engine {
 	public final static int MANA_LVL_UP = 20;
 	public final static int DAMAGE_LVL_UP = 5;
 	public final static int ARMOR_LVL_UP = 2;
+	public final static double HPREGEN_LVL_UP = 0.1;
+	public final static double MANAREGEN_LVL_UP = 0.1;
 
 	/**
 	 * GAME MAPS
@@ -619,7 +621,7 @@ public class Engine {
 	public static final String loadMessage = "\n Character loaded.";
 	public static final String saveMessage = "\n Character saved.";
 	public static final String noSuchCommandMessage = "\n That is not a valid command.";
-	public static final String levelUpMessage = "\n You gained a level! \n Health and mana restored. \n Health increased by " + HP_LVL_UP + ".\n Mana increased by " + MANA_LVL_UP + ".\n Damage increased by " + DAMAGE_LVL_UP + ".\n Armor increased by " + ARMOR_LVL_UP + ".";
+	public static final String levelUpMessage = "\n You gained a level! \n Health and mana restored. \n Health increased by " + HP_LVL_UP + ".\n Mana increased by " + MANA_LVL_UP + ".\n Damage increased by " + DAMAGE_LVL_UP + ".\n Armor increased by " + ARMOR_LVL_UP + ".\n Health regeneration and mana regeneration increased by " + HPREGEN_LVL_UP + ".";
 	public static final String noManaMessage = "\n You don't have enough mana to cast that.";
 	public static final String controlsMessage = "\n Use controls to control!";
 	public static final String commandsMessage = "\n These commands work!";
