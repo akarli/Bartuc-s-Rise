@@ -124,10 +124,18 @@ public class Character {
 	}
 	public void moveUp() {
 		if(currentRoom == Engine.centralZone && (xPosition/32 == 26 || xPosition/32 == 27) && yPosition/32 < 7 && yPosition/32 > 5){
-			currentRoom = currentRoom.getExit("cave");
-			xPosition = 15*Engine.TILE_WIDTH;
-			yPosition = 19*Engine.TILE_HEIGHT-2;
-			DrawGame.newZone = true;
+			if(getXTile() == 26){
+				currentRoom = currentRoom.getExit("cave");
+				xPosition = 15*Engine.TILE_WIDTH;
+				yPosition = 19*Engine.TILE_HEIGHT-2;
+				DrawGame.newZone = true;
+			}
+			else{
+				currentRoom = currentRoom.getExit("cave");
+				xPosition = 16*Engine.TILE_WIDTH;
+				yPosition = 19*Engine.TILE_HEIGHT-2;
+				DrawGame.newZone = true;
+			}
 		}
 		if (yPosition <= 0) {
 			currentRoom = currentRoom.getExit("north");
@@ -145,7 +153,12 @@ public class Character {
 				yPosition = 0;
 			}
 			else{
-				xPosition = 26*Engine.TILE_WIDTH;
+				if(getXTile() == 15){
+					xPosition = 26*Engine.TILE_WIDTH;
+				}
+				else{
+					xPosition = 27*Engine.TILE_WIDTH;
+				}
 				yPosition = 7*Engine.TILE_HEIGHT;
 			}
 			currentRoom = currentRoom.getExit("south");
