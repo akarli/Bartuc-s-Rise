@@ -35,16 +35,20 @@ public class GameMain extends JFrame implements ActionListener {
 	/**
 	 * CHARACTER SATISTICS LABELS
 	 * These labels track the statistics of the character.
-	 * Here they are created with centered text.
+	 * Here they are created with correct text alignment.
 	 */
 	
 	JLabel characterStatistics = new JLabel("Character Statistics");
-	JLabel characterHealth = new JLabel("Health: " + DrawGame.character.getCurrHP() + " / " + DrawGame.character.getMaxHP(), JLabel.CENTER);
-	JLabel characterDamage = new JLabel("Damage: " + DrawGame.character.getDamage(), JLabel.CENTER);
-	JLabel characterArmor = new JLabel("Armor: " + DrawGame.character.getArmor(), JLabel.CENTER);
-	JLabel characterLevel = new JLabel("Level: " + DrawGame.character.getLevel(), JLabel.CENTER);
-	JLabel characterXP = new JLabel("Experience: " + DrawGame.character.getXP() + "/" + DrawGame.character.getMaxXP(), JLabel.CENTER);
-	JLabel characterMana = new JLabel("Mana: " + DrawGame.character.getMana() + "/" + DrawGame.character.getMaxMana(), JLabel.CENTER);
+	JLabel characterHealth = new JLabel("Health: " + DrawGame.character.getCurrHP() + " / " + DrawGame.character.getMaxHP(), JLabel.LEFT);
+	JLabel characterDamage = new JLabel("Damage: " + DrawGame.character.getDamage(), JLabel.LEFT);
+	JLabel characterArmor = new JLabel("Armor: " + DrawGame.character.getArmor(), JLabel.LEFT);
+	JLabel characterHPRegen = new JLabel("HP/sec: " + DrawGame.character.getHPRegen(), JLabel.LEFT);
+	JLabel characterManaRegen = new JLabel("Mana/sec: " + DrawGame.character.getManaRegen(), JLabel.LEFT);
+	JLabel characterHealthPots = new JLabel("Health potions: " + DrawGame.character.getHPPots(), JLabel.LEFT);
+	JLabel characterLevel = new JLabel("Level: " + DrawGame.character.getLevel(), JLabel.LEFT);
+	JLabel characterXP = new JLabel("Experience: " + DrawGame.character.getXP() + "/" + DrawGame.character.getMaxXP(), JLabel.LEFT);
+	JLabel characterMana = new JLabel("Mana: " + DrawGame.character.getMana() + "/" + DrawGame.character.getMaxMana(), JLabel.LEFT);
+	JLabel characterManaPots = new JLabel("Mana potions: " + DrawGame.character.getManaPots(), JLabel.LEFT);
 	
 	
 	public static JTextArea infoBox = new JTextArea(Engine.startMessage); // The box containing all info text
@@ -101,25 +105,37 @@ public class GameMain extends JFrame implements ActionListener {
 		 */
 		
 		characterStatistics.setFont(new Font("Serif", Font.PLAIN, 18));
-		characterStatistics.setBounds(170, 0, 170, 50);
+		characterStatistics.setBounds(90, 0, 171, 50);
 		
 		characterHealth.setFont(new Font("Serif", Font.PLAIN, 14));
-		characterHealth.setBounds(40, 40, 170, 50);
+		characterHealth.setBounds(40, 40, 171, 50);
 		
 		characterDamage.setFont(new Font("Serif", Font.PLAIN, 14));
-		characterDamage.setBounds(40, 90, 170, 50);
+		characterDamage.setBounds(40, 140, 171, 50);
 		
 		characterArmor.setFont(new Font("Serif", Font.PLAIN, 14));
-		characterArmor.setBounds(40, 140, 170, 50);
+		characterArmor.setBounds(205, 140, 171, 50);
 		
-		characterLevel.setFont(new Font("Serif", Font.PLAIN, 14));
-		characterLevel.setBounds(260, 40, 170, 50);
+		characterHPRegen.setFont(new Font("Serif", Font.PLAIN, 14));
+		characterHPRegen.setBounds(205, 40, 170, 50);
+		
+		characterManaRegen.setFont(new Font("Serif", Font.PLAIN, 14));
+		characterManaRegen.setBounds(205, 90, 170, 50);
+		
+		characterHealthPots.setFont(new Font("Serif", Font.PLAIN, 14));
+		characterHealthPots.setBounds(360, 40, 171, 50);
+
+		characterLevel.setFont(new Font("Serif", Font.PLAIN, 18));
+		characterLevel.setBounds(340, 0, 171, 50);
 		
 		characterXP.setFont(new Font("Serif", Font.PLAIN, 14));
-		characterXP.setBounds(260, 90, 170, 50);
+		characterXP.setBounds(360, 140, 171, 50);
 		
 		characterMana.setFont(new Font("Serif", Font.PLAIN, 14));
-		characterMana.setBounds(260, 140, 170, 50);
+		characterMana.setBounds(40, 90, 171, 50);
+		
+		characterManaPots.setFont(new Font("Serif", Font.PLAIN, 14));
+		characterManaPots.setBounds(360, 90, 171, 50);
 
 		/**
 		 * SCROLL AREA PREFERENCES
@@ -148,6 +164,7 @@ public class GameMain extends JFrame implements ActionListener {
 					infoBox.setCaretPosition(infoBox.getDocument().getLength());
 					parseCommand(input.trim());
 				}
+				draw.requestFocus();
             }
         }); 
 		sendButton.setBounds(430, 170, 74, 25); // Sets the size and position of the send button
@@ -167,6 +184,7 @@ public class GameMain extends JFrame implements ActionListener {
 					infoBox.setCaretPosition(infoBox.getDocument().getLength());
 					parseCommand(input.trim());
 				}
+				draw.requestFocus();
 			}
 		});
 		commandBox.setBounds(0, 170, 430, 25); // Sets the size and position of the command box
@@ -193,6 +211,10 @@ public class GameMain extends JFrame implements ActionListener {
 		statsPanel.add(characterLevel); // Adds the level label
 		statsPanel.add(characterXP); // Adds the XP label
 		statsPanel.add(characterMana); // Adds the mana label
+		statsPanel.add(characterHPRegen);
+		statsPanel.add(characterManaRegen);
+		statsPanel.add(characterHealthPots);
+		statsPanel.add(characterManaPots);
 		
 		pack();
 
@@ -211,12 +233,16 @@ public class GameMain extends JFrame implements ActionListener {
 		 * Updates all labels with the current information.
 		 */
 		
-		characterHealth.setText("Health: " + DrawGame.character.getCurrHP() + " / " + DrawGame.character.getMaxHP());
+		characterHealth.setText("Health: " + (int)DrawGame.character.getCurrHP() + " / " + (int)DrawGame.character.getMaxHP());
 		characterDamage.setText("Damage: " + DrawGame.character.getDamage());
 		characterArmor.setText("Armor: " + DrawGame.character.getArmor());
 		characterLevel.setText("Level: " + DrawGame.character.getLevel());
 		characterXP.setText("Experience: " + DrawGame.character.getXP() + "/" + DrawGame.character.getMaxXP());
-		characterMana.setText("Mana: " + DrawGame.character.getMana() + "/" + DrawGame.character.getMaxMana());
+		characterMana.setText("Mana: " + (int)DrawGame.character.getMana() + "/" + (int)DrawGame.character.getMaxMana());
+		characterHPRegen.setText("HP/s: " + DrawGame.character.getHPRegen());
+		characterManaRegen.setText("Mana/s: " + DrawGame.character.getManaRegen());
+		characterHealthPots.setText("Health Potions: " + DrawGame.character.getHPPots());
+		characterManaPots.setText("Mana potions: " + DrawGame.character.getManaPots());
 
 		draw.repaint();
 	}
@@ -265,16 +291,24 @@ public class GameMain extends JFrame implements ActionListener {
 		    writer.println(DrawGame.character.getMaxHP());
 		    writer.println("Current Health: ");
 		    writer.println(DrawGame.character.getCurrHP());
+		    writer.println("Health regeneration per second:");
+		    writer.println(DrawGame.character.getHPRegen());
 		    writer.println("Max Mana: ");
 		    writer.println(DrawGame.character.getMaxMana());
 		    writer.println("Current Mana: ");
 		    writer.println(DrawGame.character.getMana());
+		    writer.println("Mana regeneration per second:");
+		    writer.println(DrawGame.character.getManaRegen());
 		    writer.println("Damage: ");
 		    writer.println(DrawGame.character.getDamage());
 		    writer.println("Armor: ");
 		    writer.println(DrawGame.character.getArmor());
 		    writer.println("Experience: ");
 		    writer.println(DrawGame.character.getXP());
+		    writer.println("Health potions:");
+		    writer.println(DrawGame.character.getHPPots());
+		    writer.println("Mana potions:");
+		    writer.println(DrawGame.character.getManaPots());
 		    
 		    infoBox.append(Engine.saveMessage);
 		} catch (IOException ex) {
@@ -299,11 +333,15 @@ public class GameMain extends JFrame implements ActionListener {
 		    DrawGame.character.setLevel(loadList.get(0));
 		    DrawGame.character.setHP(loadList.get(1));
 		    DrawGame.character.setCurrHP(loadList.get(2));
-		    DrawGame.character.setMana(loadList.get(3));
-		    DrawGame.character.setCurrMana(loadList.get(4));
-		    DrawGame.character.setDamage(loadList.get(5));
-		    DrawGame.character.setArmor(loadList.get(6));
-		    DrawGame.character.setXP(loadList.get(7));   
+		    DrawGame.character.setHPRegen(loadList.get(3));
+		    DrawGame.character.setMana(loadList.get(4));
+		    DrawGame.character.setCurrMana(loadList.get(5));
+		    DrawGame.character.setManaRegen(loadList.get(6));
+		    DrawGame.character.setDamage(loadList.get(7));
+		    DrawGame.character.setArmor(loadList.get(8));
+		    DrawGame.character.setXP(loadList.get(9));   
+		    DrawGame.character.setHPPots(loadList.get(10));
+		    DrawGame.character.setManaPots(loadList.get(11));
 		    
 		    DrawGame.character.setMaxXP();
 		    
