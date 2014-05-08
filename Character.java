@@ -337,14 +337,14 @@ public class Character {
 		return maxHealth;
 	}
 
-	public void setHP(int HP){
-		maxHealth = HP;
+	public void setHP(Double double1){
+		maxHealth = double1;
 	}
 
 	public int getDamage(){
 		return damage;
 	}
-	
+
 	public int getAttackDamage(){
 		int randDamage = rand.nextInt((damage/10))+(damage - damage/20);
 		return randDamage;
@@ -365,21 +365,21 @@ public class Character {
 	public int getXP(){
 		return currentExperience;
 	}
-	
+
 	public double getHPRegen(){
 		return hpRegen;
 	}
-	
-	public void setHPRegen(int regen){
-		hpRegen += regen;
+
+	public void setHPRegen(Double double1){
+		hpRegen += double1;
 	}
-	
+
 	public double getManaRegen(){
 		return manaRegen;
 	}
-	
-	public void setManaRegen(int regen){
-		manaRegen += regen;
+
+	public void setManaRegen(Double double1){
+		manaRegen += double1;
 	}
 
 	public int getMaxXP(){
@@ -398,26 +398,26 @@ public class Character {
 		return maxMana;
 	}
 
-	public void setMana(int mana){
-		maxMana = mana;
+	public void setMana(Double double1){
+		maxMana = double1;
 	}
 
 	public Room getCurrentRoom(){
 		return currentRoom;
 	}
 
-	public void setCurrHP(int hp){
-		currentHealth = hp;
+	public void setCurrHP(Double double1){
+		currentHealth = double1;
 	}
 
-	public void setCurrMana(int mana){
-		currentMana = mana;
+	public void setCurrMana(Double double1){
+		currentMana = double1;
 	}
 
 	public void setMaxXP(){
 		maxExperience = level*100;
 	}
-	
+
 	public int getHPPots(){
 		return healthPotions;
 	}
@@ -425,9 +425,26 @@ public class Character {
 	public void setHPPots(int pots){
 		healthPotions += pots;
 	}
-	
+	public void loadHPPots(int pots){
+		healthPotions = pots;
+	}
+
+	public void loadManaPots(int pots){
+		manaPotions = pots;
+	}
+
+	public void loadManaRegen(double regen){
+		manaRegen = regen;
+	}
+	public void loadHPRegen(double regen){
+		hpRegen = regen;
+	}
+
 	public void useHPPot(){
-		if(healthPotions > 0){
+		if(currentHealth >= maxHealth){
+			GameMain.infoBox.append("\n You're already at full health.");
+		}
+		else if(healthPotions > 0){
 			currentHealth += maxHealth/2;
 			if(currentHealth > maxHealth){
 				currentHealth = maxHealth;
@@ -440,17 +457,20 @@ public class Character {
 		}
 		GameMain.infoBox.setCaretPosition(GameMain.infoBox.getDocument().getLength());
 	}
-	
+
 	public int getManaPots(){
 		return manaPotions;
 	}
-	
+
 	public void setManaPots(int pots){
 		manaPotions += pots;
 	}
-	
+
 	public void useManaPot(){
-		if(manaPotions > 0){
+		if(currentMana >= maxMana){
+			GameMain.infoBox.append("\n You're already at full mana.");
+		}
+		else if(manaPotions > 0){
 			currentMana += maxMana/2;
 			if(currentMana > maxMana){
 				currentMana = maxMana;
@@ -476,9 +496,9 @@ public class Character {
 	public void getLoot(){
 		Boolean epicGear = false;
 		int drop = rand.nextInt(100);
-		if(drop >= 84){
+		if(drop >= 10){
 			int quality = rand.nextInt(100);
-			if(quality >= 84){
+			if(quality >= 50){
 				epicGear = true;
 			}
 			int lootType = rand.nextInt(4);
@@ -517,7 +537,11 @@ public class Character {
 					maxHealth += healthUpgrade;
 					int manaUpgrade = rand.nextInt(3*level)+2*level;
 					maxMana += manaUpgrade;
-					GameMain.infoBox.append("\n You found " + Engine.gearTypeEpic[gearType] + " worn by angles! \n Armor increased by " + armorUpgrade + ".\n Health increased by " + healthUpgrade + ".\n Mana increased by " + manaUpgrade + ".");
+					Double hpRegenUpgrade = (rand.nextInt(10*level)/10.0) + 0.5*level;
+					hpRegen += hpRegenUpgrade;
+					Double manaRegenUpgrade = (rand.nextInt(10*level)/10.0) + 0.5*level;
+					manaRegen += manaRegenUpgrade;
+					GameMain.infoBox.append("\n You found " + Engine.gearTypeEpic[gearType] + " worn by angles! \n Armor increased by " + armorUpgrade + ".\n Health increased by " + healthUpgrade +  ".\n Mana increased by " + manaUpgrade +  ". \n Heath regeneration increased by " + hpRegenUpgrade +". \n Mana  regeneration increased by " + manaRegenUpgrade);
 				}
 				else{
 					int stat = rand.nextInt(2);
@@ -526,17 +550,33 @@ public class Character {
 					if(stat == 0){
 						int healthUpgrade = rand.nextInt(3*level)+level;
 						maxHealth += healthUpgrade;
-						GameMain.infoBox.append("\n You found " + Engine.gearTypeHealth[gearType] + " from a fallen enemy! \n Armor increased by " + armorUpgrade + ". \n Health increased by " + healthUpgrade + ".");
+						Double hpRegenUpgrade = (rand.nextInt(5*level)/10.0) + 0.1*level;
+						hpRegen += hpRegenUpgrade;
+						GameMain.infoBox.append("\n You found " + Engine.gearTypeHealth[gearType] + " from a fallen enemy! \n Armor increased by " + armorUpgrade + ". \n Health increased by " + healthUpgrade + ". \n Heath regeneration increased by " + hpRegenUpgrade);
 					}
 					else{
 						int manaUpgrade = rand.nextInt(level) + level;
 						maxMana += manaUpgrade;
-						GameMain.infoBox.append("\n You found " + Engine.gearTypeMana[gearType] + " from a fallen enemy! \n Armor increased by " + armorUpgrade + ". \n Mana increased by " + manaUpgrade + ".");
+						Double manaRegenUpgrade = (rand.nextInt(5*level)/10.0) + 0.1*level;
+						manaRegen += manaRegenUpgrade;
+						GameMain.infoBox.append("\n You found " + Engine.gearTypeMana[gearType] + " from a fallen enemy! \n Armor increased by " + armorUpgrade + ". \n Mana increased by " + manaUpgrade + ". \n Mana  regeneration increased by " + manaRegenUpgrade);
 					}
 				}
 			}
 			GameMain.infoBox.setCaretPosition(GameMain.infoBox.getDocument().getLength());
 		}
+		int potionDrop = rand.nextInt(4);
+		if (potionDrop == 3) {
+			int potion = rand.nextInt(2);
+			if (potion == 1) {
+				healthPotions++;
+				GameMain.infoBox.append(" \n You found a health potion!");
+			} else {
+				manaPotions++;
+				GameMain.infoBox.append(" \n You found a mana potion!");
+			}
+		}
+		GameMain.infoBox.setCaretPosition(GameMain.infoBox.getDocument().getLength());
 	}
 	public BufferedImage getImage(){
 		if(animationCounter == 8){
@@ -623,7 +663,7 @@ public class Character {
 		} else {
 			g.drawImage(getImage(), xPosition, yPosition, null);
 		}
-		
+
 		if(levelingUp){
 			g.drawImage(getLevelupImage(), xPosition -46, yPosition- 50, null);
 			sprite++;
@@ -639,13 +679,19 @@ public class Character {
 		if(DrawGame.up || DrawGame.down || DrawGame.left || DrawGame.right){
 			animationCounter++;
 		}
-		
+
 		if(currentHealth < maxHealth && healthCounter >= 60){
 			currentHealth += hpRegen;
+			if(currentHealth > maxHealth){
+				currentHealth = maxHealth;
+			}
 			healthCounter = 0;
 		}
 		if(currentMana < maxMana && manaCounter >= 60){
 			currentMana += manaRegen;
+			if(currentMana > maxMana){
+				currentMana = maxMana;
+			}
 			manaCounter = 0;
 		}
 		manaCounter++;
