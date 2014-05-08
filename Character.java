@@ -421,7 +421,7 @@ public class Character {
 					GameMain.infoBox.append("\n You found a mighty sword from a fallen enemy! \n Damage increased by " + damageUpgrade + ".");
 				}
 			}
-			if(lootType == 3){
+			else if(lootType == 3){
 				if(epicGear){
 					int armorUpgrade = rand.nextInt(4*level) + 2*level;
 					armor += armorUpgrade;
