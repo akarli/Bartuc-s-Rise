@@ -4,6 +4,7 @@ import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Random;
 
 import javax.imageio.ImageIO;
 
@@ -41,7 +42,6 @@ public class Character {
 		moveRight = new BufferedImage[4];
 		moveLeft = new BufferedImage[4];
 		levelUp = new BufferedImage[39];
-
 		attackUp = new BufferedImage[4];
 		attackDown = new BufferedImage[4];
 		attackLeft = new BufferedImage[4];
@@ -377,11 +377,81 @@ public class Character {
 	public void setMaxXP(){
 		maxExperience = level*100;
 	}
-	
+
 	public void takeDamage(int damage){
+		damage -= armor;
+		if(damage < 0){
+			damage = 0;
+		}
 		currentHealth -= damage;
 	}
 
+	public void getLoot(){
+		Random rand = new Random();
+		Boolean epicGear = false;
+		int drop = rand.nextInt(100);
+		if(drop >= 84){
+			int quality = rand.nextInt(100);
+			if(quality >= 84){
+				epicGear = true;
+			}
+			int lootType = rand.nextInt(4);
+			if(lootType == 2){
+				if(epicGear){
+					int damageUpgrade = rand.nextInt(level*10) + 5*level;
+					damage += damageUpgrade;
+					GameMain.infoBox.append("\n You found a legendary sword forged by the gods! \n Damage increased by " + damageUpgrade + ".");
+				}
+				else{
+					int damageUpgrade = rand.nextInt(level) + level; 
+					damage += damageUpgrade;
+					GameMain.infoBox.append("\n You found a mighty sword from a fallen enemy! \n Damage increased by " + damageUpgrade + ".");
+				}
+			}
+			if(lootType == 3){
+				if(epicGear){
+					int armorUpgrade = rand.nextInt(4*level) + 2*level;
+					armor += armorUpgrade;
+
+					GameMain.infoBox.append("\n You found a huge kite shield used by champions! \n Armor increased by " + armorUpgrade + ".");
+				}
+				else{
+					int armorUpgrade = rand.nextInt(2*level) + level;
+					armor += armorUpgrade;
+
+					GameMain.infoBox.append("\n You found a robust targe shield from a fallen enemy! \n Armor increased by " + armorUpgrade + ".");
+				}
+			}
+			else{
+				int gearType = rand.nextInt(6);
+				if(epicGear){
+					int armorUpgrade = rand.nextInt(2*level) + level;
+					armor += armorUpgrade;
+					int healthUpgrade = rand.nextInt(5*level) + 3*level;
+					maxHealth += healthUpgrade;
+					int manaUpgrade = rand.nextInt(3*level)+2*level;
+					maxMana += manaUpgrade;
+					GameMain.infoBox.append("\n You found " + Engine.gearTypeEpic[gearType] + " worn by angles! \n Armor increased by " + armorUpgrade + ".\n Health increased by " + healthUpgrade + ".\n Mana increased by " + manaUpgrade + ".");
+				}
+				else{
+					int stat = rand.nextInt(2);
+					int armorUpgrade = rand.nextInt(level) + 1;
+					armor += armorUpgrade;
+					if(stat == 0){
+						int healthUpgrade = rand.nextInt(3*level)+level;
+						maxHealth += healthUpgrade;
+						GameMain.infoBox.append("\n You found " + Engine.gearTypeHealth[gearType] + " from a fallen enemy! \n Armor increased by " + armorUpgrade + ". \n Health increased by " + healthUpgrade + ".");
+					}
+					else{
+						int manaUpgrade = rand.nextInt(level) + level;
+						maxMana += manaUpgrade;
+						GameMain.infoBox.append("\n You found " + Engine.gearTypeMana[gearType] + " from a fallen enemy! \n Armor increased by " + armorUpgrade + ". \n Mana increased by " + manaUpgrade + ".");
+					}
+				}
+			}
+			GameMain.infoBox.setCaretPosition(GameMain.infoBox.getDocument().getLength());
+		}
+	}
 	public BufferedImage getImage(){
 		if(animationCounter == 8){
 			currentSprite++;
@@ -443,15 +513,30 @@ public class Character {
 		armor = 0;
 		currentExperience = 0;
 		maxExperience = level*100;
-		
+		DrawGame.reset();
+
 		currentRoom = Engine.centralZone;
 		setX(448);
 		setY(416);
-		
+
 	}
 
 	public void drawImage(Graphics g){
-		g.drawImage(getImage(), xPosition, yPosition, null);
+		if ((aLeft || aRight || aUp || aDown)) {
+			int x = 0;
+			if(aLeft)
+				x = 15;
+			else
+				x = 20;
+			if(currentSprite <= 2)
+				g.drawImage(getImage(), xPosition, yPosition - x, null);
+			else if(currentSprite == 3 && animationCounter < 8)
+				g.drawImage(getImage(), xPosition, yPosition - x, null);
+			else
+				g.drawImage(getImage(), xPosition, yPosition, null);
+		} else {
+			g.drawImage(getImage(), xPosition, yPosition, null);
+		}
 		if(levelingUp){
 			g.drawImage(getLevelupImage(), xPosition -46, yPosition- 50, null);
 			sprite++;
