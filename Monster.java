@@ -29,9 +29,9 @@ public class Monster {
 
 	public Monster(){
 		monster = loadMonsterImage("skeleton.png");
-		maxHealth = rand.nextInt((20*DrawGame.character.getLevel()) + (5*DrawGame.character.getLevel()));
+		maxHealth = rand.nextInt(40*DrawGame.character.getLevel()) + 20*DrawGame.character.getLevel();
 		currentHealth = maxHealth;
-		damage = rand.nextInt(DrawGame.character.getLevel()*5 + DrawGame.character.getLevel()*2);
+		damage = rand.nextInt(DrawGame.character.getLevel()*20)  + DrawGame.character.getLevel()*10;
 		moveCounter = 16;
 		moveUpPic = new BufferedImage[4];
 		moveDownPic = new BufferedImage[4];
@@ -174,7 +174,7 @@ public class Monster {
 	}
 
 	public void drawImage(Graphics g){
-			g.drawImage(getImage(), xPosition, yPosition, null);
+		g.drawImage(getImage(), xPosition, yPosition, null);
 		if(moveUp || moveDown || moveRight || moveLeft || aUp || aDown || aLeft || aRight){
 			animationCounter++;
 		}
@@ -203,7 +203,7 @@ public class Monster {
 			aUp = true;
 		}
 	}
-	
+
 	public void stopAttacking(){
 		if(aLeft){
 			if((DrawGame.character.getXTile() == currentXTile() || DrawGame.character.getXTile() - currentXTile() == 1) && DrawGame.character.getYTile() == currentYTile()){
@@ -231,17 +231,17 @@ public class Monster {
 		aDown = false;
 	}
 
-	public boolean takeDamage(int damage){
-		GameMain.infoBox.append("\n " + currentHealth);
-		GameMain.infoBox.setCaretPosition(GameMain.infoBox.getDocument().getLength());
+	public boolean takeDamage(int damage) {
 		currentHealth -= damage;
-		if(currentHealth <= 0){
-			GameMain.infoBox.append("\n " + currentHealth);
+		if (currentHealth <= 0) {
+			GameMain.infoBox.append("\n You hit the skeleton for " + damage + " damage and slayed it.");
 			GameMain.infoBox.setCaretPosition(GameMain.infoBox.getDocument().getLength());
+			DrawGame.character.getLoot();
 			return true;
 		}
-		GameMain.infoBox.append("\n " + currentHealth);
-		GameMain.infoBox.setCaretPosition(GameMain.infoBox.getDocument().getLength());
+		GameMain.infoBox.append("\n You hit the skeleton for " + damage + " damage. It has " + currentHealth + " health left.");
+		GameMain.infoBox.setCaretPosition(GameMain.infoBox.getDocument()
+				.getLength());
 		return false;
 	}
 
