@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import javax.swing.*;
@@ -26,6 +27,8 @@ public class GameMain extends JFrame implements ActionListener {
 	private int screenWidth = (int) screenSize.getWidth();
 	private int screenHeight = (int) screenSize.getHeight();
 	
+	static DecimalFormat oneDigit = new DecimalFormat("#,##0.0");
+	
 	private String buttonString = "Send"; // The text string for the send button
 	
 	JPanel gamePanel = new JPanel(); // Panel containing the game
@@ -42,8 +45,8 @@ public class GameMain extends JFrame implements ActionListener {
 	JLabel characterHealth = new JLabel("Health: " + DrawGame.character.getCurrHP() + " / " + DrawGame.character.getMaxHP(), JLabel.LEFT);
 	JLabel characterDamage = new JLabel("Damage: " + DrawGame.character.getDamage(), JLabel.LEFT);
 	JLabel characterArmor = new JLabel("Armor: " + DrawGame.character.getArmor(), JLabel.LEFT);
-	JLabel characterHPRegen = new JLabel("HP/sec: " + DrawGame.character.getHPRegen(), JLabel.LEFT);
-	JLabel characterManaRegen = new JLabel("Mana/sec: " + DrawGame.character.getManaRegen(), JLabel.LEFT);
+	JLabel characterHPRegen = new JLabel("HP/sec: " + oneDigit.format(DrawGame.character.getHPRegen()), JLabel.LEFT);
+	JLabel characterManaRegen = new JLabel("Mana/sec: " + oneDigit.format(DrawGame.character.getManaRegen()), JLabel.LEFT);
 	JLabel characterHealthPots = new JLabel("Health potions: " + DrawGame.character.getHPPots(), JLabel.LEFT);
 	JLabel characterLevel = new JLabel("Level: " + DrawGame.character.getLevel(), JLabel.LEFT);
 	JLabel characterXP = new JLabel("Experience: " + DrawGame.character.getXP() + "/" + DrawGame.character.getMaxXP(), JLabel.LEFT);
@@ -239,8 +242,8 @@ public class GameMain extends JFrame implements ActionListener {
 		characterLevel.setText("Level: " + DrawGame.character.getLevel());
 		characterXP.setText("Experience: " + DrawGame.character.getXP() + "/" + DrawGame.character.getMaxXP());
 		characterMana.setText("Mana: " + (int)DrawGame.character.getMana() + "/" + (int)DrawGame.character.getMaxMana());
-		characterHPRegen.setText("HP/s: " + DrawGame.character.getHPRegen());
-		characterManaRegen.setText("Mana/s: " + DrawGame.character.getManaRegen());
+		characterHPRegen.setText("HP/s: " + oneDigit.format(DrawGame.character.getHPRegen()));
+		characterManaRegen.setText("Mana/s: " + oneDigit.format(DrawGame.character.getManaRegen()));
 		characterHealthPots.setText("Health Potions: " + DrawGame.character.getHPPots());
 		characterManaPots.setText("Mana potions: " + DrawGame.character.getManaPots());
 
@@ -322,26 +325,28 @@ public class GameMain extends JFrame implements ActionListener {
 	public void loadGame() {
 		try {
 			BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream("savegame.txt"), "UTF-8"));
-			ArrayList<Integer> loadList = new ArrayList<Integer>();
+			ArrayList<Double> loadList = new ArrayList<Double>();
 		    String line;
-		    while ((line = in.readLine()) != null)
-		    	if (line.matches("^[0-9]+$")) {
-					loadList.add(Integer.parseInt(line));
+		    while ((line = in.readLine()) != null){
+			   line = in.readLine();
+			   if (!line.matches("^[^\\d].*")) {
+					loadList.add(Double.parseDouble(line));
 				}
+		    }
 		    in.close();
 		    
-		    DrawGame.character.setLevel(loadList.get(0));
+		    DrawGame.character.setLevel(loadList.get(0).intValue());
 		    DrawGame.character.setHP(loadList.get(1));
 		    DrawGame.character.setCurrHP(loadList.get(2));
-		    DrawGame.character.setHPRegen(loadList.get(3));
+		    DrawGame.character.loadHPRegen(loadList.get(3));
 		    DrawGame.character.setMana(loadList.get(4));
 		    DrawGame.character.setCurrMana(loadList.get(5));
-		    DrawGame.character.setManaRegen(loadList.get(6));
-		    DrawGame.character.setDamage(loadList.get(7));
-		    DrawGame.character.setArmor(loadList.get(8));
-		    DrawGame.character.setXP(loadList.get(9));   
-		    DrawGame.character.setHPPots(loadList.get(10));
-		    DrawGame.character.setManaPots(loadList.get(11));
+		    DrawGame.character.loadManaRegen(loadList.get(6));
+		    DrawGame.character.setDamage(loadList.get(7).intValue());
+		    DrawGame.character.setArmor(loadList.get(8).intValue());
+		    DrawGame.character.setXP(loadList.get(9).intValue());   
+		    DrawGame.character.loadHPPots(loadList.get(10).intValue());
+		    DrawGame.character.loadManaPots(loadList.get(11).intValue());
 		    
 		    DrawGame.character.setMaxXP();
 		    
