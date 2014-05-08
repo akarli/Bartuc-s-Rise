@@ -538,8 +538,10 @@ public class Character {
 					int manaUpgrade = rand.nextInt(3*level)+2*level;
 					maxMana += manaUpgrade;
 					Double hpRegenUpgrade = (rand.nextInt(10*level)/10.0) + 0.5*level;
+					hpRegenUpgrade.doubleValue();
 					hpRegen += hpRegenUpgrade;
 					Double manaRegenUpgrade = (rand.nextInt(10*level)/10.0) + 0.5*level;
+					manaRegenUpgrade.doubleValue();
 					manaRegen += manaRegenUpgrade;
 					GameMain.infoBox.append("\n You found " + Engine.gearTypeEpic[gearType] + " worn by angles! \n Armor increased by " + armorUpgrade + ".\n Health increased by " + healthUpgrade +  ".\n Mana increased by " + manaUpgrade +  ". \n Heath regeneration increased by " + hpRegenUpgrade +". \n Mana  regeneration increased by " + manaRegenUpgrade);
 				}
@@ -551,6 +553,7 @@ public class Character {
 						int healthUpgrade = rand.nextInt(3*level)+level;
 						maxHealth += healthUpgrade;
 						Double hpRegenUpgrade = (rand.nextInt(5*level)/10.0) + 0.1*level;
+						hpRegenUpgrade.doubleValue();
 						hpRegen += hpRegenUpgrade;
 						GameMain.infoBox.append("\n You found " + Engine.gearTypeHealth[gearType] + " from a fallen enemy! \n Armor increased by " + armorUpgrade + ". \n Health increased by " + healthUpgrade + ". \n Heath regeneration increased by " + hpRegenUpgrade);
 					}
@@ -558,6 +561,7 @@ public class Character {
 						int manaUpgrade = rand.nextInt(level) + level;
 						maxMana += manaUpgrade;
 						Double manaRegenUpgrade = (rand.nextInt(5*level)/10.0) + 0.1*level;
+						manaRegenUpgrade.doubleValue();
 						manaRegen += manaRegenUpgrade;
 						GameMain.infoBox.append("\n You found " + Engine.gearTypeMana[gearType] + " from a fallen enemy! \n Armor increased by " + armorUpgrade + ". \n Mana increased by " + manaUpgrade + ". \n Mana  regeneration increased by " + manaRegenUpgrade);
 					}
