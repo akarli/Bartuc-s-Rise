@@ -11,7 +11,8 @@ import javax.imageio.ImageIO;
 
 public class Character {
 	private BufferedImage character, levelup, fireball;
-	private int xPosition, yPosition, maxHealth, currentHealth, damage, level, armor, currentExperience, maxExperience, currentMana, maxMana, manaCounter, healthCounter ;
+	private int xPosition, yPosition, damage, level, armor, currentExperience, maxExperience, manaCounter, healthCounter, healthPotions, manaPotions;
+	private double manaRegen, hpRegen, currentHealth, maxHealth, currentMana, maxMana;
 	private Room currentRoom;
 	private BufferedImage[] moveUp;
 	private BufferedImage[] moveDown;
@@ -28,13 +29,12 @@ public class Character {
 	private int currentSprite = 0;
 	private int animationCounter=1;
 	private int x = 0;
-	private int sprite =0, spriteFire = 0;
+	private int sprite = 0, spriteFire = 0;
 	private boolean levelingUp, castingFireBall, aLeft, aRight, aUp, aDown;
 	private FireBall eldBoll;
 	Random rand = new Random();
 
 	public Character(){
-		Random rand = new Random();
 		character = loadCharacterImage("charWalk.png");
 		levelup = loadCharacterImage("LEVELUP.png");
 		fireball = loadCharacterImage("FIREBALL.png");
@@ -92,18 +92,22 @@ public class Character {
 
 		xPosition = 448;
 		yPosition = 416;
-		maxHealth = 100;
-		currentHealth = 100;
+		maxHealth = 100.0;
+		currentHealth = 100.0;
 		damage = 25;
 		armor = 0;
 		level = 1;
 		currentExperience = 0;
 		maxExperience = level*100;
 		currentRoom = Engine.centralZone;
-		currentMana = 100;
-		maxMana = 100;
+		currentMana = 100.0;
+		maxMana = 100.0;
+		healthPotions = 0;
 		manaCounter = 60;
 		healthCounter = 60;
+		manaPotions = 0;
+		hpRegen = 1.0;
+		manaRegen = 1.0;
 	}
 	public BufferedImage loadCharacterImage(String fileName){
 		BufferedImage img = null;
@@ -325,11 +329,11 @@ public class Character {
 		this.level = level;
 	}
 
-	public int getCurrHP(){
+	public double getCurrHP(){
 		return currentHealth;
 	}
 
-	public int getMaxHP(){
+	public double getMaxHP(){
 		return maxHealth;
 	}
 
@@ -361,6 +365,22 @@ public class Character {
 	public int getXP(){
 		return currentExperience;
 	}
+	
+	public double getHPRegen(){
+		return hpRegen;
+	}
+	
+	public void setHPRegen(int regen){
+		hpRegen += regen;
+	}
+	
+	public double getManaRegen(){
+		return manaRegen;
+	}
+	
+	public void setManaRegen(int regen){
+		manaRegen += regen;
+	}
 
 	public int getMaxXP(){
 		return maxExperience;
@@ -370,11 +390,11 @@ public class Character {
 		currentExperience = xp;
 	}
 
-	public int getMana(){
+	public double getMana(){
 		return currentMana;
 	}
 
-	public int getMaxMana(){
+	public double getMaxMana(){
 		return maxMana;
 	}
 
@@ -397,10 +417,57 @@ public class Character {
 	public void setMaxXP(){
 		maxExperience = level*100;
 	}
+	
+	public int getHPPots(){
+		return healthPotions;
+	}
 
-	public void takeDamage(int damage){
-		damage -= armor*2;
-		if(damage < 0){
+	public void setHPPots(int pots){
+		healthPotions += pots;
+	}
+	
+	public void useHPPot(){
+		if(healthPotions > 0){
+			currentHealth += maxHealth/2;
+			if(currentHealth > maxHealth){
+				currentHealth = maxHealth;
+			}
+			healthPotions--;
+			GameMain.infoBox.append(Engine.hpPotMessage);
+		}
+		else{
+			GameMain.infoBox.append(Engine.noHpPotsMessage);
+		}
+		GameMain.infoBox.setCaretPosition(GameMain.infoBox.getDocument().getLength());
+	}
+	
+	public int getManaPots(){
+		return manaPotions;
+	}
+	
+	public void setManaPots(int pots){
+		manaPotions += pots;
+	}
+	
+	public void useManaPot(){
+		if(manaPotions > 0){
+			currentMana += maxMana/2;
+			if(currentMana > maxMana){
+				currentMana = maxMana;
+			}
+			manaPotions--;
+			GameMain.infoBox.append(Engine.manaPotMessage);
+		}
+		else{
+			GameMain.infoBox.append(Engine.noManaPotsMessage);
+		}
+		GameMain.infoBox.setCaretPosition(GameMain.infoBox.getDocument().getLength());
+	}
+
+	public void takeDamage(double damage) {
+		double damageReduction = (0.06 * armor) / (1 + 0.06 * armor);
+		damage = damage * (1 - damageReduction);
+		if (damage < 0) {
 			damage = 0;
 		}
 		currentHealth -= damage;
@@ -556,6 +623,7 @@ public class Character {
 		} else {
 			g.drawImage(getImage(), xPosition, yPosition, null);
 		}
+		
 		if(levelingUp){
 			g.drawImage(getLevelupImage(), xPosition -46, yPosition- 50, null);
 			sprite++;
@@ -571,16 +639,16 @@ public class Character {
 		if(DrawGame.up || DrawGame.down || DrawGame.left || DrawGame.right){
 			animationCounter++;
 		}
+		
 		if(currentHealth < maxHealth && healthCounter >= 60){
-			currentHealth++;
+			currentHealth += hpRegen;
 			healthCounter = 0;
 		}
 		if(currentMana < maxMana && manaCounter >= 60){
-			currentMana++;
+			currentMana += manaRegen;
 			manaCounter = 0;
 		}
 		manaCounter++;
 		healthCounter++;
 	}
-
 }
