@@ -175,10 +175,8 @@ public class DrawGame extends JPanel implements KeyListener, MouseListener, Mous
 		attacking = false;
 		for(int i = 0; i < monsterList.length; i++){
 			if(monsterList[i] != null){
-				int a = monsterList[i].size();
-				for(int j = 0; j < a; j++){
-					monsterList[i].remove(j);
-					a--;
+				while(monsterList[i].size() > 0){
+					monsterList[i].remove(0);
 				}
 			}
 		}
