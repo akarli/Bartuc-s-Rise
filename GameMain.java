@@ -278,7 +278,7 @@ public class GameMain extends JFrame implements ActionListener {
 		    
 		    infoBox.append(Engine.saveMessage);
 		} catch (IOException ex) {
-		  infoBox.append("\n Something went wrong, game not saved");
+		  infoBox.append("\n Something went wrong, game not saved.");
 		  return;
 		} finally {
 		   writer.close();
