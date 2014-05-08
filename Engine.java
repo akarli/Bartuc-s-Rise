@@ -624,6 +624,10 @@ public class Engine {
 	public static final String controlsMessage = "\n Use controls to control!";
 	public static final String commandsMessage = "\n These commands work!";
 	public static final String statsMessage = "\n You have killed zero monsters.";
+	public static final String hpPotMessage = "\n You used a health potion. Some health was restored.";
+	public static final String manaPotMessage = "\n You used a mana potion. Some mana was restored.";
+	public static final String noHpPotsMessage = "\n You don't have any health potions.";
+	public static final String noManaPotsMessage = "\n You don't have any mana potions.";
 	
 	public static final String[] gearTypeHealth = {"a sturdy barbute", "a sturdy cuirass", "a pair of sturdy gauntlets", "a pair of sturdy greaves", "a pair of sturdy sabatons", "a pair of sturdy pauldrons"};
 	public static final String[] gearTypeMana = {"an enchanted barbute", "an enchanted cuirass", "a pair of enchanted gauntlets", "a pair of enchanted greaves", "a pair of enchanted sabatons", "a pair of enchanted pauldrons"};
