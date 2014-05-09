@@ -126,7 +126,7 @@ public class Character {
 	public int getYTile(){
 		return yPosition/32;
 	}
-	
+
 	public boolean moving(){
 		return (mUp || mDown || mLeft || mRight);
 	}
@@ -135,7 +135,14 @@ public class Character {
 		if(!mUp && !mDown && !mLeft && !mRight){
 			if(dir.matches("up")){
 				lastSprite = moveUp[1];
-				if(getYTile()-1 < 0){
+				if(currentRoom == Engine.centralZone && (getXTile() == 27 || getXTile() == 26) && getYTile() < 8 && getYTile() > 5){
+					xPosition = (getXTile() - 11)*Engine.TILE_WIDTH;
+					yPosition = 18*Engine.TILE_HEIGHT;
+					currentRoom = currentRoom.getExit("cave");
+					DrawGame.newZone = true;
+
+				}
+				else if(getYTile()-1 < 0){
 					currentRoom = currentRoom.getExit("north");
 					yPosition = 608;
 					DrawGame.newZone = true;
@@ -147,7 +154,18 @@ public class Character {
 			}
 			if(dir.matches("down")){
 				lastSprite = moveDown[1];
-				if(getYTile()+1 > 19){
+				if(currentRoom == Engine.caveZone){
+					if(getXTile() == 15){
+						xPosition = 26*Engine.TILE_WIDTH;
+					}
+					else{
+						xPosition = 27*Engine.TILE_WIDTH;
+					}
+					yPosition = 7*Engine.TILE_HEIGHT;
+					currentRoom = currentRoom.getExit("south");
+					DrawGame.newZone = true;
+				}
+				else if(getYTile()+1 > 19){
 					currentRoom = currentRoom.getExit("south");
 					yPosition = 0;
 					DrawGame.newZone = true;
@@ -183,7 +201,6 @@ public class Character {
 			}
 		}
 	}
-
 	public void move(){
 		if(mUp){
 			yPosition-=2;
@@ -247,7 +264,7 @@ public class Character {
 		if(dir.matches("down")){
 			aDown=true;
 		}
-		
+
 	}
 
 	public void stopAttack(){
