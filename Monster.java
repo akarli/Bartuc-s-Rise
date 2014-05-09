@@ -147,7 +147,7 @@ public class Monster {
 			lastSprite = moveLeftPic[0];
 			return moveLeftPic[currentSprite];
 		}
-		if(attackCounter >= 24){
+		if(attackCounter >= 31){
 			stopAttacking();
 		}
 		if(aUp){
@@ -269,7 +269,10 @@ public class Monster {
 	public boolean moving(){
 		return moving;
 	}
-
+	
+	public boolean attacking(){
+		return (aUp|| aDown || aLeft || aRight);
+	}
 
 
 	public void move(){
