@@ -1,11 +1,13 @@
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -21,22 +23,20 @@ public class DrawGame extends JPanel implements KeyListener, MouseListener, Mous
 	 */
 	private static final long serialVersionUID = 1L;
 	static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-	static boolean up = false;
-	static boolean down = false;
-	static boolean left = false;
-	static boolean right = false;
+
 	static boolean newZone = true; //blir true när man går in i en ny zone
 	static int moveCounter = 0;
-	static int magicCounter = 0;
 	static boolean pressed = false;
 	static boolean attacking = false;
 	public static final Character character = new Character();
-	public Queue<Integer> Q; //kö för knapptryckningar vid move för character
+	private Queue<Integer> Q; //kö för knapptryckningar vid move för character
 	public static ArrayList[] monsterList; //en array med arraylists vid varje position, där platsen i arrayen är zonen och platserna i arraylisten är monstren i zonen
 	static HashMap<Room, Integer> monsterHash; // en hashmap där varje room tilldelas en siffra
 	private HashMap <Room, RoomOverlay> overlay;
-	int monsterMoveCounter = 0;
+	int monsterMoveCounter = 0, direction = 0;
 	Random rand = new Random();
+	int lastKey;
+	boolean wait;
 
 
 	public DrawGame(){
@@ -112,48 +112,6 @@ public class DrawGame extends JPanel implements KeyListener, MouseListener, Mous
 				a.move();
 			}
 		}
-
-
-		if(left && moveCounter < 16){
-			character.moveLeft();
-			moveCounter++;
-		}
-		if(right && moveCounter < 16){
-			character.moveRight();
-			moveCounter++;
-		}
-		if(up && moveCounter < 16){
-			character.moveUp();
-			moveCounter++;
-		}
-		if(down && moveCounter < 16){
-			character.moveDown();
-			moveCounter++;
-		}
-		if(moveCounter == 16){
-			moveCounter = 0;
-			if(!pressed){
-				up = false;
-				left = false;
-				right = false;
-				down = false;
-			}
-			if(Q.size()!=0){
-				int direction = Q.remove();
-				if(direction == 1){
-					up = true;
-				}
-				if(direction == 2){
-					left = true;
-				}
-				if(direction == 3){
-					down = true;
-				}
-				if(direction == 4){
-					right = true;
-				}
-			}
-		}
 		overlay.get(character.getCurrentRoom()).drawImage(g);
 		if(character.getXP() >= character.getMaxXP()){
 			character.levelUp();
@@ -161,16 +119,31 @@ public class DrawGame extends JPanel implements KeyListener, MouseListener, Mous
 		if(character.getCurrHP() <= 0){
 			character.die();
 		}
+
+		if(!character.moving()){
+			if(Q.size() != 0){
+				int dir = Q.remove();
+				if(dir == 1){
+					character.startMoving("up");
+				}
+				if(dir == 2){
+					character.startMoving("left");
+				}
+				if(dir == 3){
+					character.startMoving("down");
+				}
+				if(dir == 4){
+					character.startMoving("right");
+				}
+			}
+		}
+
 	}
 
 	public static void reset(){
-		up = false;
-		down = false;
-		left = false;
-		right = false;
+
 		newZone = true; 
 		moveCounter = 0;
-		magicCounter = 0;
 		pressed = false;
 		attacking = false;
 		for(int i = 0; i < monsterList.length; i++){
@@ -196,6 +169,22 @@ public class DrawGame extends JPanel implements KeyListener, MouseListener, Mous
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
+		if(!character.attacking && !character.moving()){
+			Point a = e.getPoint();
+			if(a.getX()/32 > character.getXTile()+1 && Math.abs(a.getY()/32 - character.getYTile())< 3){
+				character.attack("right");
+			}
+			if(a.getX()/32 < character.getXTile() && Math.abs(a.getY()/32 - character.getYTile())< 3){
+				character.attack("left");
+			}
+			if(a.getY()/32 > character.getYTile()){
+				character.attack("down");
+			}
+			if(a.getY()/32 < character.getYTile()+1){
+				character.attack("up");
+			}
+		}
+
 	}
 
 	@Override
@@ -211,7 +200,7 @@ public class DrawGame extends JPanel implements KeyListener, MouseListener, Mous
 	}
 
 	@Override
-	public void mousePressed(MouseEvent arg0) {
+	public void mousePressed(MouseEvent e) {
 		requestFocus();
 
 	}
@@ -225,30 +214,42 @@ public class DrawGame extends JPanel implements KeyListener, MouseListener, Mous
 	@Override
 	public void keyPressed(KeyEvent e) {
 		int keyCode = e.getKeyCode();
-		if(!up && !left && !down && !right && !attacking){
+		if(!pressed && !character.moving()){
 			switch( keyCode ) {
 			case KeyEvent.VK_W:
 				pressed = true;
-				up = true;
+				if(!character.attacking){
+					character.startMoving("up");
+					direction = 1;
+					lastKey = keyCode;
+				}
 				break;
 			case KeyEvent.VK_A:
 				pressed = true;
-				left = true;
+				if(!character.attacking){
+					character.startMoving("left");
+					direction = 2;
+					lastKey = keyCode;
+				}
 				break;
 			case KeyEvent.VK_S:
 				pressed = true;
-				down = true;
+				if(!character.attacking){
+					character.startMoving("down");
+					direction = 3;
+					lastKey = keyCode;
+				}
 				break;
 			case KeyEvent.VK_D:
 				pressed = true;
-				right = true;
+				if(!character.attacking){
+					character.startMoving("right");
+					direction = 4;
+					lastKey = keyCode;
+				}
 				break;
 			case KeyEvent.VK_C:
 				character.castFireBall();
-				break;
-			case KeyEvent.VK_SPACE:
-				attacking = true;
-				character.attack();
 				break;
 			case KeyEvent.VK_Q:
 				character.useHPPot();
@@ -258,7 +259,7 @@ public class DrawGame extends JPanel implements KeyListener, MouseListener, Mous
 				break;
 			}
 		}
-		else{
+		else if (lastKey != keyCode){
 			switch(keyCode){
 			case KeyEvent.VK_W:
 				if(Q.size()<1){
@@ -282,7 +283,6 @@ public class DrawGame extends JPanel implements KeyListener, MouseListener, Mous
 				break;
 			}
 		}
-
 	}
 
 	@Override
@@ -303,8 +303,7 @@ public class DrawGame extends JPanel implements KeyListener, MouseListener, Mous
 			pressed = false;
 			break;
 		}
-
-
+		pressed = false;
 	}
 
 	@Override
