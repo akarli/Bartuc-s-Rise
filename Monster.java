@@ -11,7 +11,7 @@ public class Monster {
 	private int xPosition, yPosition, maxHealth, currentHealth, damage, moveCounter, attackCounter;
 	String strDirection;
 	Random rand = new Random();
-	private boolean moveToPlayer = false, moveLeft = false, moveRight = false, moveUp = false, moveDown = false;
+	private boolean moveToPlayer = false, moveLeft = false, moveRight = false, moveUp = false, moveDown = false, moving = false;
 	private boolean aUp = false, aDown = false, aLeft = false, aRight = false;
 	private BufferedImage[] moveUpPic;
 	private BufferedImage[] moveDownPic;
@@ -32,7 +32,7 @@ public class Monster {
 		maxHealth = rand.nextInt(40*DrawGame.character.getLevel()) + 20*DrawGame.character.getLevel();
 		currentHealth = maxHealth;
 		damage = rand.nextInt(DrawGame.character.getLevel()*20)  + DrawGame.character.getLevel()*10;
-		moveCounter = 16;
+		moveCounter = 0;
 		moveUpPic = new BufferedImage[4];
 		moveDownPic = new BufferedImage[4];
 		moveRightPic = new BufferedImage[4];
@@ -126,7 +126,7 @@ public class Monster {
 	public BufferedImage getImage(){
 		if(animationCounter == 8){
 			currentSprite++;
-			animationCounter = 1;
+			animationCounter = 0;
 		}
 		if(currentSprite >= 4){
 			currentSprite = 0;
@@ -187,7 +187,7 @@ public class Monster {
 			if(currentYTile() < DrawGame.character.getYTile()){
 				aDown = true;
 			}
-			else{
+			else if (currentYTile() > DrawGame.character.getYTile()){
 				aUp = true;
 			}
 		}
@@ -200,7 +200,7 @@ public class Monster {
 			}
 		}
 		if(currentYTile() == DrawGame.character.getYTile() && currentXTile() == DrawGame.character.getYTile()){
-			aUp = true;
+			aRight = true;
 		}
 	}
 
@@ -221,7 +221,7 @@ public class Monster {
 			}
 		}
 		if(aDown){
-			if((DrawGame.character.getXTile() == currentXTile()) && (DrawGame.character.getYTile() - currentYTile() == 1)){
+			if((DrawGame.character.getXTile() == currentXTile()) && (DrawGame.character.getYTile() - currentYTile() == 1) || (DrawGame.character.getXTile() == currentXTile()) && DrawGame.character.getYTile() == currentYTile()){
 				DrawGame.character.takeDamage(damage);
 			}
 		}
@@ -244,37 +244,31 @@ public class Monster {
 				.getLength());
 		return false;
 	}
+	
+	public boolean moving(){
+		return moving;
+	}
 
 
 
 	public void move(){
-
-		if(strDirection.matches("y")){
-			if(currentYTile() != 19)
-				if(moveDown && DrawGame.character.getCurrentRoom().getCollisionMap()[((yPosition + 32) / 32)][((xPosition) / 32)] != 1){
-					yPosition += 2;
-				}
-			if(currentYTile() != 0){
-				if(moveUp && DrawGame.character.getCurrentRoom().getCollisionMap()[((yPosition - 2) / 32)][((xPosition) / 32)] != 1){
-					yPosition -= 2;
-				}
-			}
+		if(moveDown){
+			yPosition += 2;
 		}
-		if(strDirection.matches("x")){
-			if(currentXTile() != 31){
-				if(moveRight && DrawGame.character.getCurrentRoom().getCollisionMap()[((yPosition) / 32)][((xPosition + 32) / 32)] != 1 ){
-					xPosition += 2;
-				}
-			}
-			if(currentXTile() != 0){
-				if(moveLeft && DrawGame.character.getCurrentRoom().getCollisionMap()[((yPosition)/32)][((xPosition-2) / 32)] != 1 ){
-					xPosition -= 2;
-				}
-			}
+		if(moveUp){
+			yPosition -= 2;
+		}
+		if(moveRight){
+			xPosition += 2;
 		}
 
-		moveCounter++;
-		if(moveCounter == 16){
+		if(moveLeft){
+			xPosition -= 2;
+		}
+		if(moving){
+			moveCounter--;
+		}
+		if(moveCounter == 0){
 			doneMoving();
 		}
 	}
@@ -294,6 +288,7 @@ public class Monster {
 		moveRight = false;
 		moveUp = false;
 		moveDown = false;
+		moving = false;
 	}
 
 
@@ -302,52 +297,49 @@ public class Monster {
 			attack();
 		}
 		else{
-			moveCounter = 0;
+			moving = true;
+			moveCounter = 16;
 			if(Math.abs(DrawGame.character.getYTile()-currentYTile()) <= 7 && Math.abs(DrawGame.character.getXTile()-currentXTile()) <= 7){
 				moveToPlayer=true;
 			}
 			if(direction == 0){
-				strDirection = "y";
 				if(moveToPlayer){
-					if(DrawGame.character.getYTile() > currentYTile()){
-						moveDown = true;
+					if(DrawGame.character.getYTile() > currentYTile() && currentYTile() != 19){
+						if(DrawGame.character.getCurrentRoom().getCollisionMap()[currentYTile()+1][currentXTile()] != 1)
+							moveDown = true;
 					}
-					if(DrawGame.character.getYTile() < currentYTile()){
-						moveUp = true;
-					}
-					if(DrawGame.character.getYTile() == currentYTile()){
-						strDirection = "x";
+					if(DrawGame.character.getYTile() < currentYTile() && currentYTile() != 0){
+						if(DrawGame.character.getCurrentRoom().getCollisionMap()[currentYTile()-1][currentXTile()] != 1)
+							moveUp = true;
 					}
 				}
 				else{
 					int a = rand.nextInt(2);
-					if(a == 1){
+					if(a == 1 && currentYTile() != 19 && DrawGame.character.getCurrentRoom().getCollisionMap()[currentYTile()+1][currentXTile()] != 1){
 						moveDown = true;
 					}
-					else{
+					if(currentYTile() != 0 && DrawGame.character.getCurrentRoom().getCollisionMap()[currentYTile()-1][currentXTile()] != 1){
 						moveUp = true;
 					}
 				}
 			}
 			else{
-				strDirection = "x";
 				if(moveToPlayer){
-					if(DrawGame.character.getXTile() >currentXTile()){
-						moveRight = true;
+					if(DrawGame.character.getXTile() >currentXTile() && currentXTile() != 31){
+						if(DrawGame.character.getCurrentRoom().getCollisionMap()[currentYTile()][currentXTile()+1] != 1)
+							moveRight = true;
 					}
-					if(DrawGame.character.getXTile() < currentXTile()){
-						moveLeft = true;
-					}
-					if(DrawGame.character.getXTile() == currentXTile()){
-						strDirection = "y";
+					if(DrawGame.character.getXTile() < currentXTile() && currentXTile() != 0){
+						if(DrawGame.character.getCurrentRoom().getCollisionMap()[currentYTile()][currentXTile()-1] != 1)
+							moveLeft = true;
 					}
 				}
 				else{
 					int a = rand.nextInt(2);
-					if(a == 1){
+					if(a == 1 && currentXTile() != 31 && DrawGame.character.getCurrentRoom().getCollisionMap()[currentYTile()][currentXTile()+1] != 1){
 						moveRight = true;
 					}
-					else{
+					if(currentXTile() != 0 && DrawGame.character.getCurrentRoom().getCollisionMap()[currentYTile()][currentXTile()-1] != 1){
 						moveLeft = true;
 					}
 				}
