@@ -634,7 +634,7 @@ public class Engine {
 	public static final String[] gearTypeHealth = {"a sturdy barbute", "a sturdy cuirass", "a pair of sturdy gauntlets", "a pair of sturdy greaves", "a pair of sturdy sabatons", "a pair of sturdy pauldrons"};
 	public static final String[] gearTypeMana = {"an enchanted barbute", "an enchanted cuirass", "a pair of enchanted gauntlets", "a pair of enchanted greaves", "a pair of enchanted sabatons", "a pair of enchanted pauldrons"};
 	public static final String[] gearTypeEpic = {"a glorious barbute", "a glorious cuirass", "a pair of glorious gauntlets", "a pair of glorious greaves", "a pair of glorious sabatons", "a pair of glorious pauldrons"};
-
+	public static final String[] epicGear = {" worn by angles!", " used by champions!", " forged by the gods!"};
 	/**
 	 * ZONES
 	 * These are the zones that makes the world.
