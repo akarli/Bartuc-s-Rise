@@ -134,6 +134,7 @@ public class Character {
 	public void startMoving(String dir){
 		if(!mUp && !mDown && !mLeft && !mRight){
 			if(dir.matches("up")){
+				lastSprite = moveUp[1];
 				if(getYTile()-1 < 0){
 					currentRoom = currentRoom.getExit("north");
 					yPosition = 608;
@@ -145,6 +146,7 @@ public class Character {
 				}
 			}
 			if(dir.matches("down")){
+				lastSprite = moveDown[1];
 				if(getYTile()+1 > 19){
 					currentRoom = currentRoom.getExit("south");
 					yPosition = 0;
@@ -156,6 +158,7 @@ public class Character {
 				}
 			}
 			if(dir.matches("left")){
+				lastSprite = moveLeft[1];
 				if(getXTile()-1 < 0){
 					currentRoom = currentRoom.getExit("west");
 					xPosition = 992;
@@ -167,6 +170,7 @@ public class Character {
 				}
 			}
 			if(dir.matches("right")){
+				lastSprite = moveRight[1];
 				if(getXTile()+1 > 31){
 					currentRoom = currentRoom.getExit("east");
 					xPosition = 0;
@@ -238,10 +242,12 @@ public class Character {
 		}
 		if(dir.matches("up")){
 			aUp=true;
+			lastSprite = moveUp[1];
 		}
 		if(dir.matches("down")){
 			aDown=true;
 		}
+		
 	}
 
 	public void stopAttack(){
@@ -254,6 +260,7 @@ public class Character {
 						DrawGame.character.increaseXP(25);
 					}
 				}
+				lastSprite = moveLeft[1];
 			}
 			else if(aRight){
 				if((a.currentXTile() == getXTile() || a.currentXTile() - getXTile() == 1) && (a.currentYTile() == getYTile())){
@@ -262,6 +269,7 @@ public class Character {
 						DrawGame.character.increaseXP(25);
 					}
 				}
+				lastSprite = moveRight[1];
 			}
 			else if(aUp){
 				if((a.currentXTile() == getXTile()) && (a.currentYTile() == getYTile() || a.currentYTile() - getYTile() == -1)){
@@ -270,6 +278,7 @@ public class Character {
 						DrawGame.character.increaseXP(25);
 					}
 				}
+				lastSprite = moveUp[1];
 			}
 			else if(aDown){
 				if((a.currentXTile() == getXTile()) && (a.currentYTile() == getYTile() || a.currentYTile() - getYTile() == 1)){
@@ -278,6 +287,7 @@ public class Character {
 						DrawGame.character.increaseXP(25);
 					}
 				}
+				lastSprite = moveDown[1];
 			}
 		}
 		aLeft = false;
