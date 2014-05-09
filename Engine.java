@@ -631,6 +631,7 @@ public class Engine {
 	public static final String noHpPotsMessage = "\n You don't have any health potions.";
 	public static final String noManaPotsMessage = "\n You don't have any mana potions.";
 	public static final String setNameMessage = "\n Name set.";
+	public static final String setNameError = "\n Name can consist of a maximum of three words. Name not changed.";
 	
 	public static final String[] gearTypeHealth = {"a sturdy barbute", "a sturdy cuirass", "a pair of sturdy gauntlets", "a pair of sturdy greaves", "a pair of sturdy sabatons", "a pair of sturdy pauldrons"};
 	public static final String[] gearTypeMana = {"an enchanted barbute", "an enchanted cuirass", "a pair of enchanted gauntlets", "a pair of enchanted greaves", "a pair of enchanted sabatons", "a pair of enchanted pauldrons"};
