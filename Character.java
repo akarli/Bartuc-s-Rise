@@ -131,6 +131,10 @@ public class Character {
 		return (mUp || mDown || mLeft || mRight);
 	}
 
+	public void setRoom(Room room){
+		currentRoom = room;
+	}
+
 	public void startMoving(String dir){
 		if(!mUp && !mDown && !mLeft && !mRight){
 			if(dir.matches("up")){
