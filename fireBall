@@ -6,7 +6,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 
-public class fireBall {
+public class FireBall {
 
 	private int xPosition;
 	private int yPosition;
@@ -16,7 +16,7 @@ public class fireBall {
 	private BufferedImage fireball;
 	private BufferedImage[] fireBall;
 
-	public fireBall(int x, int y, Room room){
+	public FireBall(int x, int y, Room room){
 		fireball = loadImage("FIREBALL.png");
 		fireBall = new BufferedImage[42];
 		for(int i = 0; i < 42 ;i++){
@@ -46,12 +46,17 @@ public class fireBall {
 		return yPosition/32;
 	}
 
-	public void Explode(){
-		for(int j = 0; j < DrawGame.monsterList[DrawGame.monsterHash.get(atRoom)].size();j++){ 
-			Monster a = (Monster) DrawGame.monsterList[DrawGame.monsterHash.get(atRoom)].get(j);
-			if(Math.abs(a.currentXTile()- getXtile()) < 3 && Math.abs(a.currentYTile() - getYtile()) < 3){
-				if(a.takeDamage(500)){
-					DrawGame.monsterList[DrawGame.monsterHash.get(atRoom)].remove(j);
+	public void Explode() {
+		for (int j = 0; j < DrawGame.monsterList[DrawGame.monsterHash
+				.get(atRoom)].size(); j++) {
+			Monster a = (Monster) DrawGame.monsterList[DrawGame.monsterHash
+					.get(atRoom)].get(j);
+			if (Math.abs(a.currentXTile() - (getXtile() + 2)) < 2
+					&& Math.abs(a.currentYTile() - (getYtile() + 2)) < 2) {
+				if (a.takeDamage(2*DrawGame.character.getDamage())) {
+					DrawGame.monsterList[DrawGame.monsterHash.get(atRoom)]
+							.remove(j);
+					DrawGame.character.increaseXP(25);
 				}
 			}
 		}
@@ -76,13 +81,14 @@ public class fireBall {
 	}
 
 	public void drawImage(Graphics g){
-		if(castingFireBall && atRoom == DrawGame.character.getCurrentRoom()){
-			g.drawImage(castFireBallImage(), xPosition, yPosition, null);
-		}
-		if(castingFireBall){
-			spriteFire++;
-			castFireBallImage();
-		}
+		 if(castingFireBall && atRoom == DrawGame.character.getCurrentRoom()){
+			   spriteFire++;
+			   g.drawImage(castFireBallImage(), xPosition, yPosition, null);
+			  }
+			  if(castingFireBall && atRoom != DrawGame.character.getCurrentRoom()){
+			   spriteFire++;
+			   castFireBallImage();
+			  }
 	}
 
 }
