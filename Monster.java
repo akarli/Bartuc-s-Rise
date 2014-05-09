@@ -174,9 +174,30 @@ public class Monster {
 	}
 
 	public void drawImage(Graphics g){
-		g.drawImage(getImage(), xPosition, yPosition, null);
-		if(moveUp || moveDown || moveRight || moveLeft || aUp || aDown || aLeft || aRight){
+		if(moveUp || moveDown || moveRight || moveLeft || aUp || aDown){
+			g.drawImage(getImage(), xPosition, yPosition, null);
 			animationCounter++;
+		}
+		else if(aLeft){
+			if(currentSprite <= 2)
+				g.drawImage(getImage(), xPosition, yPosition - 15, null);
+			else if(currentSprite == 3 && animationCounter < 8)
+				g.drawImage(getImage(), xPosition, yPosition - 15, null);
+			else
+				g.drawImage(getImage(), xPosition, yPosition, null);
+			animationCounter++;
+		}
+		else if(aRight){
+			if(currentSprite <= 2)
+				g.drawImage(getImage(), xPosition, yPosition - 10, null);
+			else if(currentSprite == 3 && animationCounter < 8)
+				g.drawImage(getImage(), xPosition, yPosition - 10, null);
+			else
+				g.drawImage(getImage(), xPosition, yPosition, null);
+			animationCounter++;
+		}
+		else{
+			g.drawImage(getImage(), xPosition, yPosition, null);
 		}
 	}
 
