@@ -41,7 +41,7 @@ public class GameMain extends JFrame implements ActionListener {
 	 * Here they are created with correct text alignment.
 	 */
 	
-	JLabel characterStatistics = new JLabel("Character Statistics");
+	JLabel characterStatistics = new JLabel(DrawGame.character.getName());
 	JLabel characterHealth = new JLabel("Health: " + DrawGame.character.getCurrHP() + " / " + DrawGame.character.getMaxHP(), JLabel.LEFT);
 	JLabel characterDamage = new JLabel("Damage: " + DrawGame.character.getDamage(), JLabel.LEFT);
 	JLabel characterArmor = new JLabel("Armor: " + DrawGame.character.getArmor(), JLabel.LEFT);
@@ -108,7 +108,7 @@ public class GameMain extends JFrame implements ActionListener {
 		 */
 		
 		characterStatistics.setFont(new Font("Serif", Font.PLAIN, 18));
-		characterStatistics.setBounds(90, 0, 171, 50);
+		characterStatistics.setBounds(40, 0, 300, 50);
 		
 		characterHealth.setFont(new Font("Serif", Font.PLAIN, 14));
 		characterHealth.setBounds(40, 40, 171, 50);
@@ -236,6 +236,7 @@ public class GameMain extends JFrame implements ActionListener {
 		 * Updates all labels with the current information.
 		 */
 		
+		characterStatistics.setText(DrawGame.character.getName());
 		characterHealth.setText("Health: " + (int)DrawGame.character.getCurrHP() + " / " + (int)DrawGame.character.getMaxHP());
 		characterDamage.setText("Damage: " + DrawGame.character.getDamage());
 		characterArmor.setText("Armor: " + DrawGame.character.getArmor());
@@ -251,31 +252,47 @@ public class GameMain extends JFrame implements ActionListener {
 	}
 	
 	public void parseCommand(String command){
-		String inputCommand = command;
-		if(inputCommand.trim().equals("help") || inputCommand.trim().equals("Help") ){
+		String lineArray[] = command.split("\\s+");
+		//String inputCommand = command;
+		if((lineArray[0].trim().equals("help") && lineArray.length == 1) || (lineArray[0].trim().equals("Help") && lineArray.length == 1)){
 			infoBox.append(Engine.helpMessage);
 			infoBox.setCaretPosition(infoBox.getDocument().getLength());
 		}
-		else if(inputCommand.trim().equals("load") || inputCommand.trim().equals("Load") ){
+		else if((lineArray[0].trim().equals("load") && lineArray.length == 1) || (lineArray[0].trim().equals("Load") && lineArray.length == 1)){
 			infoBox.append("\n Loading...");
 			loadGame();
 			infoBox.setCaretPosition(infoBox.getDocument().getLength());
 		}
-		else if(inputCommand.trim().equals("save") || inputCommand.trim().equals("Save") ){
+		else if((lineArray[0].trim().equals("save") && lineArray.length == 1)|| (lineArray[0].trim().equals("Save") && lineArray.length == 1)){
 			infoBox.append("\n Saving...");
 			saveGame();
 			infoBox.setCaretPosition(infoBox.getDocument().getLength());
 		}
-		else if(inputCommand.trim().equals("controls") || inputCommand.trim().equals("Controls") ){
+		else if((lineArray[0].trim().equals("controls") && lineArray.length == 1) || (lineArray[0].trim().equals("Controls") && lineArray.length == 1)){
 			infoBox.append(Engine.controlsMessage);
 			infoBox.setCaretPosition(infoBox.getDocument().getLength());
 		}
-		else if(inputCommand.trim().equals("commands") || inputCommand.trim().equals("Commands") ){
+		else if((lineArray[0].trim().equals("commands") && lineArray.length == 1) || (lineArray[0].trim().equals("Commands") && lineArray.length == 1)){
 			infoBox.append(Engine.commandsMessage);
 			infoBox.setCaretPosition(infoBox.getDocument().getLength());
 		}
-		else if(inputCommand.trim().equals("stats") || inputCommand.trim().equals("Stats") ){
+		else if((lineArray[0].trim().equals("stats") && lineArray.length == 1) || (lineArray[0].trim().equals("Stats") && lineArray.length == 1)){
 			infoBox.append(Engine.statsMessage);
+			infoBox.setCaretPosition(infoBox.getDocument().getLength());
+		}
+		else if((lineArray[0].trim().equals("setname") || lineArray[0].trim().equals("Setname")) && lineArray.length <= 4){
+			if(lineArray.length == 2){
+				DrawGame.character.setName(lineArray[1]);
+			}
+			else if(lineArray.length == 3){
+				String name = lineArray[1] + " " + lineArray[2];
+				DrawGame.character.setName(name);
+			}
+			else if(lineArray.length == 4){
+				String name = lineArray[1] + " " + lineArray[2] + " " + lineArray[3];
+				DrawGame.character.setName(name);
+			}
+			infoBox.append(Engine.setNameMessage);
 			infoBox.setCaretPosition(infoBox.getDocument().getLength());
 		}
 		else{
@@ -288,6 +305,7 @@ public class GameMain extends JFrame implements ActionListener {
 		PrintWriter writer = null;
 		try {
 		    writer = new PrintWriter(new OutputStreamWriter(new FileOutputStream("savegame.txt"), "utf-8"));
+		    writer.println(DrawGame.character.getName());
 		    writer.println("Level: ");
 		    writer.println(DrawGame.character.getLevel());
 		    writer.println("Max Health: ");
@@ -326,7 +344,8 @@ public class GameMain extends JFrame implements ActionListener {
 		try {
 			BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream("savegame.txt"), "UTF-8"));
 			ArrayList<Double> loadList = new ArrayList<Double>();
-		    String line;
+		    String line = in.readLine();
+		    DrawGame.character.setName(line);
 		    while ((line = in.readLine()) != null){
 			   line = in.readLine();
 			   if (!line.matches("^[^\\d].*")) {
