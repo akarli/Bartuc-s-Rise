@@ -28,6 +28,7 @@ public class Character {
 	private int x = 0;
 	private int moveCounter = 0;
 	private int sprite = 0;
+	private String name;
 	private boolean levelingUp, castingFireBall, aLeft, aRight, aUp, aDown, moving, mLeft, mRight, mUp, mDown;
 	boolean attacking;
 	private FireBall eldBoll;
@@ -106,6 +107,7 @@ public class Character {
 		manaPotions = 0;
 		hpRegen = 1.0;
 		manaRegen = 1.0;
+		name = "Hero";
 	}
 	public BufferedImage loadCharacterImage(String fileName){
 		BufferedImage img = null;
@@ -548,6 +550,14 @@ public class Character {
 			GameMain.infoBox.append(Engine.noManaPotsMessage);
 		}
 		GameMain.infoBox.setCaretPosition(GameMain.infoBox.getDocument().getLength());
+	}
+	
+	public void setName(String name){
+		this.name = name;
+	}
+	
+	public String getName(){
+		return name;
 	}
 
 	public void takeDamage(double damage) {
