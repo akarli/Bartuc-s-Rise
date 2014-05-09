@@ -35,9 +35,6 @@ public class RoomOverlay {
 		return img;
 	}
 
-
-
-
 	public void drawImage(Graphics g) {
 
 		for(int y = 0; y < map3.length; y++){
