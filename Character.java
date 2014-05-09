@@ -26,8 +26,10 @@ public class Character {
 	private int currentSprite = 0;
 	private int animationCounter=1;
 	private int x = 0;
+	private int moveCounter = 0;
 	private int sprite = 0;
-	private boolean levelingUp, castingFireBall, aLeft, aRight, aUp, aDown;
+	private boolean levelingUp, castingFireBall, aLeft, aRight, aUp, aDown, moving, mLeft, mRight, mUp, mDown;
+	boolean attacking;
 	private FireBall eldBoll;
 	Random rand = new Random();
 
@@ -124,90 +126,120 @@ public class Character {
 	public int getYTile(){
 		return yPosition/32;
 	}
-	public void moveUp() {
-		if(currentRoom == Engine.centralZone && (xPosition/32 == 26 || xPosition/32 == 27) && yPosition/32 < 7 && yPosition/32 > 5){
-			if(getXTile() == 26){
-				currentRoom = currentRoom.getExit("cave");
-				xPosition = 15*Engine.TILE_WIDTH;
-				yPosition = 19*Engine.TILE_HEIGHT-2;
-				DrawGame.newZone = true;
-			}
-			else{
-				currentRoom = currentRoom.getExit("cave");
-				xPosition = 16*Engine.TILE_WIDTH;
-				yPosition = 19*Engine.TILE_HEIGHT-2;
-				DrawGame.newZone = true;
-			}
-		}
-		if (yPosition <= 0) {
-			currentRoom = currentRoom.getExit("north");
-			yPosition = 608;
-			DrawGame.newZone = true;
-		}
-		if (currentRoom.getCollisionMap()[((yPosition - 2) / 32)][((xPosition) / 32)] != 1) {
-			yPosition -= 2;
-		}
+	
+	public boolean moving(){
+		return (mUp || mDown || mLeft || mRight);
 	}
 
-	public void moveDown() {
-		if (yPosition >= 608) {
-			if(currentRoom != Engine.caveZone){
-				yPosition = 0;
-			}
-			else{
-				if(getXTile() == 15){
-					xPosition = 26*Engine.TILE_WIDTH;
+	public void startMoving(String dir){
+		if(!mUp && !mDown && !mLeft && !mRight){
+			if(dir.matches("up")){
+				if(getYTile()-1 < 0){
+					currentRoom = currentRoom.getExit("north");
+					yPosition = 608;
+					DrawGame.newZone = true;
 				}
-				else{
-					xPosition = 27*Engine.TILE_WIDTH;
+				else if(currentRoom.getCollisionMap()[getYTile()-1][getXTile()] != 1){
+					mUp = true;
+					moveCounter += 16;
 				}
-				yPosition = 7*Engine.TILE_HEIGHT;
 			}
-			currentRoom = currentRoom.getExit("south");
-			DrawGame.newZone = true;
-		}
-
-		if (currentRoom.getCollisionMap()[((yPosition + 32) / 32)][((xPosition) / 32)] != 1 ) {
-			yPosition += 2;
+			if(dir.matches("down")){
+				if(getYTile()+1 > 19){
+					currentRoom = currentRoom.getExit("south");
+					yPosition = 0;
+					DrawGame.newZone = true;
+				}
+				else if(currentRoom.getCollisionMap()[getYTile()+1][getXTile()] != 1){
+					mDown = true;
+					moveCounter += 16;
+				}
+			}
+			if(dir.matches("left")){
+				if(getXTile()-1 < 0){
+					currentRoom = currentRoom.getExit("west");
+					xPosition = 992;
+					DrawGame.newZone = true;
+				}
+				else if(currentRoom.getCollisionMap()[getYTile()][getXTile()-1] != 1){
+					mLeft = true;
+					moveCounter += 16;
+				}
+			}
+			if(dir.matches("right")){
+				if(getXTile()+1 > 31){
+					currentRoom = currentRoom.getExit("east");
+					xPosition = 0;
+					DrawGame.newZone = true;
+				}
+				else if(currentRoom.getCollisionMap()[getYTile()][getXTile()+1] != 1){
+					mRight = true;
+					moveCounter += 16;
+				}
+			}
 		}
 	}
 
-	public void moveLeft() {
-		if (xPosition <= 0) {
-			currentRoom = currentRoom.getExit("west");
-			DrawGame.newZone = true;
-			xPosition = 992;
+	public void move(){
+		if(mUp){
+			yPosition-=2;
 		}
-		if (currentRoom.getCollisionMap()[((yPosition)/32)][((xPosition-2) / 32)] != 1) {
-			xPosition -= 2;
+		if(mDown){
+			yPosition+=2;
 		}
+		if(mLeft){
+			xPosition-=2;
+		}
+		if(mRight){
+			xPosition+=2;
+		}
+		moveCounter--;
+		if(moveCounter == 0 && !DrawGame.pressed){
+			stopMoving();
+		}
+		if(moveCounter == 0 && DrawGame.pressed){
+			if(mUp){
+				mUp = false;
+				startMoving("up");
+			}
+			if(mDown){
+				mDown = false;
+				startMoving("down");
+			}
+			if(mLeft){
+				mLeft = false;
+				startMoving("left");
+			}
+			if(mRight){
+				mRight = false;
+				startMoving("right");
+			}
 
+		}
 	}
 
-	public void moveRight() {
-		if (xPosition >= 992) {
-			currentRoom = currentRoom.getExit("east");
-			DrawGame.newZone = true;
-			xPosition = 0;
-		}
-		if (currentRoom.getCollisionMap()[((yPosition) / 32)][((xPosition + 32) / 32)] != 1) {
-			xPosition += 2;
-		}
+	public void stopMoving(){
+		mUp = false;
+		mDown = false;
+		mLeft = false;
+		mRight = false;
+		moveCounter = 0;
 	}
 
-	public void attack(){
+	public void attack(String dir){
 		animationCounter = 0;
 		currentSprite = 0;
-		if(lastSprite == moveRight[1]){
+		attacking = true;
+		if(dir.matches("right")){
 			aRight = true;
 		}
-		if(lastSprite == moveLeft[1]){
+		if(dir.matches("left")){
 			aLeft=true;
 		}
-		if(lastSprite == moveUp[1]){
+		if(dir.matches("up")){
 			aUp=true;
 		}
-		if(lastSprite == moveDown[1]){
+		if(dir.matches("down")){
 			aDown=true;
 		}
 	}
@@ -587,24 +619,24 @@ public class Character {
 		}
 		if(currentSprite >= 4){
 			currentSprite = 0;
-			if(DrawGame.attacking){
+			if(attacking){
 				stopAttack();
 			}
-			DrawGame.attacking = false;
+			attacking = false;
 		}
-		if(DrawGame.up){
+		if(mUp){
 			lastSprite = moveUp[1];
 			return moveUp[currentSprite];
 		}
-		if(DrawGame.down){
+		if(mDown){
 			lastSprite = moveDown[1];
 			return moveDown[currentSprite];
 		}
-		if(DrawGame.right){
+		if(mRight){
 			lastSprite = moveRight[1];
 			return moveRight[currentSprite];
 		}
-		if(DrawGame.left){
+		if(mLeft){
 			lastSprite = moveLeft[1];
 			return moveLeft[currentSprite];
 		}
@@ -682,7 +714,8 @@ public class Character {
 			animationCounter++;
 		}
 
-		if(DrawGame.up || DrawGame.down || DrawGame.left || DrawGame.right){
+		if(mUp || mDown || mLeft || mRight){
+			move();
 			animationCounter++;
 		}
 
