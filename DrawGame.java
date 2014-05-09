@@ -98,7 +98,7 @@ public class DrawGame extends JPanel implements KeyListener, MouseListener, Mous
 			int random = rand.nextInt(100); //slumpar när monstret ska gå
 			if(random >= 98){
 				int randDirection = rand.nextInt(2); //slumpar åt vilket håll monstret ska gå
-				if(a.getMoveCounter() == 16 || a.getMoveCounter() == 0){
+				if(a.getMoveCounter() == 0 || a.getMoveCounter() == 16){
 					a.startMoving(randDirection);
 				}
 			}
@@ -108,7 +108,7 @@ public class DrawGame extends JPanel implements KeyListener, MouseListener, Mous
 
 		for(int i = 0; i < monsterList[monsterHash.get(character.getCurrentRoom())].size();i++){
 			Monster a = (Monster) monsterList[monsterHash.get(character.getCurrentRoom())].get(i);
-			if(a.getMoveCounter() < 16){
+			if(a.moving()){
 				a.move();
 			}
 		}
@@ -169,7 +169,7 @@ public class DrawGame extends JPanel implements KeyListener, MouseListener, Mous
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-	
+
 
 	}
 
