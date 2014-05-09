@@ -616,15 +616,15 @@ public class Engine {
 	 * Messages that is displayed when you start the game, level up, die etc.
 	 */
 
-	public static final String startMessage = " Welcome to Bartuc's Rise! \n If you want to load a character, type \"load\". \n Type \"help\" for instructions."; // Start message
-	public static final String helpMessage = "\n Help will be here soon!";
+	public static final String startMessage = " Welcome to Bartuc's Rise! \n Set your name with the \"setname\" command or \"load\" if you want to load a character. \n Type \"help\" for instructions."; // Start message
+	public static final String helpMessage = "\n In Bartuc's Rise, your quest is to slay the mighty demon lord Bartuc. But to be \n able to face him you have to to fight your way through hordes of his minions to \n train your strength and gather gear. Only when you have mastered both magic and \n melee combat you shall enter the dark cave of Bartuc and slay him, once and for all! \n But beware, legend has it that when angered by mortals, he will not only return, \n but he will also me much stronger than before... \n Type \"controls\" to see the controls or \"commands\" to see all available commands.";
 	public static final String loadMessage = "\n Character loaded.";
 	public static final String saveMessage = "\n Character saved.";
 	public static final String noSuchCommandMessage = "\n That is not a valid command.";
 	public static final String levelUpMessage = "\n You gained a level! \n Health and mana restored. \n Health increased by " + HP_LVL_UP + ".\n Mana increased by " + MANA_LVL_UP + ".\n Damage increased by " + DAMAGE_LVL_UP + ".\n Armor increased by " + ARMOR_LVL_UP + ".\n Health regeneration and mana regeneration increased by " + HPREGEN_LVL_UP + ".";
 	public static final String noManaMessage = "\n You don't have enough mana to cast that.";
-	public static final String controlsMessage = "\n Use controls to control!";
-	public static final String commandsMessage = "\n These commands work!";
+	public static final String controlsMessage = "\n W - move up \n S - move down \n A - move left \n D - move right \n Left Mouse Button - attack \n C - cast fire ball \n Q - use a health potion \n E - use a mana potion";
+	public static final String commandsMessage = "\n \"help\" - display help message \n \"controls\" - display controls \n \"commands\" - display available commands \n \"stats\" - view you accomplishments and statistics \n \"save\" - save your character \n \"load\" - load a character \n \"setname name\" - set your characters name";
 	public static final String statsMessage = "\n You have killed zero monsters.";
 	public static final String hpPotMessage = "\n You used a health potion. Some health was restored.";
 	public static final String manaPotMessage = "\n You used a mana potion. Some mana was restored.";
@@ -635,6 +635,7 @@ public class Engine {
 	public static final String[] gearTypeMana = {"an enchanted barbute", "an enchanted cuirass", "a pair of enchanted gauntlets", "a pair of enchanted greaves", "a pair of enchanted sabatons", "a pair of enchanted pauldrons"};
 	public static final String[] gearTypeEpic = {"a glorious barbute", "a glorious cuirass", "a pair of glorious gauntlets", "a pair of glorious greaves", "a pair of glorious sabatons", "a pair of glorious pauldrons"};
 	public static final String[] epicGear = {" worn by angles!", " used by champions!", " forged by the gods!"};
+	
 	/**
 	 * ZONES
 	 * These are the zones that makes the world.
