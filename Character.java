@@ -1,6 +1,4 @@
 import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -10,7 +8,7 @@ import javax.imageio.ImageIO;
 
 
 public class Character {
-	private BufferedImage character, levelup, fireball;
+	private BufferedImage character, levelup;
 	private int xPosition, yPosition, damage, level, armor, currentExperience, maxExperience, manaCounter, healthCounter, healthPotions, manaPotions;
 	private double manaRegen, hpRegen, currentHealth, maxHealth, currentMana, maxMana;
 	private Room currentRoom;
@@ -25,11 +23,10 @@ public class Character {
 	private BufferedImage[] attackRight;
 	private BufferedImage lastSprite;
 	private BufferedImage charAttack;
-	private int fireBallX = 0, fireBallY=0, offsetx = 0;
 	private int currentSprite = 0;
 	private int animationCounter=1;
 	private int x = 0;
-	private int sprite = 0, spriteFire = 0;
+	private int sprite = 0;
 	private boolean levelingUp, castingFireBall, aLeft, aRight, aUp, aDown;
 	private FireBall eldBoll;
 	Random rand = new Random();
@@ -37,7 +34,6 @@ public class Character {
 	public Character(){
 		character = loadCharacterImage("charWalk.png");
 		levelup = loadCharacterImage("LEVELUP.png");
-		fireball = loadCharacterImage("FIREBALL.png");
 		charAttack = loadCharacterImage("charAttack.png");
 		moveUp = new BufferedImage[4];
 		moveDown = new BufferedImage[4];
