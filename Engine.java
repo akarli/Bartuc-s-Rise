@@ -616,7 +616,7 @@ public class Engine {
 	 * Messages that is displayed when you start the game, level up, die etc.
 	 */
 
-	public static final String startMessage = " Welcome to Bartuc's Rise! \n Set your name with the \"setname\" command or \"load\" if you want to load a character. \n Type \"help\" for instructions."; // Start message
+	public static final String startMessage = " Welcome to Bartuc's Rise! \n Set your name with the \"setname\" command or \"load\" to load a character. \n Type \"help\" for instructions."; // Start message
 	public static final String helpMessage = "\n In Bartuc's Rise, your quest is to slay the mighty demon lord Bartuc. But to be \n able to face him you have to to fight your way through hordes of his minions to \n train your strength and gather gear. Only when you have mastered both magic and \n melee combat you shall enter the dark cave of Bartuc and slay him, once and for all! \n But beware, legend has it that when angered by mortals, he will not only return, \n but he will also me much stronger than before... \n Type \"controls\" to see the controls or \"commands\" to see all available commands.";
 	public static final String loadMessage = "\n Character loaded.";
 	public static final String saveMessage = "\n Character saved.";
@@ -630,6 +630,7 @@ public class Engine {
 	public static final String manaPotMessage = "\n You used a mana potion. Some mana was restored.";
 	public static final String noHpPotsMessage = "\n You don't have any health potions.";
 	public static final String noManaPotsMessage = "\n You don't have any mana potions.";
+	public static final String setNameMessage = "\n Name set.";
 	
 	public static final String[] gearTypeHealth = {"a sturdy barbute", "a sturdy cuirass", "a pair of sturdy gauntlets", "a pair of sturdy greaves", "a pair of sturdy sabatons", "a pair of sturdy pauldrons"};
 	public static final String[] gearTypeMana = {"an enchanted barbute", "an enchanted cuirass", "a pair of enchanted gauntlets", "a pair of enchanted greaves", "a pair of enchanted sabatons", "a pair of enchanted pauldrons"};
