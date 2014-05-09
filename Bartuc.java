@@ -5,10 +5,10 @@ public class Bartuc {
 	private int damage, baseDamage, attackCooldown, difficulty;
 	
 	public Bartuc(int kills){
-		difficulty = kills;
-		baseHealth = 100;
+		difficulty = kills + 1;
+		baseHealth = 100.0;
 		baseDamage = 10;
-		maxHealth = (100.0*baseHealth) * difficulty;
+		maxHealth = (100*baseHealth) * difficulty;
 		currentHealth = maxHealth;
 		damage = (10*baseDamage) * difficulty;
 		attackCooldown = 10;
