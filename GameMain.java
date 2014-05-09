@@ -295,6 +295,10 @@ public class GameMain extends JFrame implements ActionListener {
 			infoBox.append(Engine.setNameMessage);
 			infoBox.setCaretPosition(infoBox.getDocument().getLength());
 		}
+		else if((lineArray[0].trim().equals("setname") || lineArray[0].trim().equals("Setname")) && lineArray.length > 4){
+			infoBox.append(Engine.setNameError);
+			infoBox.setCaretPosition(infoBox.getDocument().getLength());
+		}
 		else{
 			infoBox.append(Engine.noSuchCommandMessage);
 			infoBox.setCaretPosition(infoBox.getDocument().getLength());
