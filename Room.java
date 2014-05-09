@@ -109,8 +109,5 @@ public class Room {
 						null);
 			}
 		}
-
-		DrawGame.character.drawImage(g);
-
 	}
 }
