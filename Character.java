@@ -502,16 +502,19 @@ public class Character {
 	}
 
 	public void useHPPot(){
-		if(currentHealth >= maxHealth){
-			GameMain.infoBox.append("\n You're already at full health.");
-		}
-		else if(healthPotions > 0){
-			currentHealth += maxHealth/2;
-			if(currentHealth > maxHealth){
-				currentHealth = maxHealth;
+		if(healthPotions > 0){
+			if(currentHealth >= maxHealth){
+				GameMain.infoBox.append("\n You're already at full health.");
 			}
-			healthPotions--;
-			GameMain.infoBox.append(Engine.hpPotMessage);
+			else{
+				currentHealth += maxHealth/2;
+				if(currentHealth > maxHealth){
+					currentHealth = maxHealth;
+				}
+				healthPotions--;
+				GameMain.infoBox.append(Engine.hpPotMessage);
+			}
+			
 		}
 		else{
 			GameMain.infoBox.append(Engine.noHpPotsMessage);
@@ -528,16 +531,18 @@ public class Character {
 	}
 
 	public void useManaPot(){
-		if(currentMana >= maxMana){
-			GameMain.infoBox.append("\n You're already at full mana.");
-		}
-		else if(manaPotions > 0){
-			currentMana += maxMana/2;
-			if(currentMana > maxMana){
-				currentMana = maxMana;
+		if(manaPotions > 0){
+			if(currentMana >= maxMana){
+				GameMain.infoBox.append("\n You're already at full mana.");
 			}
-			manaPotions--;
-			GameMain.infoBox.append(Engine.manaPotMessage);
+			else{
+				currentMana += maxMana/2;
+				if(currentMana > maxMana){
+					currentMana = maxMana;
+				}
+				manaPotions--;
+				GameMain.infoBox.append(Engine.manaPotMessage);
+			}
 		}
 		else{
 			GameMain.infoBox.append(Engine.noManaPotsMessage);
