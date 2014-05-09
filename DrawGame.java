@@ -169,21 +169,7 @@ public class DrawGame extends JPanel implements KeyListener, MouseListener, Mous
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		if(!character.attacking && !character.moving()){
-			Point a = e.getPoint();
-			if(a.getX()/32 > character.getXTile()+1 && Math.abs(a.getY()/32 - character.getYTile())< 3){
-				character.attack("right");
-			}
-			if(a.getX()/32 < character.getXTile() && Math.abs(a.getY()/32 - character.getYTile())< 3){
-				character.attack("left");
-			}
-			if(a.getY()/32 > character.getYTile()){
-				character.attack("down");
-			}
-			if(a.getY()/32 < character.getYTile()+1){
-				character.attack("up");
-			}
-		}
+	
 
 	}
 
@@ -201,6 +187,21 @@ public class DrawGame extends JPanel implements KeyListener, MouseListener, Mous
 
 	@Override
 	public void mousePressed(MouseEvent e) {
+		if(!character.attacking && !character.moving()){
+			Point a = e.getPoint();
+			if(a.getX()/32 > character.getXTile()+1 && Math.abs(a.getY()/32 - character.getYTile())< 3){
+				character.attack("right");
+			}
+			if(a.getX()/32 < character.getXTile() && Math.abs(a.getY()/32 - character.getYTile())< 3){
+				character.attack("left");
+			}
+			if(a.getY()/32 > character.getYTile()){
+				character.attack("down");
+			}
+			if(a.getY()/32 < character.getYTile()+1){
+				character.attack("up");
+			}
+		}
 		requestFocus();
 
 	}
@@ -259,7 +260,7 @@ public class DrawGame extends JPanel implements KeyListener, MouseListener, Mous
 				break;
 			}
 		}
-		else if (lastKey != keyCode){
+		else if (lastKey != keyCode && !character.attacking){
 			switch(keyCode){
 			case KeyEvent.VK_W:
 				if(Q.size()<1){
