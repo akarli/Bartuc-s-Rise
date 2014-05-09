@@ -349,6 +349,10 @@ public class GameMain extends JFrame implements ActionListener {
 		    DrawGame.character.loadManaPots(loadList.get(11).intValue());
 		    
 		    DrawGame.character.setMaxXP();
+		    DrawGame.character.setRoom(Engine.centralZone);
+		    DrawGame.character.setX(448);
+			DrawGame.character.setY(416);
+			DrawGame.reset();
 		    
 			infoBox.append(Engine.loadMessage);
 		    
