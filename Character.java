@@ -559,15 +559,16 @@ public class Character {
 		int drop = rand.nextInt(100);
 		if(drop >= 0){
 			int quality = rand.nextInt(100);
-			if(quality >= 50){
+			if(quality >= 0){
 				epicGear = true;
 			}
 			int lootType = rand.nextInt(4);
 			if(lootType == 2){
 				if(epicGear){
+					int epicMessage = rand.nextInt(3);
 					int damageUpgrade = rand.nextInt(level*10) + 5*level;
 					damage += damageUpgrade;
-					GameMain.infoBox.append("\n You found a legendary sword forged by the gods! \n Damage increased by " + damageUpgrade + ".");
+					GameMain.infoBox.append("\n You found a legendary sword" + Engine.epicGear[epicMessage] + "\n Damage increased by " + damageUpgrade + ".");
 				}
 				else{
 					int damageUpgrade = rand.nextInt(level) + level; 
@@ -577,10 +578,11 @@ public class Character {
 			}
 			else if(lootType == 3){
 				if(epicGear){
+					int epicMessage = rand.nextInt(3);
 					int armorUpgrade = rand.nextInt(4*level) + 2*level;
 					armor += armorUpgrade;
 
-					GameMain.infoBox.append("\n You found a huge kite shield used by champions! \n Armor increased by " + armorUpgrade + ".");
+					GameMain.infoBox.append("\n You found a huge kite shield" + Engine.epicGear[epicMessage] + "\n Armor increased by " + armorUpgrade + ".");
 				}
 				else{
 					int armorUpgrade = rand.nextInt(2*level) + level;
@@ -592,6 +594,7 @@ public class Character {
 			else{
 				int gearType = rand.nextInt(6);
 				if(epicGear){
+					int epicMessage = rand.nextInt(3);
 					int armorUpgrade = rand.nextInt(2*level) + level;
 					armor += armorUpgrade;
 					int healthUpgrade = rand.nextInt(5*level) + 3*level;
@@ -604,7 +607,7 @@ public class Character {
 					Double manaRegenUpgrade = (rand.nextInt(2*level)/10.0) + 0.2*level;
 					manaRegenUpgrade.doubleValue();
 					manaRegen += manaRegenUpgrade;
-					GameMain.infoBox.append("\n You found " + Engine.gearTypeEpic[gearType] + " worn by angles! \n Armor increased by " + armorUpgrade + ".\n Health increased by " + healthUpgrade +  ".\n Mana increased by " + manaUpgrade +  ". \n Heath regeneration increased by " + GameMain.oneDigit.format(hpRegenUpgrade) +". \n Mana  regeneration increased by " + GameMain.oneDigit.format(manaRegenUpgrade));
+					GameMain.infoBox.append("\n You found " + Engine.gearTypeEpic[gearType] + Engine.epicGear[epicMessage] + "\n Armor increased by " + armorUpgrade + ".\n Health increased by " + healthUpgrade +  ".\n Mana increased by " + manaUpgrade +  ". \n Heath regeneration increased by " + GameMain.oneDigit.format(hpRegenUpgrade) +". \n Mana  regeneration increased by " + GameMain.oneDigit.format(manaRegenUpgrade));
 				}
 				else{
 					int stat = rand.nextInt(2);
@@ -694,7 +697,9 @@ public class Character {
 		return levelUp[sprite/2];
 	}
 
-	public void die(){
+	public void die(){		
+		GameMain.infoBox.append("\n Oh dear... You died. But you respawned!");
+		
 		level = 1;
 		currentHealth = 100;
 		maxHealth = 100;
@@ -714,6 +719,8 @@ public class Character {
 		setX(448);
 		setY(416);
 
+		//GameMain.infoBox.append("\n" + Engine.startMessage);
+		GameMain.infoBox.setCaretPosition(GameMain.infoBox.getDocument().getLength());
 	}
 
 	public void drawImage(Graphics g){
