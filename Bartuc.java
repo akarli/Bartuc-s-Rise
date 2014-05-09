@@ -9,7 +9,7 @@ public class Bartuc {
 		baseHealth = 100;
 		baseDamage = 10;
 		maxHealth = (100.0*baseHealth) * difficulty;
-		currentHealth = 100.0;
+		currentHealth = maxHealth;
 		damage = (10*baseDamage) * difficulty;
 		attackCooldown = 10;
 		
