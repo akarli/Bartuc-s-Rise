@@ -84,7 +84,7 @@ public class DrawGame extends JPanel implements KeyListener, MouseListener, Mous
 		if(newZone){ //om du går in i en ny zon, detta körs bara en gång när du går in i en ny zon
 			if(monsterList[monsterHash.get(character.getCurrentRoom())].size() == 0 ||
 					monsterList[monsterHash.get(character.getCurrentRoom())] == null){ // kollar om listan i zonen du går in i är tom
-				for(int j = 0; j< rand.nextInt(5)+3; j++){	//skapar i så fall ett slumpat antal nya mosnter
+				for(int j = 0; j< rand.nextInt(6)+5; j++){	//skapar i så fall ett slumpat antal nya mosnter
 					monsterList[monsterHash.get(character.getCurrentRoom())].add(new Monster());
 					Monster a = (Monster) monsterList[monsterHash.get(character.getCurrentRoom())].get(j);
 					a.place();
@@ -98,7 +98,7 @@ public class DrawGame extends JPanel implements KeyListener, MouseListener, Mous
 			int random = rand.nextInt(100); //slumpar när monstret ska gå
 			if(random >= 98){
 				int randDirection = rand.nextInt(2); //slumpar åt vilket håll monstret ska gå
-				if(a.getMoveCounter() == 0 || a.getMoveCounter() == 16){
+				if(!a.moving() && !a.attacking()){
 					a.startMoving(randDirection);
 				}
 			}
