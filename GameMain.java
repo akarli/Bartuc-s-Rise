@@ -230,7 +230,6 @@ public class GameMain extends JFrame implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent a) {
-
 		/**
 		 * Updates all labels with the current information.
 		 */
