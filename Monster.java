@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.util.Random;
 
 import javax.imageio.ImageIO;
-import javax.print.attribute.standard.MediaSize.Engineering;
 
 public class Monster {
 	private BufferedImage monster;
@@ -29,7 +28,7 @@ public class Monster {
 	private int offset = 0, offsetx = 0;
 
 	public Monster(){
-		monster = loadMonsterImage("skeleton.png");
+		monster = loadMonsterImage("Graphics\\skeleton.png");
 		maxHealth = rand.nextInt(40*DrawGame.character.getLevel()) + 20*DrawGame.character.getLevel();
 		currentHealth = maxHealth;
 		damage = rand.nextInt(DrawGame.character.getLevel()*20)  + DrawGame.character.getLevel()*10;
