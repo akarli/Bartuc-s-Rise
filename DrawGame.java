@@ -37,7 +37,6 @@ public class DrawGame extends JPanel implements KeyListener, MouseListener, Mous
 	int lastKey;
 	boolean wait;
 
-
 	public DrawGame(){
 		monsterHash = new HashMap<Room, Integer>();
 		overlay = new HashMap<Room, RoomOverlay>();
@@ -78,7 +77,7 @@ public class DrawGame extends JPanel implements KeyListener, MouseListener, Mous
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
 		character.getCurrentRoom().drawImage(g);
-
+		
 		monsterMoveCounter++;
 		if(newZone){ //om du går in i en ny zon, detta körs bara en gång när du går in i en ny zon
 			if(monsterList[monsterHash.get(character.getCurrentRoom())].size() == 0 ||
@@ -136,7 +135,78 @@ public class DrawGame extends JPanel implements KeyListener, MouseListener, Mous
 				}
 			}
 		}
-
+		
+		/**
+		 * SOUND CHECKS
+		 * Checks which sound to play
+		 */
+		
+		if(!Engine.mainThemePlayer.isPlaying() && Engine.mainTheme){
+			Engine.mainThemePlayer.setVolume(0.1f);
+			new Thread(Engine.mainThemePlayer).start();
+		}
+		
+		if(!Engine.caveThemePlayer.isPlaying() && Engine.caveTheme){
+			Engine.caveThemePlayer.setVolume(0.1f);
+			new Thread(Engine.caveThemePlayer).start();
+		}
+		
+		if(Engine.hitSound && !Engine.hitPlayer.isPlaying()){
+			Engine.hitPlayer.setVolume(0.03f);
+			new Thread(Engine.hitPlayer).start();
+			Engine.hitSound = false;
+		}
+		if(!Engine.fireBallChargePlayer.isPlaying() && Engine.fireBallChargeSound){
+			Engine.fireBallChargePlayer.setVolume(0.03f);
+			new Thread(Engine.fireBallChargePlayer).start();
+			Engine.fireBallChargeSound = false;
+		}
+		if(!Engine.fireBallPlayer.isPlaying() && Engine.fireballSound){
+			Engine.fireBallPlayer.setVolume(0.02f);
+			new Thread(Engine.fireBallPlayer).start();
+			Engine.fireballSound = false;
+		}
+		if(!Engine.potionPlayer.isPlaying() && Engine.potionSound){
+			Engine.potionPlayer.setVolume(0.05f);
+			new Thread(Engine.potionPlayer).start();
+			Engine.potionSound = false;
+		}
+		if(!Engine.levelUpPlayer.isPlaying() && Engine.levelUpSound){
+			Engine.levelUpPlayer.setVolume(0.02f);
+			new Thread(Engine.levelUpPlayer).start();
+			Engine.levelUpSound = false;
+		}
+		if(!Engine.skeletonHitPlayer.isPlaying() && Engine.skeletonHitSound){
+			Engine.skeletonHitPlayer.setVolume(0.02f);
+			new Thread(Engine.skeletonHitPlayer).start();
+			Engine.skeletonHitSound = false;
+		}
+		if(!Engine.skeletonDeathPlayer.isPlaying() && Engine.skeletonDeathSound){
+			Engine.skeletonDeathPlayer.setVolume(0.02f);
+			new Thread(Engine.skeletonDeathPlayer).start();
+			Engine.skeletonDeathSound = false;
+		}
+		if(!Engine.playerDeathPlayer.isPlaying() && Engine.playerDeathSound){
+			Engine.playerDeathPlayer.setVolume(0.05f);
+			new Thread(Engine.playerDeathPlayer).start();
+			Engine.playerDeathSound = false;
+		}
+		if(!Engine.lootPlayer.isPlaying() && Engine.lootSound){
+			Engine.lootPlayer.setVolume(0.05f);
+			new Thread(Engine.lootPlayer).start();
+			Engine.lootSound = false;
+		}
+		if(!Engine.potionPickupPlayer.isPlaying() && Engine.potionPickupSound){
+			Engine.potionPickupPlayer.setVolume(0.05f);
+			new Thread(Engine.potionPickupPlayer).start();
+			Engine.potionPickupSound = false;
+		}
+		if(!Engine.mainTheme){
+			Engine.mainThemePlayer.stop();
+		}
+		if(!Engine.caveTheme){
+			Engine.caveThemePlayer.stop();
+		}
 	}
 
 	public static void reset(){
