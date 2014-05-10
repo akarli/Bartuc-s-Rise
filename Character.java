@@ -183,6 +183,7 @@ public class Character {
 					yPosition = 18*Engine.TILE_HEIGHT;
 					currentRoom = currentRoom.getExit("cave");
 					addTimesInCave(); // Adds total times in cave
+					addZoneChanges(); // Adds total zone changes
 					DrawGame.newZone = true;
 
 				}
