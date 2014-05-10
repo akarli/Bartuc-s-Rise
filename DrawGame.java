@@ -141,12 +141,12 @@ public class DrawGame extends JPanel implements KeyListener, MouseListener, Mous
 		 * Checks which sound to play
 		 */
 		
-		if(!Engine.mainThemePlayer.isPlaying() && Engine.mainTheme){
+		if(!Engine.mainThemePlayer.isPlaying() && Engine.mainThemeSound){
 			Engine.mainThemePlayer.setVolume(0.1f);
 			new Thread(Engine.mainThemePlayer).start();
 		}
 		
-		if(!Engine.caveThemePlayer.isPlaying() && Engine.caveTheme){
+		if(!Engine.caveThemePlayer.isPlaying() && Engine.caveThemeSound){
 			Engine.caveThemePlayer.setVolume(0.1f);
 			new Thread(Engine.caveThemePlayer).start();
 		}
@@ -201,10 +201,10 @@ public class DrawGame extends JPanel implements KeyListener, MouseListener, Mous
 			new Thread(Engine.potionPickupPlayer).start();
 			Engine.potionPickupSound = false;
 		}
-		if(!Engine.mainTheme){
+		if(!Engine.mainThemeSound){
 			Engine.mainThemePlayer.stop();
 		}
-		if(!Engine.caveTheme){
+		if(!Engine.caveThemeSound){
 			Engine.caveThemePlayer.stop();
 		}
 	}
