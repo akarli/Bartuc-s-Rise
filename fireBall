@@ -18,7 +18,7 @@ public class FireBall {
 	private boolean addMiss, hit;
 
 	public FireBall(int x, int y, Room room){
-		fireball = loadImage("FIREBALL.png");
+		fireball = loadImage("Graphics\\fireball.png");
 		fireBall = new BufferedImage[42];
 		for(int i = 0; i < 42 ;i++){
 			fireBall[i] = fireball.getSubimage(0 + (i*128), 0, 128, 128);
