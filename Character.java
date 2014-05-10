@@ -23,6 +23,7 @@ public class Character {
 	private BufferedImage[] attackRight;
 	private BufferedImage lastSprite;
 	private BufferedImage charAttack;
+	private String statsMessage;
 	private int currentSprite = 0;
 	private int animationCounter=1;
 	private int x = 0;
@@ -33,6 +34,13 @@ public class Character {
 	boolean attacking;
 	private FireBall eldBoll;
 	Random rand = new Random();
+	
+	/**
+	 * STATS COUNTERS
+	 * Keeps track of most of the statistics in the game.
+	 */
+	private int bartucKills, totalKills, magicKills, swordKills, damageDealt, magicDamageDealt, swordDamageDealt, fireBalls, missedFireBalls, damageTaken;
+	private int damageTakenBartuc, healthPotsUsed, manaPotsUsed, gearFound, epicGearFound, swordsFound, epicSwordsFound, shieldsFound, epicShieldsFound, stepsTaken, zoneChanges, timesInCave;
 
 	public Character(){
 		character = loadCharacterImage("charWalk.png");
@@ -108,6 +116,35 @@ public class Character {
 		hpRegen = 1.0;
 		manaRegen = 1.0;
 		name = "Hero";
+		
+		/**
+		 * STATS
+		 * Initializing the stats variables
+		 */
+		
+		bartucKills = 0;
+		magicKills = 0;
+		swordKills = 0;
+		totalKills = 0;
+		damageDealt = 0;
+		magicDamageDealt = 0;
+		swordDamageDealt = 0;
+		fireBalls = 0;
+		missedFireBalls = 0;
+		damageTaken = 0;
+		damageTakenBartuc = 0;
+		healthPotsUsed = 0;
+		manaPotsUsed = 0;
+		gearFound = 0;
+		epicGearFound = 0;
+		swordsFound = 0;
+		epicSwordsFound = 0;
+		shieldsFound = 0;
+		epicShieldsFound = 0;
+		stepsTaken = 0;
+		zoneChanges = 0;
+		timesInCave = 0;
+		
 	}
 	public BufferedImage loadCharacterImage(String fileName){
 		BufferedImage img = null;
@@ -145,6 +182,7 @@ public class Character {
 					xPosition = (getXTile() - 11)*Engine.TILE_WIDTH;
 					yPosition = 18*Engine.TILE_HEIGHT;
 					currentRoom = currentRoom.getExit("cave");
+					addTimesInCave(); // Adds total times in cave
 					DrawGame.newZone = true;
 
 				}
@@ -152,10 +190,12 @@ public class Character {
 					currentRoom = currentRoom.getExit("north");
 					yPosition = 608;
 					DrawGame.newZone = true;
+					addZoneChanges(); // Adds total zone changes
 				}
 				else if(currentRoom.getCollisionMap()[getYTile()-1][getXTile()] != 1){
 					mUp = true;
 					moveCounter += 16;
+					addStepsTaken(); // Adds total steps taken
 				}
 			}
 			if(dir.matches("down")){
@@ -170,15 +210,18 @@ public class Character {
 					yPosition = 7*Engine.TILE_HEIGHT;
 					currentRoom = currentRoom.getExit("south");
 					DrawGame.newZone = true;
+					addZoneChanges(); // Adds total zone changes
 				}
 				else if(getYTile()+1 > 19){
 					currentRoom = currentRoom.getExit("south");
 					yPosition = 0;
 					DrawGame.newZone = true;
+					addZoneChanges(); // Adds total zone changes
 				}
 				else if(currentRoom.getCollisionMap()[getYTile()+1][getXTile()] != 1){
 					mDown = true;
 					moveCounter += 16;
+					addStepsTaken(); // Adds total steps taken
 				}
 			}
 			if(dir.matches("left")){
@@ -187,10 +230,12 @@ public class Character {
 					currentRoom = currentRoom.getExit("west");
 					xPosition = 992;
 					DrawGame.newZone = true;
+					addZoneChanges(); // Adds total zone changes
 				}
 				else if(currentRoom.getCollisionMap()[getYTile()][getXTile()-1] != 1){
 					mLeft = true;
 					moveCounter += 16;
+					addStepsTaken(); // Adds total steps taken
 				}
 			}
 			if(dir.matches("right")){
@@ -199,10 +244,12 @@ public class Character {
 					currentRoom = currentRoom.getExit("east");
 					xPosition = 0;
 					DrawGame.newZone = true;
+					addZoneChanges(); // Adds total zone changes
 				}
 				else if(currentRoom.getCollisionMap()[getYTile()][getXTile()+1] != 1){
 					mRight = true;
 					moveCounter += 16;
+					addStepsTaken(); // Adds total steps taken
 				}
 			}
 		}
@@ -278,36 +325,48 @@ public class Character {
 			Monster a = (Monster) DrawGame.monsterList[DrawGame.monsterHash.get(currentRoom)].get(j);
 			if(aLeft){
 				if((a.currentXTile() == getXTile() || a.currentXTile() - getXTile() == -1) && a.currentYTile() == getYTile()){
-					if(a.takeDamage(DrawGame.character.getAttackDamage())){
+					int dealtDamage = DrawGame.character.getAttackDamage();
+					DrawGame.character.addSwordDamageDealt(dealtDamage); // Adds total sword damage
+					if(a.takeDamage(dealtDamage)){
 						DrawGame.monsterList[DrawGame.monsterHash.get(currentRoom)].remove(j);
 						DrawGame.character.increaseXP(25);
+						DrawGame.character.addSwordKills(); // Adds total sword kills
 					}
 				}
 				lastSprite = moveLeft[1];
 			}
 			else if(aRight){
 				if((a.currentXTile() == getXTile() || a.currentXTile() - getXTile() == 1) && (a.currentYTile() == getYTile())){
-					if(a.takeDamage(DrawGame.character.getAttackDamage())){
+					int dealtDamage = DrawGame.character.getAttackDamage();
+					DrawGame.character.addSwordDamageDealt(dealtDamage); // Adds total sword damage
+					if(a.takeDamage(dealtDamage)){
 						DrawGame.monsterList[DrawGame.monsterHash.get(currentRoom)].remove(j);
 						DrawGame.character.increaseXP(25);
+						DrawGame.character.addSwordKills(); // Adds total sword kills
 					}
 				}
 				lastSprite = moveRight[1];
 			}
 			else if(aUp){
 				if((a.currentXTile() == getXTile()) && (a.currentYTile() == getYTile() || a.currentYTile() - getYTile() == -1)){
-					if(a.takeDamage(DrawGame.character.getAttackDamage())){
+					int dealtDamage = DrawGame.character.getAttackDamage();
+					DrawGame.character.addSwordDamageDealt(dealtDamage); // Adds total sword damage
+					if(a.takeDamage(dealtDamage)){
 						DrawGame.monsterList[DrawGame.monsterHash.get(currentRoom)].remove(j);
 						DrawGame.character.increaseXP(25);
+						DrawGame.character.addSwordKills(); // Adds total sword kills
 					}
 				}
 				lastSprite = moveUp[1];
 			}
 			else if(aDown){
 				if((a.currentXTile() == getXTile()) && (a.currentYTile() == getYTile() || a.currentYTile() - getYTile() == 1)){
-					if(a.takeDamage(DrawGame.character.getAttackDamage())){
+					int dealtDamage = DrawGame.character.getAttackDamage();
+					DrawGame.character.addSwordDamageDealt(dealtDamage); // Adds total sword damage
+					if(a.takeDamage(dealtDamage)){
 						DrawGame.monsterList[DrawGame.monsterHash.get(currentRoom)].remove(j);
 						DrawGame.character.increaseXP(25);
+						DrawGame.character.addSwordKills(); // Adds total sword kills
 					}
 				}
 				lastSprite = moveDown[1];
@@ -514,6 +573,7 @@ public class Character {
 					currentHealth = maxHealth;
 				}
 				healthPotions--;
+				addHealthPotsUsed(); // Adds total health pots used
 				GameMain.infoBox.append(Engine.hpPotMessage);
 			}
 			
@@ -543,6 +603,7 @@ public class Character {
 					currentMana = maxMana;
 				}
 				manaPotions--;
+				addManaPotsUsed(); // Adds total mana pots used
 				GameMain.infoBox.append(Engine.manaPotMessage);
 			}
 		}
@@ -559,6 +620,10 @@ public class Character {
 	public String getName(){
 		return name;
 	}
+	
+	public void takeDamageBartuc(double damage){
+		
+	}
 
 	public void takeDamage(double damage) {
 		double damageReduction = (0.06 * armor) / (1 + 0.06 * armor);
@@ -567,14 +632,15 @@ public class Character {
 			damage = 0;
 		}
 		currentHealth -= damage;
+		addDamageTaken(Math.ceil(damage)); // Adds total damage taken
 	}
 
 	public void getLoot(){
 		Boolean epicGear = false;
 		int drop = rand.nextInt(100);
-		if(drop >= 0){
+		if(drop >= 84){
 			int quality = rand.nextInt(100);
-			if(quality >= 0){
+			if(quality >= 84){
 				epicGear = true;
 			}
 			int lootType = rand.nextInt(4);
@@ -583,11 +649,13 @@ public class Character {
 					int epicMessage = rand.nextInt(3);
 					int damageUpgrade = rand.nextInt(level*10) + 5*level;
 					damage += damageUpgrade;
+					addEpicSwordsFound(); // Adds total epic swords found
 					GameMain.infoBox.append("\n You found a legendary sword" + Engine.epicGear[epicMessage] + "\n Damage increased by " + damageUpgrade + ".");
 				}
 				else{
 					int damageUpgrade = rand.nextInt(level) + level; 
 					damage += damageUpgrade;
+					addSwordsFound(); // Adds total swords found
 					GameMain.infoBox.append("\n You found a mighty sword from a fallen enemy! \n Damage increased by " + damageUpgrade + ".");
 				}
 			}
@@ -596,13 +664,13 @@ public class Character {
 					int epicMessage = rand.nextInt(3);
 					int armorUpgrade = rand.nextInt(4*level) + 2*level;
 					armor += armorUpgrade;
-
+					addEpicShieldsFound(); // Adds total epic shields found
 					GameMain.infoBox.append("\n You found a huge kite shield" + Engine.epicGear[epicMessage] + "\n Armor increased by " + armorUpgrade + ".");
 				}
 				else{
 					int armorUpgrade = rand.nextInt(2*level) + level;
 					armor += armorUpgrade;
-
+					addShieldsFound(); // Adds total shields found
 					GameMain.infoBox.append("\n You found a robust targe shield from a fallen enemy! \n Armor increased by " + armorUpgrade + ".");
 				}
 			}
@@ -622,6 +690,7 @@ public class Character {
 					Double manaRegenUpgrade = (rand.nextInt(2*level)/10.0) + 0.2*level;
 					manaRegenUpgrade.doubleValue();
 					manaRegen += manaRegenUpgrade;
+					addEpicGearFound(); // Adds total epic armor found
 					GameMain.infoBox.append("\n You found " + Engine.gearTypeEpic[gearType] + Engine.epicGear[epicMessage] + "\n Armor increased by " + armorUpgrade + ".\n Health increased by " + healthUpgrade +  ".\n Mana increased by " + manaUpgrade +  ". \n Heath regeneration increased by " + GameMain.oneDigit.format(hpRegenUpgrade) +". \n Mana  regeneration increased by " + GameMain.oneDigit.format(manaRegenUpgrade));
 				}
 				else{
@@ -634,6 +703,7 @@ public class Character {
 						Double hpRegenUpgrade = (rand.nextInt(level)/10.0) + 0.1*level;
 						hpRegenUpgrade.doubleValue();
 						hpRegen += hpRegenUpgrade;
+						addGearFound(); // Adds total gear found
 						GameMain.infoBox.append("\n You found " + Engine.gearTypeHealth[gearType] + " from a fallen enemy! \n Armor increased by " + armorUpgrade + ". \n Health increased by " + healthUpgrade + ". \n Heath regeneration increased by " + GameMain.oneDigit.format(hpRegenUpgrade));
 					}
 					else{
@@ -642,6 +712,7 @@ public class Character {
 						Double manaRegenUpgrade = (rand.nextInt(level)/10.0) + 0.1*level;
 						manaRegenUpgrade.doubleValue();
 						manaRegen += manaRegenUpgrade;
+						addGearFound(); // Adds total gear found
 						GameMain.infoBox.append("\n You found " + Engine.gearTypeMana[gearType] + " from a fallen enemy! \n Armor increased by " + armorUpgrade + ". \n Mana increased by " + manaUpgrade + ". \n Mana  regeneration increased by " + GameMain.oneDigit.format(manaRegenUpgrade));
 					}
 				}
@@ -713,8 +784,8 @@ public class Character {
 	}
 
 	public void die(){		
-		GameMain.infoBox.append("\n Oh dear... You died. But you respawned!");
-		
+		GameMain.infoBox.append(Engine.deathMessage);
+
 		level = 1;
 		currentHealth = 100;
 		maxHealth = 100;
@@ -728,6 +799,7 @@ public class Character {
 		healthPotions = 0;
 		hpRegen = 1.0;
 		manaRegen = 1.0;
+		resetStats();
 		DrawGame.reset();
 
 		currentRoom = Engine.centralZone;
@@ -788,5 +860,273 @@ public class Character {
 		}
 		manaCounter++;
 		healthCounter++;
+	}
+	
+	/**
+	 * STAT METHODS
+	 * Methods for getting, setting and changing the statistics
+	 */
+	
+	public int getBartucKills(){
+		return bartucKills;
+	}
+	public void setBartucKills(int kills){
+		bartucKills = kills;
+	}
+	public void addBartucKills(){
+		bartucKills++;
+	}
+	public int getTotalKills(){
+		totalKills = getMagicKills() + getSwordKills();
+		return totalKills;
+	}
+	public void setTotalKills(int kills){
+		totalKills = kills;
+	}
+	public int getMagicKills(){
+		return magicKills;
+	}
+	public void setMagicKills(int kills){
+		magicKills = kills;
+	}
+	public void addMagicKills(){
+		magicKills++;
+	}
+	public int getSwordKills(){
+		return swordKills;
+	}
+	public void setSwordKills(int kills){
+		swordKills = kills;
+	}
+	public void addSwordKills(){
+		swordKills++;
+	}
+	public int getDamageDealt(){
+		damageDealt = getMagicDamageDealt() + getSwordDamageDealt();
+		return damageDealt;
+	}
+	public void setDamageDealt(int damage){
+		damageDealt = damage;
+	}
+	public int getMagicDamageDealt(){
+		return magicDamageDealt;
+	}
+	public void setMagicDamageDealt(int damage){
+		magicDamageDealt = damage;
+	}
+	public void addMagicDamageDealt(int damage){
+		magicDamageDealt += damage;
+	}
+	public int getSwordDamageDealt(){
+		return swordDamageDealt;
+	}
+	public void setSwordDamageDealt(int damage){
+		swordDamageDealt = damage;
+	}
+	public void addSwordDamageDealt(int damage){
+		swordDamageDealt += damage;
+	}
+	public int getFireBalls(){
+		return fireBalls;
+	}
+	public void setFireBalls(int balls){
+		fireBalls = balls;
+	}
+	public void addFireBalls(){
+		fireBalls++;
+	}
+	public int getMissedFireBalls(){
+		return missedFireBalls;
+	}
+	public void setMissedFireBalls(int balls){
+		missedFireBalls = balls;
+	}
+	public void addMissedFireBalls(){
+		missedFireBalls++;
+	}
+	public int getDamageTaken(){
+		return damageTaken;
+	}
+	public void setDamageTaken(int damage){
+		damageTaken = damage;
+	}
+	public void addDamageTaken(double damage){
+		damageTaken += damage;
+	}
+	public int getDamageTakenBartuc(){
+		return damageTakenBartuc;
+	}
+	public void setDamageTakenBartuc(int damage){
+		damageTakenBartuc = damage;
+	}
+	public void addDamageTakenBartuc(int damage){
+		damageTakenBartuc += damage;
+	}
+	public int getHealthPotsUsed(){
+		return healthPotsUsed;
+	}
+	public void setHealthPotsUsed(int pots){
+		healthPotsUsed = pots;
+	}
+	public void addHealthPotsUsed(){
+		healthPotsUsed++;
+	}
+	public int getManaPotsUsed(){
+		return manaPotsUsed;
+	}
+	public void setManaPotsUsed(int pots){
+		manaPotsUsed = pots;
+	}
+	public void addManaPotsUsed(){
+		manaPotsUsed++;
+	}
+	public int getGearFound(){
+		return gearFound;
+	}
+	public void setGearFound(int gear){
+		gearFound = gear;
+	}
+	public void addGearFound(){
+		gearFound++;
+	}
+	public int getEpicGearFound(){
+		return epicGearFound;
+	}
+	public void setEpicGearFound(int gear){
+		epicGearFound = gear;
+	}
+	public void addEpicGearFound(){
+		epicGearFound++;
+	}
+	public int getSwordsFound(){
+		return swordsFound;
+	}
+	public void setSwordsFound(int swords){
+		swordsFound = swords;
+	}
+	public void addSwordsFound(){
+		swordsFound++;
+	}
+	public int getEpicSwordsFound(){
+		return epicSwordsFound;
+	}
+	public void setEpicSwordsFound(int swords){
+		epicSwordsFound = swords;
+	}
+	public void addEpicSwordsFound(){
+		epicSwordsFound++;
+	}
+	public int getShieldsFound(){
+		return shieldsFound;
+	}
+	public void setShieldsFound(int shields){
+		shieldsFound = shields;
+	}
+	public void addShieldsFound(){
+		shieldsFound++;
+	}
+	public int getEpicShieldsFound(){
+		return epicShieldsFound;
+	}
+	public void setEpicShieldsFound(int shields){
+		epicShieldsFound = shields;
+	}
+	public void addEpicShieldsFound(){
+		epicShieldsFound++;
+	}
+	public int getStepsTaken(){
+		return stepsTaken;
+	}
+	public void setStepsTaken(int steps){
+		stepsTaken = steps;
+	}
+	public void addStepsTaken(){
+		stepsTaken++;
+	}
+	public int getZoneChanges(){
+		return zoneChanges;
+	}
+	public void setZoneChanges(int changes){
+		zoneChanges = changes;
+	}
+	public void addZoneChanges(){
+		zoneChanges++;
+	}
+	public int getTimesInCave(){
+		return timesInCave;
+	}
+	public void setTimesInCave(int times){
+		timesInCave = times;
+	}
+	public void addTimesInCave(){
+		timesInCave++;
+	}
+	public void resetStats(){
+		bartucKills = 0;
+		magicKills = 0;
+		swordKills = 0;
+		totalKills = 0;
+		damageDealt = 0;
+		magicDamageDealt = 0;
+		swordDamageDealt = 0;
+		fireBalls = 0;
+		missedFireBalls = 0;
+		damageTaken = 0;
+		damageTakenBartuc = 0;
+		healthPotsUsed = 0;
+		manaPotsUsed = 0;
+		gearFound = 0;
+		epicGearFound = 0;
+		swordsFound = 0;
+		epicSwordsFound = 0;
+		shieldsFound = 0;
+		epicShieldsFound = 0;
+		stepsTaken = 0;
+		zoneChanges = 0;
+	}
+	public String getStatMessage(){
+		statsMessage = "\n\n Feats of strength \n\n Combat\n\n You have slain "
+				+ getTotalKills()
+				+ " of bartucs minions. "
+				+ getSwordKills()
+				+ " by sword and "
+				+ getMagicKills()
+				+ " by magic \n You have dealt "
+				+ getDamageDealt()
+				+ " damage. "
+				+ getSwordDamageDealt()
+				+ " by sword and "
+				+ getMagicDamageDealt()
+				+ " by magic \n You have conjured "
+				+ getFireBalls()
+				+ " fireballs. "
+				+ getMissedFireBalls()
+				+ " of them missed their target \n You have slain the mighty Bartuc "
+				+ getBartucKills() + " times \n You have taken "
+				+ getDamageTaken()
+				+ " damage by bartucs minions and "
+				+ getDamageTakenBartuc()
+				+ " by Bartuc himself \n You have used "
+				+ getHealthPotsUsed() + " health potions and "
+				+ getManaPotsUsed()
+				+ " mana potions \n\n Loot \n\n You have looted "
+				+ getGearFound()
+				+ " pieces of armor \n You have looted "
+				+ getEpicGearFound()
+				+ " pieces of legendary armor \n You have looted "
+				+ getSwordsFound()
+				+ " swords \n You have looted "
+				+ getEpicSwordsFound()
+				+ " legendary swords \n You have looted "
+				+ getShieldsFound()
+				+ " shields \n You have looted "
+				+ getEpicShieldsFound()
+				+ " legendary shields \n\n Exploration\n\n You have taken "
+				+ getStepsTaken()
+				+ " steps \n You have walked between zones "
+				+ getZoneChanges() + " times \n You have entered bartucs cave "
+				+ getTimesInCave() + " times";
+		
+		return statsMessage;
 	}
 }
