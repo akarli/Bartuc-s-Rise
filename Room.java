@@ -9,7 +9,6 @@ import javax.imageio.ImageIO;
 public class Room {
 	private int[][] map;
 	private int[][] map2;
-	private int[][] map3;
 	private int[][] collisionMap;
 	private BufferedImage tileSheet;
 	private HashMap<String, Room> exits;
