@@ -15,6 +15,7 @@ public class FireBall {
 	private Room atRoom;
 	private BufferedImage fireball;
 	private BufferedImage[] fireBall;
+	private boolean addMiss, hit;
 
 	public FireBall(int x, int y, Room room){
 		fireball = loadImage("FIREBALL.png");
@@ -25,6 +26,8 @@ public class FireBall {
 		xPosition = x -46;
 		yPosition = y -50;
 		atRoom = room;
+		addMiss = false;
+		hit = false;
 	}
 
 	public BufferedImage loadImage(String fileName){
@@ -47,19 +50,29 @@ public class FireBall {
 	}
 
 	public void Explode() {
+		DrawGame.character.addFireBalls();
 		for (int j = 0; j < DrawGame.monsterList[DrawGame.monsterHash
 				.get(atRoom)].size(); j++) {
 			Monster a = (Monster) DrawGame.monsterList[DrawGame.monsterHash
 					.get(atRoom)].get(j);
 			if (Math.abs(a.currentXTile() - (getXtile() + 2)) < 2
 					&& Math.abs(a.currentYTile() - (getYtile() + 2)) < 2) {
+				hit = true;
+				DrawGame.character.addMagicDamageDealt(2*DrawGame.character.getDamage()); // Adds total magic damage dealt.
 				if (a.takeDamage(2*DrawGame.character.getDamage())) {
 					DrawGame.monsterList[DrawGame.monsterHash.get(atRoom)]
 							.remove(j);
 					DrawGame.character.increaseXP(25);
+					DrawGame.character.addMagicKills(); // Adds total kills by magic
 				}
 			}
-		}
+			if(!addMiss && !hit){
+					DrawGame.character.addMissedFireBalls(); // Adds total fireballs missed
+					addMiss = true;
+				}
+			}
+		hit = false;
+		addMiss = false;
 	}
 
 	public void cast(){
