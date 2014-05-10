@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.Random;
 
 import javax.imageio.ImageIO;
+import javax.print.attribute.standard.MediaSize.Engineering;
 
 public class Monster {
 	private BufferedImage monster;
@@ -258,11 +259,13 @@ public class Monster {
 			GameMain.infoBox.append("\n You hit the skeleton for " + damage + " damage and slayed it.");
 			GameMain.infoBox.setCaretPosition(GameMain.infoBox.getDocument().getLength());
 			DrawGame.character.getLoot();
+			Engine.skeletonDeathSound = true;
 			return true;
 		}
 		GameMain.infoBox.append("\n You hit the skeleton for " + damage + " damage. It has " + currentHealth + " health left.");
 		GameMain.infoBox.setCaretPosition(GameMain.infoBox.getDocument()
 				.getLength());
+		Engine.skeletonHitSound = true;
 		return false;
 	}
 	
