@@ -50,6 +50,9 @@ public class FireBall {
 	}
 
 	public void Explode() {
+		if(!Engine.fireballSound){
+			Engine.fireballSound = true;
+		}
 		DrawGame.character.addFireBalls();
 		for (int j = 0; j < DrawGame.monsterList[DrawGame.monsterHash
 				.get(atRoom)].size(); j++) {
@@ -64,8 +67,7 @@ public class FireBall {
 					DrawGame.monsterList[DrawGame.monsterHash.get(atRoom)]
 							.remove(j);
 					DrawGame.character.increaseXP(25);
-					DrawGame.character.addMagicKills(); // Adds total kills by
-														// magic
+					DrawGame.character.addMagicKills(); // Adds total kills by magic
 				}
 			}
 		}
