@@ -3,6 +3,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.imageio.ImageIO;
 
@@ -43,9 +45,9 @@ public class Character {
 	private int damageTakenBartuc, healthPotsUsed, manaPotsUsed, gearFound, epicGearFound, swordsFound, epicSwordsFound, shieldsFound, epicShieldsFound, stepsTaken, zoneChanges, timesInCave;
 
 	public Character(){
-		character = loadCharacterImage("charWalk.png");
-		levelup = loadCharacterImage("LEVELUP.png");
-		charAttack = loadCharacterImage("charAttack.png");
+		character = loadCharacterImage("Graphics\\charwalk.png");
+		levelup = loadCharacterImage("Graphics\\levelup.png");
+		charAttack = loadCharacterImage("Graphics\\charattack.png");
 		moveUp = new BufferedImage[4];
 		moveDown = new BufferedImage[4];
 		moveRight = new BufferedImage[4];
@@ -182,8 +184,8 @@ public class Character {
 					xPosition = (getXTile() - 11)*Engine.TILE_WIDTH;
 					yPosition = 18*Engine.TILE_HEIGHT;
 					currentRoom = currentRoom.getExit("cave");
-					Engine.mainTheme = false;
-					Engine.caveTheme = true;
+					Engine.mainThemeSound = false;
+					Engine.caveThemeSound = true;
 					addTimesInCave(); // Adds total times in cave
 					addZoneChanges(); // Adds total zone changes
 					DrawGame.newZone = true;
@@ -210,8 +212,8 @@ public class Character {
 					else{
 						xPosition = 27*Engine.TILE_WIDTH;
 					}
-					Engine.caveTheme = false;
-					Engine.mainTheme = true;
+					Engine.caveThemeSound = false;
+					Engine.mainThemeSound = true;
 					yPosition = 7*Engine.TILE_HEIGHT;
 					currentRoom = currentRoom.getExit("south");
 					DrawGame.newZone = true;
@@ -804,16 +806,16 @@ public class Character {
 	public void die(){		
 		Engine.playerDeathSound = true;
 		Engine.hitSound = false;
-		if(Engine.caveTheme){
-			Engine.caveTheme = false;
+		if(Engine.caveThemeSound){
+			Engine.caveThemeSound = false;
 		}
 		if(Engine.mainThemePlayer.isPlaying()){
 			Engine.mainThemePlayer.stop();
 		}
-		if(!Engine.mainTheme){
-			Engine.mainTheme = true;
+		if(!Engine.mainThemeSound){
+			Engine.mainThemeSound = true;
 		}
-		
+
 		GameMain.infoBox.append(Engine.deathMessage);
 
 		level = 1;
