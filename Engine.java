@@ -1,3 +1,5 @@
+import java.io.File;
+
 
 public class Engine {
 	/**
@@ -617,7 +619,7 @@ public class Engine {
 	 */
 
 	public static final String startMessage = " Welcome to Bartuc's Rise! \n Change your name with the \"setname\" command or use \"load\" to load a character. \n Use \"help\" for instructions."; // Start message
-	public static final String helpMessage = "\n In Bartuc's Rise, your quest is to slay the mighty demon lord Bartuc. But to be \n able to face him you have to to fight your way through hordes of his minions to \n train your strength and gather gear. Only when you have mastered both magic and \n melee combat you shall enter the dark cave of Bartuc and slay him, once and for all! \n But beware, legend has it that when angered by mortals, he will not only return, \n but he will also me much stronger than before... \n Use \"controls\" to see the controls or \"commands\" to see all available commands.";
+	public static final String helpMessage = "\n In Bartuc's Rise, your quest is to slay the mighty demon lord Bartuc. But to be \n able to face him you have to to fight your way through hordes of his minions to \n train your strength and gather gear. Only when you have mastered both magic and \n melee combat you shall enter the dark cave of Bartuc and slay him, once and for all! \n But beware, legend has it that when angered by mortals, he will not only return, \n but he will also be much stronger than before... \n Use \"controls\" to see the controls or \"commands\" to see all available commands.";
 	public static final String loadMessage = "\n Character loaded.";
 	public static final String saveMessage = "\n Character saved.";
 	public static final String noSuchCommandMessage = "\n That is not a valid command.";
@@ -661,27 +663,39 @@ public class Engine {
 	 * SOUNDS
 	 * The music and sound effects
 	 */
+	public static final File mainTheme = new File("Sounds\\maintheme.wav");
+	public static final File caveTheme = new File("Sounds\\cavetheme.wav");
+	public static final File hit = new File("Sounds\\pain.wav");
+	public static final File explosion = new File("Sounds\\fireball.wav");
+	public static final File drinkPotion = new File("Sounds\\potion.wav");
+	public static final File levelUp = new File("Sounds\\levelup.wav");
+	public static final File skeletonHit = new File("Sounds\\skeletonhit.wav");
+	public static final File skeletonDeath = new File("Sounds\\skeletondeath.wav");
+	public static final File playerDeath = new File("Sounds\\playerdeath.wav");
+	public static final File loot = new File("Sounds\\loot.wav");
+	public static final File fireBallCharge = new File("Sounds\\fireballcharge.wav");
+	public static final File potionPickUp = new File("Sounds\\potionpickup.wav");
 	
-	public static final MediaPlayer mainThemePlayer = new MediaPlayer("F:\\Eclipse workspace\\Bartuc's Rise\\Sounds\\maintheme.wav");
-	public static final MediaPlayer caveThemePlayer = new MediaPlayer("F:\\Eclipse workspace\\Bartuc's Rise\\Sounds\\cavetheme.wav");
-	public static final MediaPlayer hitPlayer = new MediaPlayer("F:\\Eclipse workspace\\Bartuc's Rise\\Sounds\\pain.wav");
-	public static final MediaPlayer fireBallPlayer = new MediaPlayer("F:\\Eclipse workspace\\Bartuc's Rise\\Sounds\\fireball.wav");
-	public static final MediaPlayer potionPlayer = new MediaPlayer("F:\\Eclipse workspace\\Bartuc's Rise\\Sounds\\potion.wav");
-	public static final MediaPlayer levelUpPlayer = new MediaPlayer("F:\\Eclipse workspace\\Bartuc's Rise\\Sounds\\levelup.wav");
-	public static final MediaPlayer skeletonHitPlayer = new MediaPlayer("F:\\Eclipse workspace\\Bartuc's Rise\\Sounds\\skeletonhit.wav");
-	public static final MediaPlayer skeletonDeathPlayer = new MediaPlayer("F:\\Eclipse workspace\\Bartuc's Rise\\Sounds\\skeletondeath.wav");
-	public static final MediaPlayer playerDeathPlayer = new MediaPlayer("F:\\Eclipse workspace\\Bartuc's Rise\\Sounds\\playerdeath.wav");
-	public static final MediaPlayer lootPlayer = new MediaPlayer("F:\\Eclipse workspace\\Bartuc's Rise\\Sounds\\loot.wav");
-	public static final MediaPlayer fireBallChargePlayer = new MediaPlayer("F:\\Eclipse workspace\\Bartuc's Rise\\Sounds\\fireballcharge.wav");
-	public static final MediaPlayer potionPickupPlayer = new MediaPlayer("F:\\Eclipse workspace\\Bartuc's Rise\\Sounds\\potionpickup.wav");
+	public static final MediaPlayer mainThemePlayer = new MediaPlayer(mainTheme);
+	public static final MediaPlayer caveThemePlayer = new MediaPlayer(caveTheme);
+	public static final MediaPlayer hitPlayer = new MediaPlayer(hit);
+	public static final MediaPlayer fireBallPlayer = new MediaPlayer(explosion);
+	public static final MediaPlayer potionPlayer = new MediaPlayer(drinkPotion);
+	public static final MediaPlayer levelUpPlayer = new MediaPlayer(levelUp);
+	public static final MediaPlayer skeletonHitPlayer = new MediaPlayer(skeletonHit);
+	public static final MediaPlayer skeletonDeathPlayer = new MediaPlayer(skeletonDeath);
+	public static final MediaPlayer playerDeathPlayer = new MediaPlayer(playerDeath);
+	public static final MediaPlayer lootPlayer = new MediaPlayer(loot);
+	public static final MediaPlayer fireBallChargePlayer = new MediaPlayer(fireBallCharge);
+	public static final MediaPlayer potionPickupPlayer = new MediaPlayer(potionPickUp);
 	
 	/**
 	 * SOUND BOOLEANS
 	 * Booleans for checking which sound to play
 	 */
 	
-	public static boolean mainTheme = true;
-	public static boolean caveTheme = false;
+	public static boolean mainThemeSound = true;
+	public static boolean caveThemeSound = false;
 	public static boolean hitSound = false;
 	public static boolean fireBallChargeSound = false;
 	public static boolean fireballSound = false;
