@@ -30,7 +30,7 @@ public class Character {
 	private int moveCounter = 0;
 	private int sprite = 0;
 	private String name;
-	private boolean levelingUp, castingFireBall, aLeft, aRight, aUp, aDown, moving, mLeft, mRight, mUp, mDown;
+	private boolean levelingUp, castingFireBall, aLeft, aRight, aUp, aDown, mLeft, mRight, mUp, mDown;
 	boolean attacking;
 	private FireBall eldBoll;
 	Random rand = new Random();
@@ -182,6 +182,8 @@ public class Character {
 					xPosition = (getXTile() - 11)*Engine.TILE_WIDTH;
 					yPosition = 18*Engine.TILE_HEIGHT;
 					currentRoom = currentRoom.getExit("cave");
+					Engine.mainTheme = false;
+					Engine.caveTheme = true;
 					addTimesInCave(); // Adds total times in cave
 					addZoneChanges(); // Adds total zone changes
 					DrawGame.newZone = true;
@@ -201,13 +203,15 @@ public class Character {
 			}
 			if(dir.matches("down")){
 				lastSprite = moveDown[1];
-				if(currentRoom == Engine.caveZone){
+				if(currentRoom == Engine.caveZone && getYTile()+1 > 19){
 					if(getXTile() == 15){
 						xPosition = 26*Engine.TILE_WIDTH;
 					}
 					else{
 						xPosition = 27*Engine.TILE_WIDTH;
 					}
+					Engine.caveTheme = false;
+					Engine.mainTheme = true;
 					yPosition = 7*Engine.TILE_HEIGHT;
 					currentRoom = currentRoom.getExit("south");
 					DrawGame.newZone = true;
@@ -384,6 +388,7 @@ public class Character {
 	}
 
 	public void levelUp(){
+		Engine.levelUpSound = true;
 		level++;
 		currentExperience = currentExperience - maxExperience;
 		maxExperience = level*100;
@@ -406,6 +411,7 @@ public class Character {
 	public void castFireBall(){
 		if(!castingFireBall){
 			if(currentMana-30 >= 0){
+				Engine.fireBallChargeSound = true;
 				currentMana -=30;
 				castingFireBall = true;
 				if(lastSprite == moveRight[1]){
@@ -574,6 +580,9 @@ public class Character {
 					currentHealth = maxHealth;
 				}
 				healthPotions--;
+				if(!Engine.potionSound){
+					Engine.potionSound = true;
+				}
 				addHealthPotsUsed(); // Adds total health pots used
 				GameMain.infoBox.append(Engine.hpPotMessage);
 			}
@@ -604,6 +613,9 @@ public class Character {
 					currentMana = maxMana;
 				}
 				manaPotions--;
+				if(!Engine.potionSound){
+					Engine.potionSound = true;
+				}
 				addManaPotsUsed(); // Adds total mana pots used
 				GameMain.infoBox.append(Engine.manaPotMessage);
 			}
@@ -634,12 +646,16 @@ public class Character {
 		}
 		currentHealth -= damage;
 		addDamageTaken(Math.ceil(damage)); // Adds total damage taken
+		if(!Engine.hitSound){
+			Engine.hitSound = true;
+		}
 	}
 
 	public void getLoot(){
 		Boolean epicGear = false;
 		int drop = rand.nextInt(100);
 		if(drop >= 84){
+			Engine.lootSound = true;
 			int quality = rand.nextInt(100);
 			if(quality >= 84){
 				epicGear = true;
@@ -722,6 +738,7 @@ public class Character {
 		}
 		int potionDrop = rand.nextInt(4);
 		if (potionDrop == 3) {
+			Engine.potionPickupSound = true;
 			int potion = rand.nextInt(2);
 			if (potion == 1) {
 				healthPotions++;
@@ -785,6 +802,18 @@ public class Character {
 	}
 
 	public void die(){		
+		Engine.playerDeathSound = true;
+		Engine.hitSound = false;
+		if(Engine.caveTheme){
+			Engine.caveTheme = false;
+		}
+		if(Engine.mainThemePlayer.isPlaying()){
+			Engine.mainThemePlayer.stop();
+		}
+		if(!Engine.mainTheme){
+			Engine.mainTheme = true;
+		}
+		
 		GameMain.infoBox.append(Engine.deathMessage);
 
 		level = 1;
