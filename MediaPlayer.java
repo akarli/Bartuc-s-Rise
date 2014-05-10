@@ -1,6 +1,6 @@
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.net.URL;
 
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
@@ -14,7 +14,7 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 
 public class MediaPlayer implements Runnable{
 
-	private String filename;
+	private File filename;
 
     private AudioInputStream audioStream = null;
     private AudioFormat audioFormat = null;
@@ -29,9 +29,9 @@ public class MediaPlayer implements Runnable{
     {
     }
     
-    public MediaPlayer(String filename)
+    public MediaPlayer(File file)
     {
-    	this.filename = filename;
+    	filename = file;
     }
     
     /**
@@ -45,15 +45,14 @@ public class MediaPlayer implements Runnable{
     {
     	isPlayingFlag = true;
     	
-        if (filename.toLowerCase().endsWith(".txt"))
+        if (filename.getName().toLowerCase().endsWith(".txt"))
         {
         	System.out.println("Text Files Not Supported!");
         }
-        else //if (filename.toLowerCase().endsWith(".mp3") || filename.toLowerCase().endsWith(".ogg"))
+        else 
         {
         	
-        	final URL fileurl = new URL("file:///"+filename);
-            final AudioInputStream in = AudioSystem.getAudioInputStream(fileurl);
+            final AudioInputStream in = AudioSystem.getAudioInputStream(filename);
 
             final AudioFormat baseFormat = in.getFormat();
             audioFormat = new AudioFormat(AudioFormat.Encoding.PCM_SIGNED,
@@ -62,8 +61,7 @@ public class MediaPlayer implements Runnable{
                     baseFormat.getChannels(),
                     baseFormat.getChannels() * 2,
                     baseFormat.getSampleRate(),
-                    false);
-            //System.out.println("Channels : " + baseFormat.getChannels());                
+                    false);               
             audioStream = AudioSystem.getAudioInputStream(audioFormat, in);        
             final byte[] data = new byte[4096];  
             try{
@@ -72,7 +70,6 @@ public class MediaPlayer implements Runnable{
                 res = (SourceDataLine) AudioSystem.getLine(info);
                 res.open(audioFormat);
                 sourceLine = res;
-                //System.out.println("Entering ...");
                 
                 // Start
                 onPlay();
@@ -91,8 +88,6 @@ public class MediaPlayer implements Runnable{
 	                            ((FloatControl) sourceLine.getControl(FloatControl.Type.MASTER_GAIN)).setValue(volume_dB);
 	                        }
 	                    	sourceLine.write(data, 0, nBytesRead);
-	                        //nBytesWritten = sourceLine.write(data, 0, nBytesRead);
-	                        //System.out.println("... -->" + data[0] + " bytesWritten:" + nBytesWritten);
 	                    }
                 	}
                 	else
@@ -100,7 +95,6 @@ public class MediaPlayer implements Runnable{
                 		isPlayingFlag = false;
                 	}
                 }         
-                //System.out.println("Done ...");
                 
                 // Stop
                 sourceLine.drain();
@@ -181,7 +175,7 @@ public class MediaPlayer implements Runnable{
 		return pauseFlag;
 	}
 
-	public void setFile(String filename)
+	public void setFile(File filename)
     {
     	this.filename = filename;
     }
