@@ -53,7 +53,6 @@ public class GameMain extends JFrame implements ActionListener {
 	JLabel characterMana = new JLabel("Mana: " + DrawGame.character.getMana() + "/" + DrawGame.character.getMaxMana(), JLabel.LEFT);
 	JLabel characterManaPots = new JLabel("Mana potions: " + DrawGame.character.getManaPots(), JLabel.LEFT);
 	
-	
 	public static JTextArea infoBox = new JTextArea(Engine.startMessage); // The box containing all info text
 	public static JTextField commandBox = new JTextField(); // The box containing all info text
 	
