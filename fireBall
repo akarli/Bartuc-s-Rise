@@ -68,11 +68,11 @@ public class FireBall {
 														// magic
 				}
 			}
-			if (!hit) {
-				if (!addMiss){
-					DrawGame.character.addMissedFireBalls(); // Adds total fireballs missed
-					addMiss = true;
-				}
+		}
+		if (!hit) {
+			if (!addMiss){
+				DrawGame.character.addMissedFireBalls(); // Adds total fireballs missed
+				addMiss = true;
 			}
 		}
 		hit = false;
