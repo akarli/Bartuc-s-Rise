@@ -656,6 +656,40 @@ public class Engine {
 	public static final RoomOverlay eastOverlay= new RoomOverlay (Engine.eastZoneLayer3);
 	public static final RoomOverlay westOverlay= new RoomOverlay (Engine.westZoneLayer3);
 	public static final RoomOverlay caveOverlay= new RoomOverlay (Engine.caveZoneLayer3);
-
-
+	
+	/**
+	 * SOUNDS
+	 * The music and sound effects
+	 */
+	
+	public static final MediaPlayer mainThemePlayer = new MediaPlayer("F:\\Eclipse workspace\\Bartuc's Rise\\Sounds\\maintheme.wav");
+	public static final MediaPlayer caveThemePlayer = new MediaPlayer("F:\\Eclipse workspace\\Bartuc's Rise\\Sounds\\cavetheme.wav");
+	public static final MediaPlayer hitPlayer = new MediaPlayer("F:\\Eclipse workspace\\Bartuc's Rise\\Sounds\\pain.wav");
+	public static final MediaPlayer fireBallPlayer = new MediaPlayer("F:\\Eclipse workspace\\Bartuc's Rise\\Sounds\\fireball.wav");
+	public static final MediaPlayer potionPlayer = new MediaPlayer("F:\\Eclipse workspace\\Bartuc's Rise\\Sounds\\potion.wav");
+	public static final MediaPlayer levelUpPlayer = new MediaPlayer("F:\\Eclipse workspace\\Bartuc's Rise\\Sounds\\levelup.wav");
+	public static final MediaPlayer skeletonHitPlayer = new MediaPlayer("F:\\Eclipse workspace\\Bartuc's Rise\\Sounds\\skeletonhit.wav");
+	public static final MediaPlayer skeletonDeathPlayer = new MediaPlayer("F:\\Eclipse workspace\\Bartuc's Rise\\Sounds\\skeletondeath.wav");
+	public static final MediaPlayer playerDeathPlayer = new MediaPlayer("F:\\Eclipse workspace\\Bartuc's Rise\\Sounds\\playerdeath.wav");
+	public static final MediaPlayer lootPlayer = new MediaPlayer("F:\\Eclipse workspace\\Bartuc's Rise\\Sounds\\loot.wav");
+	public static final MediaPlayer fireBallChargePlayer = new MediaPlayer("F:\\Eclipse workspace\\Bartuc's Rise\\Sounds\\fireballcharge.wav");
+	public static final MediaPlayer potionPickupPlayer = new MediaPlayer("F:\\Eclipse workspace\\Bartuc's Rise\\Sounds\\potionpickup.wav");
+	
+	/**
+	 * SOUND BOOLEANS
+	 * Booleans for checking which sound to play
+	 */
+	
+	public static boolean mainTheme = true;
+	public static boolean caveTheme = false;
+	public static boolean hitSound = false;
+	public static boolean fireBallChargeSound = false;
+	public static boolean fireballSound = false;
+	public static boolean potionSound = false;
+	public static boolean levelUpSound = false;
+	public static boolean skeletonHitSound = false;
+	public static boolean skeletonDeathSound = false;
+	public static boolean playerDeathSound = false;
+	public static boolean lootSound = false;
+	public static boolean potionPickupSound = false;
 }
