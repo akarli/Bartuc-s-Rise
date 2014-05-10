@@ -616,8 +616,8 @@ public class Engine {
 	 * Messages that is displayed when you start the game, level up, die etc.
 	 */
 
-	public static final String startMessage = " Welcome to Bartuc's Rise! \n Set your name with the \"setname\" command or \"load\" to load a character. \n Type \"help\" for instructions."; // Start message
-	public static final String helpMessage = "\n In Bartuc's Rise, your quest is to slay the mighty demon lord Bartuc. But to be \n able to face him you have to to fight your way through hordes of his minions to \n train your strength and gather gear. Only when you have mastered both magic and \n melee combat you shall enter the dark cave of Bartuc and slay him, once and for all! \n But beware, legend has it that when angered by mortals, he will not only return, \n but he will also me much stronger than before... \n Type \"controls\" to see the controls or \"commands\" to see all available commands.";
+	public static final String startMessage = " Welcome to Bartuc's Rise! \n Change your name with the \"setname\" command or use \"load\" to load a character. \n Use \"help\" for instructions."; // Start message
+	public static final String helpMessage = "\n In Bartuc's Rise, your quest is to slay the mighty demon lord Bartuc. But to be \n able to face him you have to to fight your way through hordes of his minions to \n train your strength and gather gear. Only when you have mastered both magic and \n melee combat you shall enter the dark cave of Bartuc and slay him, once and for all! \n But beware, legend has it that when angered by mortals, he will not only return, \n but he will also me much stronger than before... \n Use \"controls\" to see the controls or \"commands\" to see all available commands.";
 	public static final String loadMessage = "\n Character loaded.";
 	public static final String saveMessage = "\n Character saved.";
 	public static final String noSuchCommandMessage = "\n That is not a valid command.";
@@ -625,13 +625,13 @@ public class Engine {
 	public static final String noManaMessage = "\n You don't have enough mana to cast that.";
 	public static final String controlsMessage = "\n W - move up \n S - move down \n A - move left \n D - move right \n Left Mouse Button - attack \n C - cast fire ball \n Q - use a health potion \n E - use a mana potion";
 	public static final String commandsMessage = "\n \"help\" - display help message \n \"controls\" - display controls \n \"commands\" - display available commands \n \"stats\" - view you accomplishments and statistics \n \"save\" - save your character \n \"load\" - load a character \n \"setname name\" - set your characters name";
-	public static final String statsMessage = "\n You have killed zero monsters.";
 	public static final String hpPotMessage = "\n You used a health potion. Some health was restored.";
 	public static final String manaPotMessage = "\n You used a mana potion. Some mana was restored.";
 	public static final String noHpPotsMessage = "\n You don't have any health potions.";
 	public static final String noManaPotsMessage = "\n You don't have any mana potions.";
 	public static final String setNameMessage = "\n Name set.";
 	public static final String setNameError = "\n Name can consist of a maximum of three words. Name not changed.";
+	public static final String deathMessage = "\n Oh dear... You died. But you respawned!";
 	
 	public static final String[] gearTypeHealth = {"a sturdy barbute", "a sturdy cuirass", "a pair of sturdy gauntlets", "a pair of sturdy greaves", "a pair of sturdy sabatons", "a pair of sturdy pauldrons"};
 	public static final String[] gearTypeMana = {"an enchanted barbute", "an enchanted cuirass", "a pair of enchanted gauntlets", "a pair of enchanted greaves", "a pair of enchanted sabatons", "a pair of enchanted pauldrons"};
