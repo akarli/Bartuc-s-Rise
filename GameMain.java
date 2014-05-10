@@ -107,37 +107,37 @@ public class GameMain extends JFrame implements ActionListener {
 		 * Sets the font, size and position for each label.
 		 */
 		
-		characterStatistics.setFont(new Font("Serif", Font.PLAIN, 18));
+		characterStatistics.setFont(new Font("Serif", Font.PLAIN, 22));
 		characterStatistics.setBounds(40, 0, 300, 50);
 		
-		characterHealth.setFont(new Font("Serif", Font.PLAIN, 14));
+		characterHealth.setFont(new Font("Serif", Font.PLAIN, 16));
 		characterHealth.setBounds(40, 40, 171, 50);
 		
-		characterDamage.setFont(new Font("Serif", Font.PLAIN, 14));
+		characterDamage.setFont(new Font("Serif", Font.PLAIN, 16));
 		characterDamage.setBounds(40, 140, 171, 50);
 		
-		characterArmor.setFont(new Font("Serif", Font.PLAIN, 14));
+		characterArmor.setFont(new Font("Serif", Font.PLAIN, 16));
 		characterArmor.setBounds(205, 140, 171, 50);
 		
-		characterHPRegen.setFont(new Font("Serif", Font.PLAIN, 14));
+		characterHPRegen.setFont(new Font("Serif", Font.PLAIN, 16));
 		characterHPRegen.setBounds(205, 40, 170, 50);
 		
-		characterManaRegen.setFont(new Font("Serif", Font.PLAIN, 14));
+		characterManaRegen.setFont(new Font("Serif", Font.PLAIN, 16));
 		characterManaRegen.setBounds(205, 90, 170, 50);
 		
-		characterHealthPots.setFont(new Font("Serif", Font.PLAIN, 14));
+		characterHealthPots.setFont(new Font("Serif", Font.PLAIN, 16));
 		characterHealthPots.setBounds(360, 40, 171, 50);
 
-		characterLevel.setFont(new Font("Serif", Font.PLAIN, 18));
-		characterLevel.setBounds(340, 0, 171, 50);
+		characterLevel.setFont(new Font("Serif", Font.PLAIN, 20));
+		characterLevel.setBounds(360, 0, 171, 50);
 		
-		characterXP.setFont(new Font("Serif", Font.PLAIN, 14));
+		characterXP.setFont(new Font("Serif", Font.PLAIN, 16));
 		characterXP.setBounds(360, 140, 171, 50);
 		
-		characterMana.setFont(new Font("Serif", Font.PLAIN, 14));
+		characterMana.setFont(new Font("Serif", Font.PLAIN, 16));
 		characterMana.setBounds(40, 90, 171, 50);
 		
-		characterManaPots.setFont(new Font("Serif", Font.PLAIN, 14));
+		characterManaPots.setFont(new Font("Serif", Font.PLAIN, 16));
 		characterManaPots.setBounds(360, 90, 171, 50);
 
 		/**
@@ -245,7 +245,7 @@ public class GameMain extends JFrame implements ActionListener {
 		characterMana.setText("Mana: " + (int)DrawGame.character.getMana() + "/" + (int)DrawGame.character.getMaxMana());
 		characterHPRegen.setText("HP/s: " + oneDigit.format(DrawGame.character.getHPRegen()));
 		characterManaRegen.setText("Mana/s: " + oneDigit.format(DrawGame.character.getManaRegen()));
-		characterHealthPots.setText("Health Potions: " + DrawGame.character.getHPPots());
+		characterHealthPots.setText("Health potions: " + DrawGame.character.getHPPots());
 		characterManaPots.setText("Mana potions: " + DrawGame.character.getManaPots());
 
 		draw.repaint();
@@ -253,7 +253,6 @@ public class GameMain extends JFrame implements ActionListener {
 	
 	public void parseCommand(String command){
 		String lineArray[] = command.split("\\s+");
-		//String inputCommand = command;
 		if((lineArray[0].trim().equals("help") && lineArray.length == 1) || (lineArray[0].trim().equals("Help") && lineArray.length == 1)){
 			infoBox.append(Engine.helpMessage);
 			infoBox.setCaretPosition(infoBox.getDocument().getLength());
@@ -277,8 +276,8 @@ public class GameMain extends JFrame implements ActionListener {
 			infoBox.setCaretPosition(infoBox.getDocument().getLength());
 		}
 		else if((lineArray[0].trim().equals("stats") && lineArray.length == 1) || (lineArray[0].trim().equals("Stats") && lineArray.length == 1)){
-			infoBox.append(Engine.statsMessage);
-			infoBox.setCaretPosition(infoBox.getDocument().getLength());
+			infoBox.append(DrawGame.character.getStatMessage());
+			infoBox.setCaretPosition(infoBox.getDocument().getLength() - 420);
 		}
 		else if((lineArray[0].trim().equals("setname") || lineArray[0].trim().equals("Setname")) && lineArray.length <= 4){
 			if(lineArray.length == 2){
@@ -334,6 +333,50 @@ public class GameMain extends JFrame implements ActionListener {
 		    writer.println(DrawGame.character.getHPPots());
 		    writer.println("Mana potions:");
 		    writer.println(DrawGame.character.getManaPots());
+		    writer.println("Bartuc kills:");
+		    writer.println(DrawGame.character.getBartucKills());
+		    writer.println("Total minion kills:");
+		    writer.println(DrawGame.character.getTotalKills());
+		    writer.println("Sword kills:");
+		    writer.println(DrawGame.character.getSwordKills());
+		    writer.println("Magic kills:");
+		    writer.println(DrawGame.character.getMagicKills());
+		    writer.println("Total damage dealt:");
+		    writer.println(DrawGame.character.getDamageDealt());
+		    writer.println("Sword damage dealth:");
+		    writer.println(DrawGame.character.getSwordDamageDealt());
+		    writer.println("Magic damage dealt:");
+		    writer.println(DrawGame.character.getMagicDamageDealt());
+		    writer.println("Fire balls casted:");
+		    writer.println(DrawGame.character.getFireBalls());
+		    writer.println("Fire balls missed:");
+		    writer.println(DrawGame.character.getMissedFireBalls());
+		    writer.println("Damage taken by minions:");
+		    writer.println(DrawGame.character.getDamageTaken());
+		    writer.println("Damage taken by bartuc:");
+		    writer.println(DrawGame.character.getDamageTakenBartuc());
+		    writer.println("Health potions used:");
+		    writer.println(DrawGame.character.getHealthPotsUsed());
+		    writer.println("Mana potions used:");
+		    writer.println(DrawGame.character.getManaPotsUsed());
+		    writer.println("Armor found:");
+		    writer.println(DrawGame.character.getGearFound());
+		    writer.println("Epic armor found:");
+		    writer.println(DrawGame.character.getEpicGearFound());
+		    writer.println("Swords found:");
+		    writer.println(DrawGame.character.getSwordsFound());
+		    writer.println("Epic swords found:");
+		    writer.println(DrawGame.character.getEpicSwordsFound());
+		    writer.println("Shields found:");
+		    writer.println(DrawGame.character.getShieldsFound());
+		    writer.println("Epic shields found:");
+		    writer.println(DrawGame.character.getEpicShieldsFound());
+		    writer.println("Steps taken:");
+		    writer.println(DrawGame.character.getStepsTaken());
+		    writer.println("Zone changes:");
+		    writer.println(DrawGame.character.getZoneChanges());
+		    writer.println("Times in cave:");
+		    writer.println(DrawGame.character.getTimesInCave());
 		    
 		    infoBox.append(Engine.saveMessage);
 		} catch (IOException ex) {
@@ -370,6 +413,28 @@ public class GameMain extends JFrame implements ActionListener {
 		    DrawGame.character.setXP(loadList.get(9).intValue());   
 		    DrawGame.character.loadHPPots(loadList.get(10).intValue());
 		    DrawGame.character.loadManaPots(loadList.get(11).intValue());
+		    DrawGame.character.setBartucKills(loadList.get(12).intValue());
+		    DrawGame.character.setTotalKills(loadList.get(13).intValue());
+		    DrawGame.character.setSwordKills(loadList.get(14).intValue());
+		    DrawGame.character.setMagicKills(loadList.get(15).intValue());
+		    DrawGame.character.setDamageDealt(loadList.get(16).intValue());
+		    DrawGame.character.setSwordDamageDealt(loadList.get(17).intValue());
+		    DrawGame.character.setMagicDamageDealt(loadList.get(18).intValue());
+		    DrawGame.character.setFireBalls(loadList.get(19).intValue());
+		    DrawGame.character.setMissedFireBalls(loadList.get(20).intValue());
+		    DrawGame.character.setDamageTaken(loadList.get(21).intValue());
+		    DrawGame.character.setDamageTakenBartuc(loadList.get(22).intValue());
+		    DrawGame.character.setHealthPotsUsed(loadList.get(23).intValue());
+		    DrawGame.character.setManaPotsUsed(loadList.get(24).intValue());
+		    DrawGame.character.setGearFound(loadList.get(25).intValue());
+		    DrawGame.character.setEpicGearFound(loadList.get(26).intValue());
+		    DrawGame.character.setSwordsFound(loadList.get(27).intValue());
+		    DrawGame.character.setEpicSwordsFound(loadList.get(28).intValue());
+		    DrawGame.character.setShieldsFound(loadList.get(29).intValue());
+		    DrawGame.character.setEpicShieldsFound(loadList.get(30).intValue());
+		    DrawGame.character.setStepsTaken(loadList.get(31).intValue());
+		    DrawGame.character.setZoneChanges(loadList.get(32).intValue());
+		    DrawGame.character.setTimesInCave(loadList.get(33).intValue());
 		    
 		    DrawGame.character.setMaxXP();
 		    DrawGame.character.setRoom(Engine.centralZone);
