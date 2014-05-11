@@ -18,6 +18,7 @@ public class Bartuc {
 	private Room zone;
 	private boolean casting = false;
 	public boolean aggro = false;
+	public boolean alive = true;
 	Random rand = new Random();
 
 	public Bartuc(int kills){
@@ -80,6 +81,10 @@ public class Bartuc {
 
 	public int getCD(){
 		return attackCooldown;
+	}
+	
+	public void reset(){
+		
 	}
 
 	public void castShadowBlast(){
