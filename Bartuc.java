@@ -1,37 +1,92 @@
+import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Random;
+
+import javax.imageio.ImageIO;
+
 
 public class Bartuc {
 
 	private double maxHealth, currentHealth, baseHealth;
-	private int damage, baseDamage, attackCooldown, difficulty;
-	
+	private int damage, baseDamage, attackCooldown, difficulty, xPosition, yPosition;
+	private BufferedImage bartuc, currentSprite;
+	private BufferedImage[] bartucIdle;
+	private ShadowBlast shadowBlasts[];
+	private Room zone;
+	private boolean casting = false;
+	Random rand = new Random();
+
 	public Bartuc(int kills){
-		difficulty = kills + 1;
-		baseHealth = 100.0;
-		baseDamage = 35;
+		xPosition = 480;
+		yPosition = 128;
+		difficulty = kills+1;
+		baseHealth = 100;
+		baseDamage = 10;
 		maxHealth = (100.0*baseHealth) * difficulty;
-		currentHealth = 100.0;
+		currentHealth = maxHealth;
 		damage = (10*baseDamage) * difficulty;
 		attackCooldown = 10;
-		
+		shadowBlasts = new ShadowBlast[5];
+		bartuc = loadBartucImage("Graphics\\bartuc.png");
+		bartucIdle = new BufferedImage[3];
+		bartucIdle[0] = bartuc.getSubimage(0, 0, 64, 50);
+		bartucIdle[1] = bartuc.getSubimage(67, 0, 64, 50);
+		bartucIdle[2] = bartuc.getSubimage(134, 0, 65, 50);
+		currentSprite = bartucIdle[1];
+		zone = Engine.caveZone;
+		for(int i = 0; i<5; i++){
+			shadowBlasts[i] = new ShadowBlast();
+		}
+
 	}
-	
+
+	public BufferedImage loadBartucImage(String fileName){
+		BufferedImage img = null;
+		try{
+			img = ImageIO.read(new File(fileName));
+		} catch (IOException e1) {
+			throw new IllegalArgumentException("Could not load the file.");
+		}
+
+		return img;
+	}
+
+
+	public void drawImage(Graphics g){
+		g.drawImage(bartucIdle[1], xPosition, yPosition, null);
+		if(casting){
+			for(int i = 0; i< shadowBlasts.length; i++){
+				shadowBlasts[i].drawImage(g);
+			}
+		}
+	}
+
+
 	public double getCurrentHealth(){
 		return currentHealth;
 	}
-	
+
 	public double getMaxHealth(){
 		return maxHealth;
 	}
-	
+
 	public int getDamage(){
 		return damage;
 	}
-	
+
 	public int getCD(){
 		return attackCooldown;
 	}
-	
-	public void shadowBlast(){
-		
+
+	public void castShadowBlast(){
+		for(int i = 0; i<5; i++){
+			int xOffset = rand.nextInt(20)-10;
+			int yOffset = rand.nextInt(20)-10;
+			shadowBlasts[i].cast(DrawGame.character.getXTile()+ xOffset, DrawGame.character.getYTile()+yOffset, damage, Engine.caveZone);
+		}
+		casting = true;
 	}
 }
