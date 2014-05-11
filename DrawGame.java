@@ -32,10 +32,11 @@ public class DrawGame extends JPanel implements KeyListener, MouseListener, Mous
 	public static ArrayList[] monsterList; //en array med arraylists vid varje position, där platsen i arrayen är zonen och platserna i arraylisten är monstren i zonen
 	static HashMap<Room, Integer> monsterHash; // en hashmap där varje room tilldelas en siffra
 	private HashMap <Room, RoomOverlay> overlay;
-	int monsterMoveCounter = 0, direction = 0;
+	int monsterMoveCounter = 0, direction = 0, castShadowCounter=0;
 	Random rand = new Random();
 	int lastKey;
 	boolean wait;
+	public Bartuc bartuc;
 
 	public DrawGame(){
 		monsterHash = new HashMap<Room, Integer>();
@@ -67,6 +68,7 @@ public class DrawGame extends JPanel implements KeyListener, MouseListener, Mous
 		for(int i = 0; i < 6; i++){
 			monsterList[i] = new ArrayList<Monster>(); //skapar arraylistorna i varje zon
 		}
+		bartuc = new Bartuc(DrawGame.character.getBartucKills());
 		addMouseListener(this);
 		addMouseMotionListener(this);
 		addKeyListener(this);
@@ -77,7 +79,7 @@ public class DrawGame extends JPanel implements KeyListener, MouseListener, Mous
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
 		character.getCurrentRoom().drawImage(g);
-		
+
 		monsterMoveCounter++;
 		if(newZone){ //om du går in i en ny zon, detta körs bara en gång när du går in i en ny zon
 			if(monsterList[monsterHash.get(character.getCurrentRoom())].size() == 0 ||
@@ -101,7 +103,14 @@ public class DrawGame extends JPanel implements KeyListener, MouseListener, Mous
 				}
 			}
 		}
-
+		if(DrawGame.character.getCurrentRoom() == Engine.caveZone){
+			bartuc.drawImage(g); //ritar bartuc om du är i cavezone
+			if(castShadowCounter >= 100){
+				bartuc.castShadowBlast();
+				castShadowCounter = 0;
+			}
+			castShadowCounter++;
+		}
 		character.drawImage(g);
 
 		for(int i = 0; i < monsterList[monsterHash.get(character.getCurrentRoom())].size();i++){
@@ -135,22 +144,22 @@ public class DrawGame extends JPanel implements KeyListener, MouseListener, Mous
 				}
 			}
 		}
-		
+
 		/**
 		 * SOUND CHECKS
 		 * Checks which sound to play
 		 */
-		
+
 		if(!Engine.mainThemePlayer.isPlaying() && Engine.mainThemeSound){
 			Engine.mainThemePlayer.setVolume(0.1f);
 			new Thread(Engine.mainThemePlayer).start();
 		}
-		
+
 		if(!Engine.caveThemePlayer.isPlaying() && Engine.caveThemeSound){
 			Engine.caveThemePlayer.setVolume(0.1f);
 			new Thread(Engine.caveThemePlayer).start();
 		}
-		
+
 		if(Engine.hitSound && !Engine.hitPlayer.isPlaying()){
 			Engine.hitPlayer.setVolume(0.03f);
 			new Thread(Engine.hitPlayer).start();
@@ -321,6 +330,9 @@ public class DrawGame extends JPanel implements KeyListener, MouseListener, Mous
 			case KeyEvent.VK_C:
 				character.castFireBall();
 				break;
+
+			}
+			switch(keyCode){
 			case KeyEvent.VK_Q:
 				character.useHPPot();
 				break;
