@@ -105,11 +105,10 @@ public class DrawGame extends JPanel implements KeyListener, MouseListener, Mous
 		}
 		if(DrawGame.character.getCurrentRoom() == Engine.caveZone){
 			bartuc.drawImage(g); //ritar bartuc om du är i cavezone
-			if(castShadowCounter >= 100){
+			int random = rand.nextInt(100);
+			if(random >= 98){
 				bartuc.castShadowBlast();
-				castShadowCounter = 0;
 			}
-			castShadowCounter++;
 		}
 		character.drawImage(g);
 
