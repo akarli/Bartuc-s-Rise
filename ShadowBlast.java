@@ -53,8 +53,8 @@ public class ShadowBlast {
 	}
 
 	public void Explode() {
-		if(!Engine.fireballSound){
-			Engine.fireballSound = true;
+		if(!Engine.shadowBlastSound){
+			Engine.shadowBlastSound = true;
 		}
 		DrawGame.character.addFireBalls();
 		if (Math.abs(DrawGame.character.getXTile() - (getXtile() + 2)) < 2 && Math.abs(DrawGame.character.getYTile() - (getYtile() + 2)) < 2){
