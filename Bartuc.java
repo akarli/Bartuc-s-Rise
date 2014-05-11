@@ -11,7 +11,7 @@ import javax.imageio.ImageIO;
 public class Bartuc {
 
 	private double maxHealth, currentHealth, baseHealth;
-	private int damage, baseDamage, attackCooldown, difficulty, xPosition, yPosition;
+	private int damage, baseDamage, attackCooldown, difficulty, xPosition, yPosition, shadowBlastCounter;
 	private BufferedImage bartuc, currentSprite;
 	private BufferedImage[] bartucIdle;
 	private ShadowBlast shadowBlasts[];
@@ -29,7 +29,7 @@ public class Bartuc {
 		currentHealth = maxHealth;
 		damage = (10*baseDamage) * difficulty;
 		attackCooldown = 10;
-		shadowBlasts = new ShadowBlast[5];
+		shadowBlasts = new ShadowBlast[10];
 		bartuc = loadBartucImage("Graphics\\bartuc.png");
 		bartucIdle = new BufferedImage[3];
 		bartucIdle[0] = bartuc.getSubimage(0, 0, 64, 50);
@@ -37,7 +37,7 @@ public class Bartuc {
 		bartucIdle[2] = bartuc.getSubimage(134, 0, 65, 50);
 		currentSprite = bartucIdle[1];
 		zone = Engine.caveZone;
-		for(int i = 0; i<5; i++){
+		for(int i = 0; i<10; i++){
 			shadowBlasts[i] = new ShadowBlast();
 		}
 
@@ -82,11 +82,13 @@ public class Bartuc {
 	}
 
 	public void castShadowBlast(){
-		for(int i = 0; i<5; i++){
-			int xOffset = rand.nextInt(20)-10;
-			int yOffset = rand.nextInt(20)-10;
-			shadowBlasts[i].cast(DrawGame.character.getXTile()+ xOffset, DrawGame.character.getYTile()+yOffset, damage, Engine.caveZone);
-		}
+		int xOffset = rand.nextInt(10)-5;
+		int yOffset = rand.nextInt(10)-5;
+		shadowBlasts[shadowBlastCounter].cast(DrawGame.character.getXTile()+ xOffset, DrawGame.character.getYTile()+yOffset, damage, Engine.caveZone);
 		casting = true;
+		shadowBlastCounter++;
+		if(shadowBlastCounter > 9){
+			shadowBlastCounter = 0;
+		}
 	}
 }
