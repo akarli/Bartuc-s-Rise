@@ -210,7 +210,10 @@ public class Character {
 						xPosition = 27*Engine.TILE_WIDTH;
 					}
 					Engine.caveThemeSound = false;
+					Engine.bartucThemeSound = false;
 					Engine.mainThemeSound = true;
+					DrawGame.bartuc.reset();
+					DrawGame.bartuc.aggro = false;
 					yPosition = 7*Engine.TILE_HEIGHT;
 					currentRoom = currentRoom.getExit("south");
 					DrawGame.newZone = true;
@@ -634,7 +637,7 @@ public class Character {
 	}
 	
 	public void takeDamageBartuc(double damage){
-		
+		  currentHealth -= damage;
 	}
 
 	public void takeDamage(double damage) {
@@ -886,6 +889,12 @@ public class Character {
 				currentMana = maxMana;
 			}
 			manaCounter = 0;
+		}
+		if(currentRoom == Engine.caveZone && getXTile() >= 12 && getXTile() <= 19 && getYTile() <= 9){
+			DrawGame.bartuc.aggro = true;
+			Engine.bartucThemeSound = true;
+			Engine.caveThemeSound = false;
+			
 		}
 		manaCounter++;
 		healthCounter++;
