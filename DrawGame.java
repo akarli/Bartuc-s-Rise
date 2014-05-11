@@ -175,6 +175,11 @@ public class DrawGame extends JPanel implements KeyListener, MouseListener, Mous
 			new Thread(Engine.fireBallPlayer).start();
 			Engine.fireballSound = false;
 		}
+		if(!Engine.shadowBlastPlayer.isPlaying() && Engine.shadowBlastSound){
+			Engine.shadowBlastPlayer.setVolume(0.02f);
+			new Thread(Engine.shadowBlastPlayer).start();
+			Engine.shadowBlastSound = false;
+		}
 		if(!Engine.potionPlayer.isPlaying() && Engine.potionSound){
 			Engine.potionPlayer.setVolume(0.05f);
 			new Thread(Engine.potionPlayer).start();
