@@ -16,11 +16,15 @@ public class ShadowBlast {
 	private Room atRoom;
 	private BufferedImage shadowblast;
 	private BufferedImage[] shadowBlast;
+	private MediaPlayer player;
+	public boolean sound = false;
 	
 
 	public ShadowBlast(){
 		shadowblast = loadImage("Graphics\\shadowblast.png");
 		shadowBlast = new BufferedImage[48];
+		player = new MediaPlayer(Engine.explosion);
+		player.setVolume(0.02f);
 		for(int i = 0; i < 48 ;i++){
 			shadowBlast[i] = shadowblast.getSubimage(0 + (i*128), 0, 128, 128);
 		}
@@ -53,20 +57,19 @@ public class ShadowBlast {
 	}
 
 	public void Explode() {
-		if(!Engine.shadowBlastSound){
-			Engine.shadowBlastSound = true;
+		if(sound){
+			new Thread(player).start();
 		}
-		DrawGame.character.addFireBalls();
 		if (Math.abs(DrawGame.character.getXTile() - (getXtile() + 2)) < 2 && Math.abs(DrawGame.character.getYTile() - (getYtile() + 2)) < 2){
 			DrawGame.character.takeDamageBartuc(damage);
 		}
+		sound = false;
 	}
 
 	public BufferedImage castShadowBlastImage(){
 		if(spriteFire == 96){
 			spriteFire = 0;
 			castingShadowBlast = false;
-			DrawGame.character.stopCasting();
 
 		}
 
