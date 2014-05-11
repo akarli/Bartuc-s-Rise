@@ -809,6 +809,9 @@ public class Character {
 		if(Engine.caveThemeSound){
 			Engine.caveThemeSound = false;
 		}
+		if(Engine.bartucThemeSound){
+			Engine.bartucThemeSound = false;
+		}
 		if(Engine.mainThemePlayer.isPlaying()){
 			Engine.mainThemePlayer.stop();
 		}
@@ -831,6 +834,8 @@ public class Character {
 		healthPotions = 0;
 		hpRegen = 1.0;
 		manaRegen = 1.0;
+		DrawGame.bartuc.aggro = false;
+		DrawGame.bartuc.reset();
 		resetStats();
 		DrawGame.reset();
 
