@@ -683,7 +683,6 @@ public class Engine {
 	public static final MediaPlayer potionPlayer = new MediaPlayer(drinkPotion);
 	public static final MediaPlayer levelUpPlayer = new MediaPlayer(levelUp);
 	public static final MediaPlayer skeletonHitPlayer = new MediaPlayer(skeletonHit);
-	public static final MediaPlayer skeletonDeathPlayer = new MediaPlayer(skeletonDeath);
 	public static final MediaPlayer playerDeathPlayer = new MediaPlayer(playerDeath);
 	public static final MediaPlayer lootPlayer = new MediaPlayer(loot);
 	public static final MediaPlayer fireBallChargePlayer = new MediaPlayer(fireBallCharge);
@@ -702,7 +701,6 @@ public class Engine {
 	public static boolean potionSound = false;
 	public static boolean levelUpSound = false;
 	public static boolean skeletonHitSound = false;
-	public static boolean skeletonDeathSound = false;
 	public static boolean playerDeathSound = false;
 	public static boolean lootSound = false;
 	public static boolean potionPickupSound = false;
