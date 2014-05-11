@@ -36,7 +36,7 @@ public class DrawGame extends JPanel implements KeyListener, MouseListener, Mous
 	Random rand = new Random();
 	int lastKey;
 	boolean wait;
-	public Bartuc bartuc;
+	public static Bartuc bartuc;
 
 	public DrawGame(){
 		monsterHash = new HashMap<Room, Integer>();
@@ -103,12 +103,16 @@ public class DrawGame extends JPanel implements KeyListener, MouseListener, Mous
 				}
 			}
 		}
-		if(DrawGame.character.getCurrentRoom() == Engine.caveZone){
-			bartuc.drawImage(g); //ritar bartuc om du är i cavezone
-			int random = rand.nextInt(100);
-			if(random >= 98){
-				bartuc.castShadowBlast();
+		if (DrawGame.character.getCurrentRoom() == Engine.caveZone) {
+			if (bartuc.aggro && bartuc.alive) {
+				int random = rand.nextInt(100);
+				if (random >= 98) {
+					bartuc.castShadowBlast();
+				}
 			}
+		}
+		if(bartuc.alive && character.getCurrentRoom() == Engine.caveZone){
+			bartuc.drawImage(g); // ritar bartuc om du är i cavezone
 		}
 		character.drawImage(g);
 
@@ -158,7 +162,10 @@ public class DrawGame extends JPanel implements KeyListener, MouseListener, Mous
 			Engine.caveThemePlayer.setVolume(0.1f);
 			new Thread(Engine.caveThemePlayer).start();
 		}
-
+		if(!Engine.bartucThemePlayer.isPlaying() && Engine.bartucThemeSound){
+			Engine.bartucThemePlayer.setVolume(0.1f);
+			new Thread(Engine.bartucThemePlayer).start();
+		}
 		if(Engine.hitSound && !Engine.hitPlayer.isPlaying()){
 			Engine.hitPlayer.setVolume(0.03f);
 			new Thread(Engine.hitPlayer).start();
@@ -209,6 +216,9 @@ public class DrawGame extends JPanel implements KeyListener, MouseListener, Mous
 		}
 		if(!Engine.caveThemeSound){
 			Engine.caveThemePlayer.stop();
+		}
+		if(!Engine.bartucThemeSound){
+			Engine.bartucThemePlayer.stop();
 		}
 	}
 
