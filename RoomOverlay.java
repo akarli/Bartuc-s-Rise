@@ -18,7 +18,7 @@ public class RoomOverlay {
 				map3[y][x] = existingMap3[y][x];
 			}
 		}
-		tileSheet = LoadTileSheet("tileset.png");
+		tileSheet = LoadTileSheet("Graphics\\tileset.png");
 
 	}
 
