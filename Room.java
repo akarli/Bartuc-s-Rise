@@ -34,7 +34,7 @@ public class Room {
 			}
 		}
 		//character = this.character;
-		tileSheet = LoadTileSheet("tileset.png");
+		tileSheet = LoadTileSheet("Graphics\\tileset.png");
 		exits = new HashMap<String, Room>();
 
 	}
