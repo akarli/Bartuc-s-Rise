@@ -688,7 +688,6 @@ public class Engine {
 	public static final MediaPlayer lootPlayer = new MediaPlayer(loot);
 	public static final MediaPlayer fireBallChargePlayer = new MediaPlayer(fireBallCharge);
 	public static final MediaPlayer potionPickupPlayer = new MediaPlayer(potionPickUp);
-	public static final MediaPlayer shadowBlastPlayer = new MediaPlayer(explosion);
 	
 	/**
 	 * SOUND BOOLEANS
@@ -707,5 +706,4 @@ public class Engine {
 	public static boolean playerDeathSound = false;
 	public static boolean lootSound = false;
 	public static boolean potionPickupSound = false;
-	public static boolean shadowBlastSound = false;;
 }
