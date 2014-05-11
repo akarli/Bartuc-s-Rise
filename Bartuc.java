@@ -17,6 +17,7 @@ public class Bartuc {
 	private ShadowBlast shadowBlasts[];
 	private Room zone;
 	private boolean casting = false;
+	public boolean aggro = false;
 	Random rand = new Random();
 
 	public Bartuc(int kills){
@@ -85,6 +86,7 @@ public class Bartuc {
 		int xOffset = rand.nextInt(10)-5;
 		int yOffset = rand.nextInt(10)-5;
 		shadowBlasts[shadowBlastCounter].cast(DrawGame.character.getXTile()+ xOffset, DrawGame.character.getYTile()+yOffset, damage, Engine.caveZone);
+		shadowBlasts[shadowBlastCounter].sound = true;
 		casting = true;
 		shadowBlastCounter++;
 		if(shadowBlastCounter > 9){
