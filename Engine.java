@@ -665,6 +665,7 @@ public class Engine {
 	 */
 	public static final File mainTheme = new File("Sounds\\maintheme.wav");
 	public static final File caveTheme = new File("Sounds\\cavetheme.wav");
+	public static final File bartucTheme = new File("Sounds\\bartuctheme.wav");
 	public static final File hit = new File("Sounds\\pain.wav");
 	public static final File explosion = new File("Sounds\\fireball.wav");
 	public static final File drinkPotion = new File("Sounds\\potion.wav");
@@ -678,6 +679,7 @@ public class Engine {
 	
 	public static final MediaPlayer mainThemePlayer = new MediaPlayer(mainTheme);
 	public static final MediaPlayer caveThemePlayer = new MediaPlayer(caveTheme);
+	public static final MediaPlayer bartucThemePlayer = new MediaPlayer(bartucTheme);
 	public static final MediaPlayer hitPlayer = new MediaPlayer(hit);
 	public static final MediaPlayer fireBallPlayer = new MediaPlayer(explosion);
 	public static final MediaPlayer potionPlayer = new MediaPlayer(drinkPotion);
@@ -695,6 +697,7 @@ public class Engine {
 	
 	public static boolean mainThemeSound = true;
 	public static boolean caveThemeSound = false;
+	public static boolean bartucThemeSound = false;
 	public static boolean hitSound = false;
 	public static boolean fireBallChargeSound = false;
 	public static boolean fireballSound = false;
