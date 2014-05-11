@@ -26,6 +26,8 @@ public class Monster {
 	private int x = 2;
 	private int animationCounter=1;
 	private int offset = 0, offsetx = 0;
+	private MediaPlayer deathPlayer;
+	private boolean death;
 
 	public Monster(){
 		monster = loadMonsterImage("Graphics\\skeleton.png");
@@ -41,6 +43,8 @@ public class Monster {
 		attackDown = new BufferedImage[4];
 		attackLeft = new BufferedImage[4];
 		attackRight = new BufferedImage[4];
+		deathPlayer = new MediaPlayer(Engine.skeletonDeath);
+		deathPlayer.setVolume(0.02f);
 		for(int i = 0; i < 4; i++){
 			moveUpPic[i] = monster.getSubimage(x+(i*19), 133, 19, 50);
 		}
@@ -258,7 +262,11 @@ public class Monster {
 			GameMain.infoBox.append("\n You hit the skeleton for " + damage + " damage and slayed it.");
 			GameMain.infoBox.setCaretPosition(GameMain.infoBox.getDocument().getLength());
 			DrawGame.character.getLoot();
-			Engine.skeletonDeathSound = true;
+			death = true;
+			if(death){
+				new Thread(deathPlayer).start();
+			}
+			death = false;
 			return true;
 		}
 		GameMain.infoBox.append("\n You hit the skeleton for " + damage + " damage. It has " + currentHealth + " health left.");
