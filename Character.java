@@ -30,6 +30,7 @@ public class Character {
 	private int sprite = 0;
 	private String name;
 	private boolean levelingUp, castingFireBall, aLeft, aRight, aUp, aDown, mLeft, mRight, mUp, mDown;
+	private boolean bartucEngage = false;
 	boolean attacking;
 	private FireBall eldBoll;
 	Random rand = new Random();
@@ -212,8 +213,13 @@ public class Character {
 					Engine.caveThemeSound = false;
 					Engine.bartucThemeSound = false;
 					Engine.mainThemeSound = true;
-					DrawGame.bartuc.reset();
-					DrawGame.bartuc.aggro = false;
+					if(DrawGame.bartuc.aggro && DrawGame.bartuc.alive){
+						DrawGame.bartuc.reset();
+						DrawGame.bartuc.aggro = false;
+						bartucEngage = false;
+						GameMain.infoBox.append(Engine.bartucFledMessage);
+						GameMain.infoBox.setCaretPosition(GameMain.infoBox.getDocument().getLength());
+					}
 					yPosition = 7*Engine.TILE_HEIGHT;
 					currentRoom = currentRoom.getExit("south");
 					DrawGame.newZone = true;
@@ -379,28 +385,26 @@ public class Character {
 				lastSprite = moveDown[1];
 			}
 		}
-		if(aLeft){
-			if((DrawGame.bartuc.getXTile() == getXTile() || DrawGame.bartuc.getXTile() - getXTile() == -1)){
-				DrawGame.bartuc.takeDamage(DrawGame.character.getAttackDamage());
-			}
-		}
-		if(aRight){
-			if((DrawGame.bartuc.getXTile() == getXTile() || DrawGame.bartuc.getXTile() - getXTile() == +1)){
-				DrawGame.bartuc.takeDamage(DrawGame.character.getAttackDamage());
-			}
-		}
-		if(aUp){
-			if((DrawGame.bartuc.getYTile() == getYTile() || DrawGame.bartuc.getYTile() - getYTile() == -1)){
-				DrawGame.bartuc.takeDamage(DrawGame.character.getAttackDamage());
-			}
-		}
-		if(aDown){
-			if((DrawGame.bartuc.getYTile() == getYTile() || DrawGame.bartuc.getYTile() - getYTile() == +1)){
-				DrawGame.bartuc.takeDamage(DrawGame.character.getAttackDamage());
-			}
-		}
-		
-		
+		  if(aLeft){
+			   if((DrawGame.bartuc.getXTile() == getXTile() || DrawGame.bartuc.getXTile() - getXTile() == -1)){
+			    DrawGame.bartuc.takeDamage(DrawGame.character.getAttackDamage());
+			   }
+			  }
+			  if(aRight){
+			   if((DrawGame.bartuc.getXTile() == getXTile() || DrawGame.bartuc.getXTile() - getXTile() == +1)){
+			    DrawGame.bartuc.takeDamage(DrawGame.character.getAttackDamage());
+			   }
+			  }
+			  if(aUp){
+			   if((DrawGame.bartuc.getYTile() == getYTile() || DrawGame.bartuc.getYTile() - getYTile() == -1)){
+			    DrawGame.bartuc.takeDamage(DrawGame.character.getAttackDamage());
+			   }
+			  }
+			  if(aDown){
+			   if((DrawGame.bartuc.getYTile() == getYTile() || DrawGame.bartuc.getYTile() - getYTile() == +1)){
+			    DrawGame.bartuc.takeDamage(DrawGame.character.getAttackDamage());
+			   }
+			  }
 		aLeft = false;
 		aRight = false;
 		aUp = false;
@@ -918,9 +922,17 @@ public class Character {
 			manaCounter = 0;
 		}
 		if(currentRoom == Engine.caveZone && getXTile() >= 12 && getXTile() <= 19 && getYTile() <= 9){
-			DrawGame.bartuc.aggro = true;
-			Engine.bartucThemeSound = true;
-			Engine.caveThemeSound = false;
+			if(!DrawGame.bartuc.aggro)
+				DrawGame.bartuc.aggro = true;
+			if(!Engine.bartucThemeSound)
+				Engine.bartucThemeSound = true;
+			if(Engine.caveThemeSound)
+				Engine.caveThemeSound = false;
+			if(!bartucEngage){
+				GameMain.infoBox.append(Engine.bartucEngageMessage);
+				GameMain.infoBox.setCaretPosition(GameMain.infoBox.getDocument().getLength());
+				bartucEngage = true;
+			}
 			
 		}
 		manaCounter++;
