@@ -78,6 +78,11 @@ public class ShadowBlast {
 		}
 		return shadowBlast[spriteFire/2];
 	}
+	
+	public void stop() {
+		spriteFire = 0;
+		castingShadowBlast = false;
+	}
 
 	public void drawImage(Graphics g){
 		if(castingShadowBlast && atRoom == DrawGame.character.getCurrentRoom()){
