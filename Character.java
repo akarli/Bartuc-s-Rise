@@ -379,6 +379,28 @@ public class Character {
 				lastSprite = moveDown[1];
 			}
 		}
+		if(aLeft){
+			if((DrawGame.bartuc.getXTile() == getXTile() || DrawGame.bartuc.getXTile() - getXTile() == -1)){
+				DrawGame.bartuc.takeDamage(DrawGame.character.getAttackDamage());
+			}
+		}
+		if(aRight){
+			if((DrawGame.bartuc.getXTile() == getXTile() || DrawGame.bartuc.getXTile() - getXTile() == +1)){
+				DrawGame.bartuc.takeDamage(DrawGame.character.getAttackDamage());
+			}
+		}
+		if(aUp){
+			if((DrawGame.bartuc.getYTile() == getYTile() || DrawGame.bartuc.getYTile() - getYTile() == -1)){
+				DrawGame.bartuc.takeDamage(DrawGame.character.getAttackDamage());
+			}
+		}
+		if(aDown){
+			if((DrawGame.bartuc.getYTile() == getYTile() || DrawGame.bartuc.getYTile() - getYTile() == +1)){
+				DrawGame.bartuc.takeDamage(DrawGame.character.getAttackDamage());
+			}
+		}
+		
+		
 		aLeft = false;
 		aRight = false;
 		aUp = false;
