@@ -92,6 +92,7 @@ public class DrawGame extends JPanel implements KeyListener, MouseListener, Mous
 				}
 			}
 			newZone = false;
+			bartuc.stopCasting();
 		}
 		for(int j = 0; j < monsterList[monsterHash.get(character.getCurrentRoom())].size();j++){ //ritar alla monster
 			Monster a = (Monster) monsterList[monsterHash.get(character.getCurrentRoom())].get(j);
@@ -150,9 +151,7 @@ public class DrawGame extends JPanel implements KeyListener, MouseListener, Mous
 		}
 
 		if(bartuc.alive && bartuc.getCurrentHealth()<=0){
-			GameMain.infoBox.append(Engine.bartucDeathMessage);
-			bartuc.alive = false;
-			bartuc.aggro = false;
+			bartuc.die();
 			Engine.bartucThemeSound = false;
 		}
 
