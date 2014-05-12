@@ -221,6 +221,8 @@ public class Character {
 						GameMain.infoBox.setCaretPosition(GameMain.infoBox.getDocument().getLength());
 					}
 					if(!DrawGame.bartuc.alive){
+						GameMain.infoBox.append(Engine.bartucSpawnMessage);
+						GameMain.infoBox.setCaretPosition(GameMain.infoBox.getDocument().getLength());
 						DrawGame.bartuc.spawn(getBartucKills());
 					}
 					yPosition = 7*Engine.TILE_HEIGHT;
