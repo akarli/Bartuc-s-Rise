@@ -220,6 +220,9 @@ public class Character {
 						GameMain.infoBox.append(Engine.bartucFledMessage);
 						GameMain.infoBox.setCaretPosition(GameMain.infoBox.getDocument().getLength());
 					}
+					if(!DrawGame.bartuc.alive){
+						DrawGame.bartuc.spawn(getBartucKills());
+					}
 					yPosition = 7*Engine.TILE_HEIGHT;
 					currentRoom = currentRoom.getExit("south");
 					DrawGame.newZone = true;
