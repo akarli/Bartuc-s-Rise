@@ -445,18 +445,22 @@ public class Character {
 				if(dir.matches("right")){
 					eldBoll = new FireBall(xPosition + 32, yPosition, currentRoom);
 					eldBoll.cast();
+					lastSprite = moveRight[1];
 				}
 				if(dir.matches("left")){
 					eldBoll = new FireBall(xPosition - 32, yPosition, currentRoom);
 					eldBoll.cast();
+					lastSprite = moveLeft[1];
 				}
 				if(dir.matches("up")){
 					eldBoll = new FireBall(xPosition, yPosition - 32, currentRoom);
 					eldBoll.cast();
+					lastSprite = moveUp[1];
 				}
 				if(dir.matches("down")){
 					eldBoll = new FireBall(xPosition, yPosition + 32, currentRoom);
 					eldBoll.cast();
+					lastSprite = moveDown[1];
 				}
 			}
 			else{
