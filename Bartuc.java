@@ -10,7 +10,7 @@ import javax.imageio.ImageIO;
 
 public class Bartuc {
 
-	private double maxHealth, currentHealth, baseHealth;
+	private int maxHealth, currentHealth, baseHealth;
 	private int damage, baseDamage, attackCooldown, difficulty, xPosition, yPosition, shadowBlastCounter;
 	private BufferedImage bartuc, currentSprite;
 	private BufferedImage[] bartucIdle;
@@ -27,7 +27,7 @@ public class Bartuc {
 		difficulty = kills+1;
 		baseHealth = 100;
 		baseDamage = 10;
-		maxHealth = (100.0*baseHealth) * difficulty;
+		maxHealth = (100*baseHealth) * difficulty;
 		currentHealth = maxHealth;
 		damage = (10*baseDamage) * difficulty;
 		attackCooldown = 10;
@@ -67,11 +67,11 @@ public class Bartuc {
 	}
 
 
-	public double getCurrentHealth(){
+	public int getCurrentHealth(){
 		return currentHealth;
 	}
 
-	public double getMaxHealth(){
+	public int getMaxHealth(){
 		return maxHealth;
 	}
 
@@ -93,6 +93,10 @@ public class Bartuc {
 		 
 	public void takeDamage(int damage){
 		currentHealth -= damage;
+		if(getCurrentHealth() > 0){
+			GameMain.infoBox.append("\n You hit Bartuc for " + damage + " damage. He has " + getCurrentHealth() + " health left.");
+			GameMain.infoBox.setCaretPosition(GameMain.infoBox.getDocument().getLength());
+		}
 	}
 	
 	public void reset(){
@@ -114,11 +118,9 @@ public class Bartuc {
 	public void spawn(int kills){
 		alive = true;
 		aggro = false;
-		maxHealth = (100.0*baseHealth) * (kills + 1); 
+		maxHealth = (100*baseHealth) * (kills + 1); 
 		currentHealth = maxHealth;
-		damage = (10*baseDamage) * (kills + 1);
-		GameMain.infoBox.append(Engine.bartucSpawnMessage);
-		
+		damage = (10*baseDamage) * (kills + 1);	
 	}
 
 	public void castShadowBlast(){
