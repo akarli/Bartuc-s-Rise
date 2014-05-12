@@ -163,7 +163,7 @@ public class DrawGame extends JPanel implements KeyListener, MouseListener, Mous
 			new Thread(Engine.caveThemePlayer).start();
 		}
 		if(!Engine.bartucThemePlayer.isPlaying() && Engine.bartucThemeSound){
-			Engine.bartucThemePlayer.setVolume(0.1f);
+			Engine.bartucThemePlayer.setVolume(0.075f);
 			new Thread(Engine.bartucThemePlayer).start();
 		}
 		if(Engine.hitSound && !Engine.hitPlayer.isPlaying()){
@@ -219,6 +219,9 @@ public class DrawGame extends JPanel implements KeyListener, MouseListener, Mous
 		}
 		if(!Engine.bartucThemeSound){
 			Engine.bartucThemePlayer.stop();
+		}
+		if(bartuc.getCurrentHealth()<=0){
+			System.out.println("eheh");
 		}
 	}
 
