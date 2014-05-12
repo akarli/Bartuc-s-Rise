@@ -436,6 +436,7 @@ public class GameMain extends JFrame implements ActionListener {
 		    
 		    DrawGame.character.setMaxXP();
 		    DrawGame.character.setRoom(Engine.centralZone);
+		    DrawGame.bartuc.spawn(DrawGame.character.getBartucKills());
 		    DrawGame.character.setX(448);
 			DrawGame.character.setY(416);
 			DrawGame.reset();
