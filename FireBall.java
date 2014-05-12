@@ -71,6 +71,10 @@ public class FireBall {
 				}
 			}
 		}
+		if (Math.abs(DrawGame.bartuc.getXTile() - (getXtile() + 2)) < 2 && Math.abs(DrawGame.bartuc.getYTile() - (getYtile() + 2)) < 2  && DrawGame.character.getCurrentRoom() == Engine.caveZone){
+			   DrawGame.bartuc.takeDamage(2 * DrawGame.character.getDamage());
+			   hit = true;
+		}
 		if (!hit) {
 			if (!addMiss){
 				DrawGame.character.addMissedFireBalls(); // Adds total fireballs missed
