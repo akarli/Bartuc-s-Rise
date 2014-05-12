@@ -436,25 +436,25 @@ public class Character {
 		levelingUp = true;
 	}
 
-	public void castFireBall(){
+	public void castFireBall(String dir){
 		if(!castingFireBall){
 			if(currentMana-30 >= 0){
 				Engine.fireBallChargeSound = true;
 				currentMana -=30;
 				castingFireBall = true;
-				if(lastSprite == moveRight[1]){
+				if(dir.matches("right")){
 					eldBoll = new FireBall(xPosition + 32, yPosition, currentRoom);
 					eldBoll.cast();
 				}
-				if(lastSprite == moveLeft[1]){
+				if(dir.matches("left")){
 					eldBoll = new FireBall(xPosition - 32, yPosition, currentRoom);
 					eldBoll.cast();
 				}
-				if(lastSprite == moveUp[1]){
+				if(dir.matches("up")){
 					eldBoll = new FireBall(xPosition, yPosition - 32, currentRoom);
 					eldBoll.cast();
 				}
-				if(lastSprite == moveDown[1]){
+				if(dir.matches("down")){
 					eldBoll = new FireBall(xPosition, yPosition + 32, currentRoom);
 					eldBoll.cast();
 				}
