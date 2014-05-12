@@ -14,6 +14,7 @@ import java.util.Queue;
 import java.util.Random;
 
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 public class DrawGame extends JPanel implements KeyListener, MouseListener, MouseMotionListener{
 
@@ -147,13 +148,13 @@ public class DrawGame extends JPanel implements KeyListener, MouseListener, Mous
 				}
 			}
 		}
-		
-		  if(bartuc.alive && bartuc.getCurrentHealth()<=0){
-			   GameMain.infoBox.append(Engine.bartucDeathMessage);
-			   bartuc.alive = false;
-			   bartuc.aggro = false;
-			   Engine.bartucThemeSound = false;
-		  }
+
+		if(bartuc.alive && bartuc.getCurrentHealth()<=0){
+			GameMain.infoBox.append(Engine.bartucDeathMessage);
+			bartuc.alive = false;
+			bartuc.aggro = false;
+			Engine.bartucThemeSound = false;
+		}
 
 		/**
 		 * SOUND CHECKS
@@ -280,19 +281,38 @@ public class DrawGame extends JPanel implements KeyListener, MouseListener, Mous
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		if(!character.attacking && !character.moving()){
-			Point a = e.getPoint();
-			if(a.getX()/32 > character.getXTile()+1 && Math.abs(a.getY()/32 - character.getYTile())< 3){
-				character.attack("right");
+		if(SwingUtilities.isRightMouseButton(e)){
+			if(!character.attacking && !character.moving()){
+				Point a = e.getPoint();
+				if(a.getX()/32 > character.getXTile()+1 && Math.abs(a.getY()/32 - character.getYTile())< 3){
+					character.castFireBall("right");
+				}
+				if(a.getX()/32 < character.getXTile() && Math.abs(a.getY()/32 - character.getYTile())< 3){
+					character.castFireBall("left");
+				}
+				if(a.getY()/32 > character.getYTile()){
+					character.castFireBall("down");
+				}
+				if(a.getY()/32 < character.getYTile()+1){
+					character.castFireBall("up");
+				}
 			}
-			if(a.getX()/32 < character.getXTile() && Math.abs(a.getY()/32 - character.getYTile())< 3){
-				character.attack("left");
-			}
-			if(a.getY()/32 > character.getYTile()){
-				character.attack("down");
-			}
-			if(a.getY()/32 < character.getYTile()+1){
-				character.attack("up");
+		}
+		if(SwingUtilities.isLeftMouseButton(e)){
+			if(!character.attacking && !character.moving()){
+				Point a = e.getPoint();
+				if(a.getX()/32 > character.getXTile()+1 && Math.abs(a.getY()/32 - character.getYTile())< 3){
+					character.attack("right");
+				}
+				if(a.getX()/32 < character.getXTile() && Math.abs(a.getY()/32 - character.getYTile())< 3){
+					character.attack("left");
+				}
+				if(a.getY()/32 > character.getYTile()){
+					character.attack("down");
+				}
+				if(a.getY()/32 < character.getYTile()+1){
+					character.attack("up");
+				}
 			}
 		}
 		requestFocus();
@@ -341,9 +361,6 @@ public class DrawGame extends JPanel implements KeyListener, MouseListener, Mous
 					direction = 4;
 					lastKey = keyCode;
 				}
-				break;
-			case KeyEvent.VK_C:
-				character.castFireBall();
 				break;
 
 			}
