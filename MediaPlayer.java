@@ -24,10 +24,6 @@ public class MediaPlayer implements Runnable{
     private volatile boolean pauseFlag = false;
     private volatile boolean isPlayingFlag = false;
     private volatile float volume_dB = 0.0f;
-
-    public MediaPlayer()
-    {
-    }
     
     public MediaPlayer(File file)
     {
