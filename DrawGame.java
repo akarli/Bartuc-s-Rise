@@ -147,6 +147,10 @@ public class DrawGame extends JPanel implements KeyListener, MouseListener, Mous
 				}
 			}
 		}
+		
+		  if(bartuc.alive && bartuc.getCurrentHealth()<=0){
+			   System.out.println("eheh");
+			  }
 
 		/**
 		 * SOUND CHECKS
@@ -220,9 +224,6 @@ public class DrawGame extends JPanel implements KeyListener, MouseListener, Mous
 		if(!Engine.bartucThemeSound){
 			Engine.bartucThemePlayer.stop();
 		}
-		if(bartuc.getCurrentHealth()<=0){
-			System.out.println("eheh");
-		}
 	}
 
 	public static void reset(){
@@ -231,6 +232,10 @@ public class DrawGame extends JPanel implements KeyListener, MouseListener, Mous
 		moveCounter = 0;
 		pressed = false;
 		attacking = false;
+		bartuc.aggro = false;
+		Engine.caveThemeSound = false;
+		Engine.bartucThemeSound = false;
+		Engine.mainThemeSound = true;
 		for(int i = 0; i < monsterList.length; i++){
 			if(monsterList[i] != null){
 				while(monsterList[i].size() > 0){
