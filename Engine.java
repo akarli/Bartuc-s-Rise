@@ -679,6 +679,10 @@ public class Engine {
 	public static final File loot = new File("Sounds\\loot.wav");
 	public static final File fireBallCharge = new File("Sounds\\fireballcharge.wav");
 	public static final File potionPickUp = new File("Sounds\\potionpickup.wav");
+	public static final File walk = new File("Sounds\\walk.wav");
+	public static final File bartucHit1 = new File("Sounds\\bartuchit1.wav");
+	public static final File bartucHit2 = new File("Sounds\\bartuchit2.wav");
+	public static final File write = new File("Sounds\\writing.wav");
 	
 	public static final MediaPlayer mainThemePlayer = new MediaPlayer(mainTheme);
 	public static final MediaPlayer caveThemePlayer = new MediaPlayer(caveTheme);
@@ -692,6 +696,8 @@ public class Engine {
 	public static final MediaPlayer lootPlayer = new MediaPlayer(loot);
 	public static final MediaPlayer fireBallChargePlayer = new MediaPlayer(fireBallCharge);
 	public static final MediaPlayer potionPickupPlayer = new MediaPlayer(potionPickUp);
+	public static final MediaPlayer walkPlayer = new MediaPlayer(walk);
+	public static final MediaPlayer writePlayer = new MediaPlayer(write);
 	
 	/**
 	 * SOUND BOOLEANS
@@ -710,4 +716,6 @@ public class Engine {
 	public static boolean playerDeathSound = false;
 	public static boolean lootSound = false;
 	public static boolean potionPickupSound = false;
+	public static boolean walkingSound = false;
+	public static boolean writingSound = false;
 }
