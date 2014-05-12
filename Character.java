@@ -921,7 +921,7 @@ public class Character {
 			}
 			manaCounter = 0;
 		}
-		if(currentRoom == Engine.caveZone && getXTile() >= 12 && getXTile() <= 19 && getYTile() <= 9){
+		if(currentRoom == Engine.caveZone && getXTile() >= 12 && getXTile() <= 19 && getYTile() <= 9 && DrawGame.bartuc.alive){
 			if(!DrawGame.bartuc.aggro)
 				DrawGame.bartuc.aggro = true;
 			if(!Engine.bartucThemeSound)
