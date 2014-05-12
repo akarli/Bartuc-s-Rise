@@ -3,6 +3,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.Random;
+
 import javax.imageio.ImageIO;
 
 
@@ -199,6 +200,9 @@ public class Character {
 					mUp = true;
 					moveCounter += 16;
 					addStepsTaken(); // Adds total steps taken
+					if(!Engine.walkingSound){
+						Engine.walkingSound = true;
+					}
 				}
 			}
 			if(dir.matches("down")){
@@ -219,9 +223,11 @@ public class Character {
 						bartucEngage = false;
 						GameMain.infoBox.append(Engine.bartucFledMessage);
 						GameMain.infoBox.setCaretPosition(GameMain.infoBox.getDocument().getLength());
+						Engine.writingSound = true;
 					}
 					if(!DrawGame.bartuc.alive){
 						GameMain.infoBox.append(Engine.bartucSpawnMessage);
+						Engine.writingSound = true;
 						GameMain.infoBox.setCaretPosition(GameMain.infoBox.getDocument().getLength());
 						DrawGame.bartuc.spawn(getBartucKills());
 					}
@@ -240,6 +246,9 @@ public class Character {
 					mDown = true;
 					moveCounter += 16;
 					addStepsTaken(); // Adds total steps taken
+					if(!Engine.walkingSound){
+						Engine.walkingSound = true;
+					}
 				}
 			}
 			if(dir.matches("left")){
@@ -249,11 +258,17 @@ public class Character {
 					xPosition = 992;
 					DrawGame.newZone = true;
 					addZoneChanges(); // Adds total zone changes
+					if(!Engine.walkingSound){
+						Engine.walkingSound = true;
+					}
 				}
 				else if(currentRoom.getCollisionMap()[getYTile()][getXTile()-1] != 1){
 					mLeft = true;
 					moveCounter += 16;
 					addStepsTaken(); // Adds total steps taken
+					if(!Engine.walkingSound){
+						Engine.walkingSound = true;
+					}
 				}
 			}
 			if(dir.matches("right")){
@@ -268,6 +283,9 @@ public class Character {
 					mRight = true;
 					moveCounter += 16;
 					addStepsTaken(); // Adds total steps taken
+					if(!Engine.walkingSound){
+						Engine.walkingSound = true;
+					}
 				}
 			}
 		}
@@ -316,6 +334,8 @@ public class Character {
 		mLeft = false;
 		mRight = false;
 		moveCounter = 0;
+		Engine.walkingSound = false;
+		Engine.walkPlayer.stop();
 	}
 
 	public void attack(String dir){
@@ -390,22 +410,22 @@ public class Character {
 				lastSprite = moveDown[1];
 			}
 		}
-		  if(aLeft){
+		  if(aLeft &&  currentRoom == Engine.caveZone && DrawGame.bartuc.alive){
 			   if((DrawGame.bartuc.getXTile() == getXTile() || DrawGame.bartuc.getXTile() - getXTile() == -1)){
 			    DrawGame.bartuc.takeDamage(DrawGame.character.getAttackDamage());
 			   }
 			  }
-			  if(aRight){
+			  if(aRight &&  currentRoom == Engine.caveZone && DrawGame.bartuc.alive){
 			   if((DrawGame.bartuc.getXTile() == getXTile() || DrawGame.bartuc.getXTile() - getXTile() == +1)){
 			    DrawGame.bartuc.takeDamage(DrawGame.character.getAttackDamage());
 			   }
 			  }
-			  if(aUp){
+			  if(aUp &&  currentRoom == Engine.caveZone && DrawGame.bartuc.alive){
 			   if((DrawGame.bartuc.getYTile() == getYTile() || DrawGame.bartuc.getYTile() - getYTile() == -1)){
 			    DrawGame.bartuc.takeDamage(DrawGame.character.getAttackDamage());
 			   }
 			  }
-			  if(aDown){
+			  if(aDown &&  currentRoom == Engine.caveZone && DrawGame.bartuc.alive){
 			   if((DrawGame.bartuc.getYTile() == getYTile() || DrawGame.bartuc.getYTile() - getYTile() == +1)){
 			    DrawGame.bartuc.takeDamage(DrawGame.character.getAttackDamage());
 			   }
@@ -671,8 +691,18 @@ public class Character {
 		return name;
 	}
 	
-	public void takeDamageBartuc(double damage){
-		  currentHealth -= damage;
+	public void takeDamageBartuc(double damage) {
+		double damageReduction = (0.06 * armor) / (1 + 0.06 * armor);
+		damage = damage * (1 - damageReduction);
+		if (damage < 0) {
+			damage = 0;
+		}
+		currentHealth -= damage;
+		addDamageTakenBartuc(Math.ceil(damage)); // Adds total damage taken from
+													// bartuc
+		if (!Engine.hitSound) {
+			Engine.hitSound = true;
+		}
 	}
 
 	public void takeDamage(double damage) {
@@ -705,6 +735,7 @@ public class Character {
 					damage += damageUpgrade;
 					addEpicSwordsFound(); // Adds total epic swords found
 					GameMain.infoBox.append("\n You found a legendary sword" + Engine.epicGear[epicMessage] + "\n Damage increased by " + damageUpgrade + ".");
+					Engine.writingSound = true;
 				}
 				else{
 					int damageUpgrade = rand.nextInt(level) + level; 
@@ -720,6 +751,7 @@ public class Character {
 					armor += armorUpgrade;
 					addEpicShieldsFound(); // Adds total epic shields found
 					GameMain.infoBox.append("\n You found a huge kite shield" + Engine.epicGear[epicMessage] + "\n Armor increased by " + armorUpgrade + ".");
+					Engine.writingSound = true;
 				}
 				else{
 					int armorUpgrade = rand.nextInt(2*level) + level;
@@ -746,6 +778,7 @@ public class Character {
 					manaRegen += manaRegenUpgrade;
 					addEpicGearFound(); // Adds total epic armor found
 					GameMain.infoBox.append("\n You found " + Engine.gearTypeEpic[gearType] + Engine.epicGear[epicMessage] + "\n Armor increased by " + armorUpgrade + ".\n Health increased by " + healthUpgrade +  ".\n Mana increased by " + manaUpgrade +  ". \n Heath regeneration increased by " + GameMain.oneDigit.format(hpRegenUpgrade) +". \n Mana  regeneration increased by " + GameMain.oneDigit.format(manaRegenUpgrade));
+					Engine.writingSound = true;
 				}
 				else{
 					int stat = rand.nextInt(2);
@@ -767,7 +800,7 @@ public class Character {
 						manaRegenUpgrade.doubleValue();
 						manaRegen += manaRegenUpgrade;
 						addGearFound(); // Adds total gear found
-						GameMain.infoBox.append("\n You found " + Engine.gearTypeMana[gearType] + " from a fallen enemy! \n Armor increased by " + armorUpgrade + ". \n Mana increased by " + manaUpgrade + ". \n Mana  regeneration increased by " + GameMain.oneDigit.format(manaRegenUpgrade));
+						GameMain.infoBox.append("\n You found " + Engine.gearTypeMana[gearType] + " from a fallen enemy! \n Armor increased by " + armorUpgrade + ". \n Mana increased by " + manaUpgrade + ". \n Mana regeneration increased by " + GameMain.oneDigit.format(manaRegenUpgrade));
 					}
 				}
 			}
@@ -1045,7 +1078,7 @@ public class Character {
 	public void setDamageTakenBartuc(int damage){
 		damageTakenBartuc = damage;
 	}
-	public void addDamageTakenBartuc(int damage){
+	public void addDamageTakenBartuc(double damage){
 		damageTakenBartuc += damage;
 	}
 	public int getHealthPotsUsed(){
