@@ -96,6 +96,28 @@ public class Bartuc {
 	}
 	
 	public void reset(){
+		aggro = false;
+		Engine.bartucThemeSound = false;
+	}
+	
+	public void die(){
+		GameMain.infoBox.append(Engine.bartucDeathMessage);
+		DrawGame.character.addBartucKills();
+		reset();
+		alive = false;
+		DrawGame.character.increaseXP(1000*DrawGame.character.getBartucKills());
+		DrawGame.character.getLoot();
+		DrawGame.character.getLoot();
+		DrawGame.character.getLoot();	
+	}
+	
+	public void spawn(int kills){
+		alive = true;
+		aggro = false;
+		maxHealth = (100.0*baseHealth) * (kills + 1); 
+		currentHealth = maxHealth;
+		damage = (10*baseDamage) * (kills + 1);
+		GameMain.infoBox.append(Engine.bartucSpawnMessage);
 		
 	}
 
@@ -110,4 +132,10 @@ public class Bartuc {
 			shadowBlastCounter = 0;
 		}
 	}
+	
+	public void stopCasting() {
+		for (int i = 0; i < shadowBlasts.length; i++) {
+			shadowBlasts[i].stop();
+		}
+ }
 }
