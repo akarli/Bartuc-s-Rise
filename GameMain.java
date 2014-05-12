@@ -300,6 +300,7 @@ public class GameMain extends JFrame implements ActionListener {
 			infoBox.append(Engine.noSuchCommandMessage);
 			infoBox.setCaretPosition(infoBox.getDocument().getLength());
 		}
+		Engine.writingSound = true;
 	}
 	
 	public void saveGame(){
