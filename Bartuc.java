@@ -83,20 +83,20 @@ public class Bartuc {
 		return attackCooldown;
 	}
 	
-	public void reset(){
-		
-	}
-	
 	public int getXTile(){
-		return xPosition/32;
+		  return xPosition/32;
+		 }
+		 
+		 public int getYTile(){
+		  return yPosition/32;
 	}
-	
-	public int getYTile(){
-		return yPosition/32;
-	}
-	
+		 
 	public void takeDamage(int damage){
 		currentHealth -= damage;
+	}
+	
+	public void reset(){
+		
 	}
 
 	public void castShadowBlast(){
