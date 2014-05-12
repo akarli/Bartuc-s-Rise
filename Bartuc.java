@@ -86,10 +86,22 @@ public class Bartuc {
 	public void reset(){
 		
 	}
+	
+	public int getXTile(){
+		return xPosition/32;
+	}
+	
+	public int getYTile(){
+		return yPosition/32;
+	}
+	
+	public void takeDamage(int damage){
+		currentHealth -= damage;
+	}
 
 	public void castShadowBlast(){
-		int xOffset = rand.nextInt(10)-5;
-		int yOffset = rand.nextInt(10)-5;
+		int xOffset = rand.nextInt(5)-2;
+		int yOffset = rand.nextInt(5)-2;
 		shadowBlasts[shadowBlastCounter].cast(DrawGame.character.getXTile()+ xOffset, DrawGame.character.getYTile()+yOffset, damage, Engine.caveZone);
 		shadowBlasts[shadowBlastCounter].sound = true;
 		casting = true;
