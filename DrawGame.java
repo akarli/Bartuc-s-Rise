@@ -149,8 +149,11 @@ public class DrawGame extends JPanel implements KeyListener, MouseListener, Mous
 		}
 		
 		  if(bartuc.alive && bartuc.getCurrentHealth()<=0){
-			   System.out.println("eheh");
-			  }
+			   GameMain.infoBox.append(Engine.bartucDeathMessage);
+			   bartuc.alive = false;
+			   bartuc.aggro = false;
+			   Engine.bartucThemeSound = false;
+		  }
 
 		/**
 		 * SOUND CHECKS
