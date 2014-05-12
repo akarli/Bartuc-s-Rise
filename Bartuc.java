@@ -20,6 +20,8 @@ public class Bartuc {
 	public boolean aggro = false;
 	public boolean alive = true;
 	Random rand = new Random();
+	private MediaPlayer hitPlayer;
+	private boolean hitSound = false;
 
 	public Bartuc(int kills){
 		xPosition = 480;
@@ -39,6 +41,8 @@ public class Bartuc {
 		bartucIdle[2] = bartuc.getSubimage(134, 0, 65, 50);
 		currentSprite = bartucIdle[1];
 		zone = Engine.caveZone;
+		hitPlayer = new MediaPlayer(Engine.bartucHit1);
+		hitPlayer.setVolume(0.2f);
 		for(int i = 0; i<10; i++){
 			shadowBlasts[i] = new ShadowBlast();
 		}
@@ -93,10 +97,22 @@ public class Bartuc {
 		 
 	public void takeDamage(int damage){
 		currentHealth -= damage;
+		int sound = rand.nextInt(2);
 		if(getCurrentHealth() > 0){
 			GameMain.infoBox.append("\n You hit Bartuc for " + damage + " damage. He has " + getCurrentHealth() + " health left.");
 			GameMain.infoBox.setCaretPosition(GameMain.infoBox.getDocument().getLength());
 		}
+		if(sound == 0){
+			hitPlayer.setFile(Engine.bartucHit1);
+		}
+		if(sound == 1){
+			hitPlayer.setFile(Engine.bartucHit2);
+		}
+		hitSound = true;
+		if(hitSound && !hitPlayer.isPlaying()){
+			new Thread(hitPlayer).start();
+		}
+		hitSound = false;
 	}
 	
 	public void reset(){
@@ -105,14 +121,15 @@ public class Bartuc {
 	}
 	
 	public void die(){
-		GameMain.infoBox.append(Engine.bartucDeathMessage);
 		DrawGame.character.addBartucKills();
 		reset();
 		alive = false;
-		DrawGame.character.increaseXP(1000*DrawGame.character.getBartucKills());
+		DrawGame.character.increaseXP(100*DrawGame.character.getBartucKills());
 		DrawGame.character.getLoot();
 		DrawGame.character.getLoot();
-		DrawGame.character.getLoot();	
+		DrawGame.character.getLoot();
+		GameMain.infoBox.append(Engine.bartucDeathMessage);
+		GameMain.infoBox.setCaretPosition(GameMain.infoBox.getDocument().getLength());
 	}
 	
 	public void spawn(int kills){
