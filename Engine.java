@@ -625,7 +625,7 @@ public class Engine {
 	public static final String noSuchCommandMessage = "\n That is not a valid command.";
 	public static final String levelUpMessage = "\n You gained a level! \n Health and mana restored. \n Health increased by " + HP_LVL_UP + ".\n Mana increased by " + MANA_LVL_UP + ".\n Damage increased by " + DAMAGE_LVL_UP + ".\n Armor increased by " + ARMOR_LVL_UP + ".\n Health regeneration and mana regeneration increased by " + HPREGEN_LVL_UP + ".";
 	public static final String noManaMessage = "\n You don't have enough mana to cast that.";
-	public static final String controlsMessage = "\n W - move up \n S - move down \n A - move left \n D - move right \n Left Mouse Button - attack \n C - cast fire ball \n Q - use a health potion \n E - use a mana potion";
+	public static final String controlsMessage = "\n W - move up \n S - move down \n A - move left \n D - move right \n Left Mouse Button - attack \n Right Mose Button - cast fire ball \n Q - use a health potion \n E - use a mana potion";
 	public static final String commandsMessage = "\n \"help\" - display help message \n \"controls\" - display controls \n \"commands\" - display available commands \n \"stats\" - view you accomplishments and statistics \n \"save\" - save your character \n \"load\" - load a character \n \"setname name\" - set your characters name";
 	public static final String hpPotMessage = "\n You used a health potion. Some health was restored.";
 	public static final String manaPotMessage = "\n You used a mana potion. Some mana was restored.";
