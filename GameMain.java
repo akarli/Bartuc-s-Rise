@@ -28,6 +28,7 @@ public class GameMain extends JFrame implements ActionListener {
 	private int screenHeight = (int) screenSize.getHeight();
 	
 	static DecimalFormat oneDigit = new DecimalFormat("#,##0.0");
+	static DecimalFormat decimals = new DecimalFormat( "#,###,###,###" );
 	
 	private String buttonString = "Send"; // The text string for the send button
 	
@@ -42,16 +43,16 @@ public class GameMain extends JFrame implements ActionListener {
 	 */
 	
 	JLabel characterStatistics = new JLabel(DrawGame.character.getName());
-	JLabel characterHealth = new JLabel("Health: " + DrawGame.character.getCurrHP() + " / " + DrawGame.character.getMaxHP(), JLabel.LEFT);
-	JLabel characterDamage = new JLabel("Damage: " + DrawGame.character.getDamage(), JLabel.LEFT);
-	JLabel characterArmor = new JLabel("Armor: " + DrawGame.character.getArmor(), JLabel.LEFT);
+	JLabel characterHealth = new JLabel("Health: " + decimals.format(DrawGame.character.getCurrHP()) + " / " + decimals.format(DrawGame.character.getMaxHP()), JLabel.LEFT);
+	JLabel characterDamage = new JLabel("Damage: " + decimals.format(DrawGame.character.getDamage()), JLabel.LEFT);
+	JLabel characterArmor = new JLabel("Armor: " + decimals.format(DrawGame.character.getArmor()), JLabel.LEFT);
 	JLabel characterHPRegen = new JLabel("HP/sec: " + oneDigit.format(DrawGame.character.getHPRegen()), JLabel.LEFT);
 	JLabel characterManaRegen = new JLabel("Mana/sec: " + oneDigit.format(DrawGame.character.getManaRegen()), JLabel.LEFT);
-	JLabel characterHealthPots = new JLabel("Health potions: " + DrawGame.character.getHPPots(), JLabel.LEFT);
-	JLabel characterLevel = new JLabel("Level: " + DrawGame.character.getLevel(), JLabel.LEFT);
-	JLabel characterXP = new JLabel("Experience: " + DrawGame.character.getXP() + "/" + DrawGame.character.getMaxXP(), JLabel.LEFT);
-	JLabel characterMana = new JLabel("Mana: " + DrawGame.character.getMana() + "/" + DrawGame.character.getMaxMana(), JLabel.LEFT);
-	JLabel characterManaPots = new JLabel("Mana potions: " + DrawGame.character.getManaPots(), JLabel.LEFT);
+	JLabel characterHealthPots = new JLabel("Health potions: " + decimals.format(DrawGame.character.getHPPots()), JLabel.LEFT);
+	JLabel characterLevel = new JLabel("Level: " + decimals.format(DrawGame.character.getLevel()), JLabel.LEFT);
+	JLabel characterXP = new JLabel("Experience: " + decimals.format(DrawGame.character.getXP()) + "/" + decimals.format(DrawGame.character.getMaxXP()), JLabel.LEFT);
+	JLabel characterMana = new JLabel("Mana: " + decimals.format(DrawGame.character.getMana()) + "/" + decimals.format(DrawGame.character.getMaxMana()), JLabel.LEFT);
+	JLabel characterManaPots = new JLabel("Mana potions: " + decimals.format(DrawGame.character.getManaPots()), JLabel.LEFT);
 	
 	public static JTextArea infoBox = new JTextArea(Engine.startMessage); // The box containing all info text
 	public static JTextField commandBox = new JTextField(); // The box containing all info text
@@ -113,10 +114,10 @@ public class GameMain extends JFrame implements ActionListener {
 		characterHealth.setBounds(40, 40, 171, 50);
 		
 		characterDamage.setFont(new Font("Serif", Font.PLAIN, 16));
-		characterDamage.setBounds(40, 140, 171, 50);
+		characterDamage.setBounds(205, 140, 171, 50);
 		
 		characterArmor.setFont(new Font("Serif", Font.PLAIN, 16));
-		characterArmor.setBounds(205, 140, 171, 50);
+		characterArmor.setBounds(360, 140, 171, 50);
 		
 		characterHPRegen.setFont(new Font("Serif", Font.PLAIN, 16));
 		characterHPRegen.setBounds(205, 40, 170, 50);
@@ -130,8 +131,8 @@ public class GameMain extends JFrame implements ActionListener {
 		characterLevel.setFont(new Font("Serif", Font.PLAIN, 20));
 		characterLevel.setBounds(360, 0, 171, 50);
 		
-		characterXP.setFont(new Font("Serif", Font.PLAIN, 16));
-		characterXP.setBounds(360, 140, 171, 50);
+		characterXP.setFont(new Font("Serif", Font.PLAIN, 15));
+		characterXP.setBounds(40, 140, 171, 50);
 		
 		characterMana.setFont(new Font("Serif", Font.PLAIN, 16));
 		characterMana.setBounds(40, 90, 171, 50);
@@ -235,16 +236,16 @@ public class GameMain extends JFrame implements ActionListener {
 		 */
 		
 		characterStatistics.setText(DrawGame.character.getName());
-		characterHealth.setText("Health: " + (int)DrawGame.character.getCurrHP() + " / " + (int)DrawGame.character.getMaxHP());
-		characterDamage.setText("Damage: " + DrawGame.character.getDamage());
-		characterArmor.setText("Armor: " + DrawGame.character.getArmor());
-		characterLevel.setText("Level: " + DrawGame.character.getLevel());
-		characterXP.setText("Experience: " + DrawGame.character.getXP() + "/" + DrawGame.character.getMaxXP());
-		characterMana.setText("Mana: " + (int)DrawGame.character.getMana() + "/" + (int)DrawGame.character.getMaxMana());
+		characterHealth.setText("Health: " + decimals.format((int)DrawGame.character.getCurrHP()) + " / " + decimals.format((int)DrawGame.character.getMaxHP()));
+		characterDamage.setText("Damage: " + decimals.format(DrawGame.character.getDamage()));
+		characterArmor.setText("Armor: " + decimals.format(DrawGame.character.getArmor()));
+		characterLevel.setText("Level: " + decimals.format(DrawGame.character.getLevel()));
+		characterXP.setText("Experience: " + decimals.format(DrawGame.character.getXP()) + "/" + decimals.format(DrawGame.character.getMaxXP()));
+		characterMana.setText("Mana: " + decimals.format((int)DrawGame.character.getMana()) + "/" + decimals.format((int)DrawGame.character.getMaxMana()));
 		characterHPRegen.setText("HP/s: " + oneDigit.format(DrawGame.character.getHPRegen()));
 		characterManaRegen.setText("Mana/s: " + oneDigit.format(DrawGame.character.getManaRegen()));
-		characterHealthPots.setText("Health potions: " + DrawGame.character.getHPPots());
-		characterManaPots.setText("Mana potions: " + DrawGame.character.getManaPots());
+		characterHealthPots.setText("Health potions: " + decimals.format(DrawGame.character.getHPPots()));
+		characterManaPots.setText("Mana potions: " + decimals.format(DrawGame.character.getManaPots()));
 
 		draw.repaint();
 	}
