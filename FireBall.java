@@ -64,8 +64,6 @@ public class FireBall {
 						.getDamage()); // Adds total magic damage dealt.
 				hit = true;
 				if (a.takeDamage(2 * DrawGame.character.getDamage())) {
-					DrawGame.monsterList[DrawGame.monsterHash.get(atRoom)]
-							.remove(j);
 					DrawGame.character.increaseXP(25);
 					DrawGame.character.addMagicKills(); // Adds total kills by magic
 				}
