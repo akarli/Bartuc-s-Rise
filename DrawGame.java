@@ -7,12 +7,16 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Random;
 
+import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
@@ -38,6 +42,7 @@ public class DrawGame extends JPanel implements KeyListener, MouseListener, Mous
 	int lastKey;
 	boolean wait;
 	public static Bartuc bartuc;
+	private BufferedImage bartucsymbol;
 
 	public DrawGame(){
 		monsterHash = new HashMap<Room, Integer>();
@@ -48,6 +53,7 @@ public class DrawGame extends JPanel implements KeyListener, MouseListener, Mous
 		monsterHash.put(Engine.southZone, 3);
 		monsterHash.put(Engine.eastZone, 4);
 		monsterHash.put(Engine.caveZone, 5);
+		bartucsymbol = loadImage("Graphics\\bartucsymbol.png");
 		Engine.centralZone.setExit("north", Engine.northZone); // sätter exits för rummen och vart de leder
 		Engine.centralZone.setExit("west", Engine.westZone);
 		Engine.centralZone.setExit("south", Engine.southZone);
@@ -75,6 +81,17 @@ public class DrawGame extends JPanel implements KeyListener, MouseListener, Mous
 		addKeyListener(this);
 		setFocusable(true);
 	}
+	
+	public BufferedImage loadImage(String fileName){
+		BufferedImage img = null;
+		try{
+			img = ImageIO.read(new File(fileName));
+		} catch (IOException e1) {
+			throw new IllegalArgumentException("Could not load the file.");
+		}
+
+		return img;
+	}
 
 	@SuppressWarnings("unchecked")
 	public void paintComponent(Graphics g){
@@ -93,6 +110,9 @@ public class DrawGame extends JPanel implements KeyListener, MouseListener, Mous
 			}
 			newZone = false;
 			bartuc.stopCasting();
+		}
+		if(character.getCurrentRoom() == Engine.caveZone){
+			g.drawImage(bartucsymbol, 463, 113, null);
 		}
 		for(int j = 0; j < monsterList[monsterHash.get(character.getCurrentRoom())].size();j++){ //ritar alla monster
 			Monster a = (Monster) monsterList[monsterHash.get(character.getCurrentRoom())].get(j);
@@ -254,6 +274,16 @@ public class DrawGame extends JPanel implements KeyListener, MouseListener, Mous
 				while(monsterList[i].size() > 0){
 					monsterList[i].remove(0);
 				}
+			}
+		}
+	}
+	
+	public static void clearDeadMonster(Room room) {
+		int size = monsterList[monsterHash.get(room)].size();
+		for (int i = size - 1; i >= 0; i--) {
+			Monster a = (Monster) monsterList[monsterHash.get(room)].get(i);
+			if (a.getHealth() <= 0) {
+				monsterList[monsterHash.get(room)].remove(i);
 			}
 		}
 	}
