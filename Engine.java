@@ -636,8 +636,9 @@ public class Engine {
 	public static final String deathMessage = "\n Oh dear... You died. But you respawned!";
 	public static final String bartucEngageMessage = "\n You engaged Bartuc. Good Luck!";
 	public static final String bartucFledMessage = "\n Bartuc was to strong for you. You hear him laugh as you flee from the cave.";
-	public static final String bartucDeathMessage = "\n You have slain Bartuc! The world is safe because of you! At least for a while...";
+	public static final String bartucDeathMessage = "\n You have slain Bartuc! The world is safe thanks to you! At least for a while...";
 	public static final String bartucSpawnMessage = "\n Your rest was short. Bartuc has risen again! Now even stronger than before...";
+	
 	public static final String[] gearTypeHealth = {"a sturdy barbute", "a sturdy cuirass", "a pair of sturdy gauntlets", "a pair of sturdy greaves", "a pair of sturdy sabatons", "a pair of sturdy pauldrons"};
 	public static final String[] gearTypeMana = {"an enchanted barbute", "an enchanted cuirass", "a pair of enchanted gauntlets", "a pair of enchanted greaves", "a pair of enchanted sabatons", "a pair of enchanted pauldrons"};
 	public static final String[] gearTypeEpic = {"a glorious barbute", "a glorious cuirass", "a pair of glorious gauntlets", "a pair of glorious greaves", "a pair of glorious sabatons", "a pair of glorious pauldrons"};
