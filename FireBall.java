@@ -58,7 +58,7 @@ public class FireBall {
 				.get(atRoom)].size(); j++) {
 			Monster a = (Monster) DrawGame.monsterList[DrawGame.monsterHash
 					.get(atRoom)].get(j);
-			if (Math.abs(a.currentXTile() - (getXtile() + 2)) < 2
+			if (!a.dead && Math.abs(a.currentXTile() - (getXtile() + 2)) < 2
 					&& Math.abs(a.currentYTile() - (getYtile() + 2)) < 2) {
 				DrawGame.character.addMagicDamageDealt(2 * DrawGame.character
 						.getDamage()); // Adds total magic damage dealt.
