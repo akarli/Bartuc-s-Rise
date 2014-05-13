@@ -23,10 +23,12 @@ public class Character {
 	private BufferedImage[] attackRight;
 	private BufferedImage[] healing;
 	private BufferedImage[] manas;
+	private BufferedImage[] loots;
 	private BufferedImage lastSprite;
 	private BufferedImage charAttack;
 	private BufferedImage heal;
 	private BufferedImage mana;
+	private BufferedImage loot;
 	private String statsMessage;
 	private int currentSprite = 0;
 	private int animationCounter=1;
@@ -35,8 +37,9 @@ public class Character {
 	private int sprite = 0;
 	private int hpSprite =0;
 	private int manaSprite = 0;
+	private int lootSprite = 0;
 	private String name;
-	private boolean levelingUp, castingFireBall, aLeft, aRight, aUp, aDown, mLeft, mRight, mUp, mDown, useHpPot, useManaPot;
+	private boolean levelingUp, castingFireBall, aLeft, aRight, aUp, aDown, mLeft, mRight, mUp, mDown, useHpPot, useManaPot, findLoot;
 	private boolean bartucEngage = false;
 	boolean attacking;
 	private FireBall eldBoll;
@@ -56,6 +59,7 @@ public class Character {
 		charAttack = loadCharacterImage("Graphics\\charattack.png");
 		heal = loadCharacterImage("Graphics\\healing.png");
 		mana = loadCharacterImage("Graphics\\mana.png");
+		loot = loadCharacterImage("Graphics\\loot.png");
 		moveUp = new BufferedImage[4];
 		moveDown = new BufferedImage[4];
 		moveRight = new BufferedImage[4];
@@ -67,6 +71,7 @@ public class Character {
 		attackRight = new BufferedImage[4];
 		healing = new BufferedImage[15];
 		manas = new BufferedImage[20];
+		loots = new BufferedImage[16];
 		for(int i = 0; i < 4; i++){
 			moveUp[i] = character.getSubimage(x+(i*34), 64, 34, 53);
 			x = x+3;
@@ -122,6 +127,17 @@ public class Character {
 				x=0;
 			}
 			manas[i] = mana.getSubimage(x*96, y*96, 96, 96);
+			x++;
+		}
+		
+		x = 0;
+		y = 0;
+		for(int i = 0; i < 16; i++){
+			if(i == 4 || i == 8 || i == 12){
+				y++;
+				x=0;
+			}
+			loots[i] = loot.getSubimage(x*30, y*30, 30, 30);
 			x++;
 		}
 
@@ -755,7 +771,8 @@ public class Character {
 	public void getLoot(){
 		Boolean epicGear = false;
 		int drop = rand.nextInt(100);
-		if(drop >= 84){
+		if(drop >= 0){
+			findLoot = true;
 			Engine.lootSound = true;
 			int quality = rand.nextInt(100);
 			if(quality >= 84){
@@ -906,9 +923,10 @@ public class Character {
 	}
 	
 	public BufferedImage getHpPotImage(){
-		if(hpSprite == 28){
+		if(hpSprite == 30){
 			hpSprite = 0;
 			useHpPot = false;
+			return healing[14];
 		}
 		return healing[hpSprite/2];
 	}
@@ -921,6 +939,13 @@ public class Character {
 		return manas[manaSprite/2];
 	}
 
+	public BufferedImage getLootImage(){
+		if(lootSprite == 32){
+			lootSprite = 0;
+			findLoot = false;
+		}
+		return loots[lootSprite/2];
+	}
 	public void die(){		
 		Engine.playerDeathSound = true;
 		Engine.hitSound = false;
@@ -1034,6 +1059,10 @@ public class Character {
 		if(useManaPot){
 			g.drawImage(getManaPotImage(), xPosition - 30, yPosition-18, null);
 			manaSprite++;
+		}
+		if(findLoot){
+			g.drawImage(getLootImage(), xPosition, yPosition-30, null);
+			lootSprite++;
 		}
 		manaCounter++;
 		healthCounter++;
