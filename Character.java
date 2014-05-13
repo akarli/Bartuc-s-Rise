@@ -182,15 +182,16 @@ public class Character {
 				if(currentRoom == Engine.centralZone && (getXTile() == 27 || getXTile() == 26) && getYTile() < 8 && getYTile() > 5){
 					xPosition = (getXTile() - 11)*Engine.TILE_WIDTH;
 					yPosition = 18*Engine.TILE_HEIGHT;
+					DrawGame.clearDeadMonster(currentRoom);
 					currentRoom = currentRoom.getExit("cave");
 					Engine.mainThemeSound = false;
 					Engine.caveThemeSound = true;
 					addTimesInCave(); // Adds total times in cave
 					addZoneChanges(); // Adds total zone changes
 					DrawGame.newZone = true;
-
 				}
 				else if(getYTile()-1 < 0){
+					DrawGame.clearDeadMonster(currentRoom);
 					currentRoom = currentRoom.getExit("north");
 					yPosition = 608;
 					DrawGame.newZone = true;
@@ -232,11 +233,13 @@ public class Character {
 						DrawGame.bartuc.spawn(getBartucKills());
 					}
 					yPosition = 7*Engine.TILE_HEIGHT;
+					DrawGame.clearDeadMonster(currentRoom);
 					currentRoom = currentRoom.getExit("south");
 					DrawGame.newZone = true;
 					addZoneChanges(); // Adds total zone changes
 				}
 				else if(getYTile()+1 > 19){
+					DrawGame.clearDeadMonster(currentRoom);
 					currentRoom = currentRoom.getExit("south");
 					yPosition = 0;
 					DrawGame.newZone = true;
@@ -254,6 +257,7 @@ public class Character {
 			if(dir.matches("left")){
 				lastSprite = moveLeft[1];
 				if(getXTile()-1 < 0){
+					DrawGame.clearDeadMonster(currentRoom);
 					currentRoom = currentRoom.getExit("west");
 					xPosition = 992;
 					DrawGame.newZone = true;
@@ -274,6 +278,7 @@ public class Character {
 			if(dir.matches("right")){
 				lastSprite = moveRight[1];
 				if(getXTile()+1 > 31){
+					DrawGame.clearDeadMonster(currentRoom);
 					currentRoom = currentRoom.getExit("east");
 					xPosition = 0;
 					DrawGame.newZone = true;
@@ -366,7 +371,7 @@ public class Character {
 					int dealtDamage = DrawGame.character.getAttackDamage();
 					DrawGame.character.addSwordDamageDealt(dealtDamage); // Adds total sword damage
 					if(a.takeDamage(dealtDamage)){
-						DrawGame.monsterList[DrawGame.monsterHash.get(currentRoom)].remove(j);
+						//DrawGame.monsterList[DrawGame.monsterHash.get(currentRoom)].remove(j);
 						DrawGame.character.increaseXP(25);
 						DrawGame.character.addSwordKills(); // Adds total sword kills
 					}
@@ -378,7 +383,7 @@ public class Character {
 					int dealtDamage = DrawGame.character.getAttackDamage();
 					DrawGame.character.addSwordDamageDealt(dealtDamage); // Adds total sword damage
 					if(a.takeDamage(dealtDamage)){
-						DrawGame.monsterList[DrawGame.monsterHash.get(currentRoom)].remove(j);
+						//DrawGame.monsterList[DrawGame.monsterHash.get(currentRoom)].remove(j);
 						DrawGame.character.increaseXP(25);
 						DrawGame.character.addSwordKills(); // Adds total sword kills
 					}
@@ -390,7 +395,7 @@ public class Character {
 					int dealtDamage = DrawGame.character.getAttackDamage();
 					DrawGame.character.addSwordDamageDealt(dealtDamage); // Adds total sword damage
 					if(a.takeDamage(dealtDamage)){
-						DrawGame.monsterList[DrawGame.monsterHash.get(currentRoom)].remove(j);
+						//DrawGame.monsterList[DrawGame.monsterHash.get(currentRoom)].remove(j);
 						DrawGame.character.increaseXP(25);
 						DrawGame.character.addSwordKills(); // Adds total sword kills
 					}
@@ -402,7 +407,7 @@ public class Character {
 					int dealtDamage = DrawGame.character.getAttackDamage();
 					DrawGame.character.addSwordDamageDealt(dealtDamage); // Adds total sword damage
 					if(a.takeDamage(dealtDamage)){
-						DrawGame.monsterList[DrawGame.monsterHash.get(currentRoom)].remove(j);
+						//DrawGame.monsterList[DrawGame.monsterHash.get(currentRoom)].remove(j);
 						DrawGame.character.increaseXP(25);
 						DrawGame.character.addSwordKills(); // Adds total sword kills
 					}
@@ -888,7 +893,7 @@ public class Character {
 		}
 
 		GameMain.infoBox.append(Engine.deathMessage);
-
+		stopMoving();
 		level = 1;
 		currentHealth = 100;
 		maxHealth = 100;
