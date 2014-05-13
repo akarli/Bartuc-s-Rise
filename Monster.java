@@ -27,7 +27,7 @@ public class Monster {
 	private int animationCounter=1;
 	private int offset = 0, offsetx = 0;
 	private MediaPlayer deathPlayer;
-	private boolean death, dead;
+	public boolean death, dead;
 
 	public Monster(){
 		monster = loadMonsterImage("Graphics\\skeleton.png");
