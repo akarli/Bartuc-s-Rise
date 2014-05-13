@@ -458,26 +458,34 @@ public class Character {
 				lastSprite = moveDown[1];
 			}
 		}
-		  if(aLeft &&  currentRoom == Engine.caveZone && DrawGame.bartuc.alive){
-			   if((DrawGame.bartuc.getXTile() == getXTile() || DrawGame.bartuc.getXTile() - getXTile() == -1)){
-			    DrawGame.bartuc.takeDamage(DrawGame.character.getAttackDamage());
-			   }
-			  }
-			  if(aRight &&  currentRoom == Engine.caveZone && DrawGame.bartuc.alive){
-			   if((DrawGame.bartuc.getXTile() == getXTile() || DrawGame.bartuc.getXTile() - getXTile() == +1)){
-			    DrawGame.bartuc.takeDamage(DrawGame.character.getAttackDamage());
-			   }
-			  }
-			  if(aUp &&  currentRoom == Engine.caveZone && DrawGame.bartuc.alive){
-			   if((DrawGame.bartuc.getYTile() == getYTile() || DrawGame.bartuc.getYTile() - getYTile() == -1)){
-			    DrawGame.bartuc.takeDamage(DrawGame.character.getAttackDamage());
-			   }
-			  }
-			  if(aDown &&  currentRoom == Engine.caveZone && DrawGame.bartuc.alive){
-			   if((DrawGame.bartuc.getYTile() == getYTile() || DrawGame.bartuc.getYTile() - getYTile() == +1)){
-			    DrawGame.bartuc.takeDamage(DrawGame.character.getAttackDamage());
-			   }
-			  }
+		if (aLeft && currentRoom == Engine.caveZone && DrawGame.bartuc.alive) {
+			if ((DrawGame.bartuc.getXTile() == getXTile() || DrawGame.bartuc
+					.getXTile() - getXTile() == -1) && (DrawGame.bartuc.getYTile() - getYTile() == 1 || DrawGame.bartuc.getYTile() == getYTile())) {
+				DrawGame.bartuc
+						.takeDamage(DrawGame.character.getAttackDamage());
+			}
+		}
+		if (aRight && currentRoom == Engine.caveZone && DrawGame.bartuc.alive) {
+			if ((DrawGame.bartuc.getXTile() == getXTile() || DrawGame.bartuc
+					.getXTile() - getXTile() == +1)  && (DrawGame.bartuc.getYTile() - getYTile() == 1 || DrawGame.bartuc.getYTile() == getYTile())) {
+				DrawGame.bartuc
+						.takeDamage(DrawGame.character.getAttackDamage());
+			}
+		}
+		if (aUp && currentRoom == Engine.caveZone && DrawGame.bartuc.alive) {
+			if ((DrawGame.bartuc.getYTile() == getYTile() || DrawGame.bartuc
+					.getYTile() - getYTile() == -1) && (DrawGame.bartuc.getXTile() - getXTile() == -1 || DrawGame.bartuc.getXTile() == getXTile())) {
+				DrawGame.bartuc
+						.takeDamage(DrawGame.character.getAttackDamage());
+			}
+		}
+		if (aDown && currentRoom == Engine.caveZone && DrawGame.bartuc.alive) {
+			if ((DrawGame.bartuc.getYTile() == getYTile() || DrawGame.bartuc
+					.getYTile() - getYTile() == +1) && (DrawGame.bartuc.getXTile() - getXTile() == -1 || DrawGame.bartuc.getXTile() == getXTile())) {
+				DrawGame.bartuc
+						.takeDamage(DrawGame.character.getAttackDamage());
+			}
+		}
 		aLeft = false;
 		aRight = false;
 		aUp = false;
@@ -771,7 +779,7 @@ public class Character {
 	public void getLoot(){
 		Boolean epicGear = false;
 		int drop = rand.nextInt(100);
-		if(drop >= 0){
+		if(drop >= 84){
 			findLoot = true;
 			Engine.lootSound = true;
 			int quality = rand.nextInt(100);
