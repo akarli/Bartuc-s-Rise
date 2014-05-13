@@ -21,16 +21,17 @@ public class Monster {
 	private BufferedImage[] attackDown;
 	private BufferedImage[] attackLeft;
 	private BufferedImage[] attackRight;
-	private BufferedImage lastSprite;
+	private BufferedImage lastSprite, bonePile;
 	private int currentSprite = 0;
 	private int x = 2;
 	private int animationCounter=1;
 	private int offset = 0, offsetx = 0;
 	private MediaPlayer deathPlayer;
-	private boolean death;
+	private boolean death, dead;
 
 	public Monster(){
 		monster = loadMonsterImage("Graphics\\skeleton.png");
+		bonePile = loadMonsterImage("Graphics\\bonepile.png");
 		maxHealth = rand.nextInt(40*DrawGame.character.getLevel()) + 20*DrawGame.character.getLevel();
 		currentHealth = maxHealth;
 		damage = rand.nextInt(DrawGame.character.getLevel()*20)  + DrawGame.character.getLevel()*10;
@@ -178,30 +179,35 @@ public class Monster {
 	}
 
 	public void drawImage(Graphics g){
-		if(moveUp || moveDown || moveRight || moveLeft || aUp || aDown){
-			g.drawImage(getImage(), xPosition, yPosition, null);
-			animationCounter++;
-		}
-		else if(aLeft){
-			if(currentSprite <= 2)
-				g.drawImage(getImage(), xPosition, yPosition - 15, null);
-			else if(currentSprite == 3 && animationCounter < 8)
-				g.drawImage(getImage(), xPosition, yPosition - 15, null);
-			else
+		if(!dead){
+			if(moveUp || moveDown || moveRight || moveLeft || aUp || aDown){
 				g.drawImage(getImage(), xPosition, yPosition, null);
-			animationCounter++;
-		}
-		else if(aRight){
-			if(currentSprite <= 2)
-				g.drawImage(getImage(), xPosition, yPosition - 10, null);
-			else if(currentSprite == 3 && animationCounter < 8)
-				g.drawImage(getImage(), xPosition, yPosition - 10, null);
-			else
+				animationCounter++;
+			}
+			else if(aLeft){
+				if(currentSprite <= 2)
+					g.drawImage(getImage(), xPosition, yPosition - 15, null);
+				else if(currentSprite == 3 && animationCounter < 8)
+					g.drawImage(getImage(), xPosition, yPosition - 15, null);
+				else
+					g.drawImage(getImage(), xPosition, yPosition, null);
+				animationCounter++;
+			}
+			else if(aRight){
+				if(currentSprite <= 2)
+					g.drawImage(getImage(), xPosition, yPosition - 10, null);
+				else if(currentSprite == 3 && animationCounter < 8)
+					g.drawImage(getImage(), xPosition, yPosition - 10, null);
+				else
+					g.drawImage(getImage(), xPosition, yPosition, null);
+				animationCounter++;
+			}
+			else{
 				g.drawImage(getImage(), xPosition, yPosition, null);
-			animationCounter++;
+			}
 		}
 		else{
-			g.drawImage(getImage(), xPosition, yPosition, null);
+			g.drawImage(bonePile,  xPosition, yPosition+30, null);
 		}
 	}
 
@@ -257,29 +263,32 @@ public class Monster {
 	}
 
 	public boolean takeDamage(int damage) {
-		currentHealth -= damage;
-		if (currentHealth <= 0) {
-			GameMain.infoBox.append("\n You hit the skeleton for " + damage + " damage and slayed it.");
-			GameMain.infoBox.setCaretPosition(GameMain.infoBox.getDocument().getLength());
-			DrawGame.character.getLoot();
-			death = true;
-			if(death){
-				new Thread(deathPlayer).start();
+		if(!dead){
+			currentHealth -= damage;
+			if (currentHealth <= 0) {
+				GameMain.infoBox.append("\n You hit the skeleton for " + damage + " damage and slayed it.");
+				GameMain.infoBox.setCaretPosition(GameMain.infoBox.getDocument().getLength());
+				DrawGame.character.getLoot();
+				death = true;
+				if(death){
+					new Thread(deathPlayer).start();
+				}
+				death = false;
+				dead = true;
+				return true;
 			}
-			death = false;
-			return true;
+			GameMain.infoBox.append("\n You hit the skeleton for " + damage + " damage. It has " + currentHealth + " health left.");
+			GameMain.infoBox.setCaretPosition(GameMain.infoBox.getDocument()
+					.getLength());
+			Engine.skeletonHitSound = true;
 		}
-		GameMain.infoBox.append("\n You hit the skeleton for " + damage + " damage. It has " + currentHealth + " health left.");
-		GameMain.infoBox.setCaretPosition(GameMain.infoBox.getDocument()
-				.getLength());
-		Engine.skeletonHitSound = true;
 		return false;
 	}
-	
+
 	public boolean moving(){
 		return moving;
 	}
-	
+
 	public boolean attacking(){
 		return (aUp|| aDown || aLeft || aRight);
 	}
@@ -327,54 +336,56 @@ public class Monster {
 
 
 	public void startMoving(int direction){
-		if(Math.abs(currentXTile() - DrawGame.character.getXTile()) <= 1 && Math.abs(currentYTile() - DrawGame.character.getYTile()) <= 1){
-			attack();
-		}
-		else{
-			moving = true;
-			moveCounter = 16;
-			if(Math.abs(DrawGame.character.getYTile()-currentYTile()) <= 7 && Math.abs(DrawGame.character.getXTile()-currentXTile()) <= 7){
-				moveToPlayer=true;
-			}
-			if(direction == 0){
-				if(moveToPlayer){
-					if(DrawGame.character.getYTile() > currentYTile() && currentYTile() != 19){
-						if(DrawGame.character.getCurrentRoom().getCollisionMap()[currentYTile()+1][currentXTile()] != 1)
-							moveDown = true;
-					}
-					if(DrawGame.character.getYTile() < currentYTile() && currentYTile() != 0){
-						if(DrawGame.character.getCurrentRoom().getCollisionMap()[currentYTile()-1][currentXTile()] != 1)
-							moveUp = true;
-					}
-				}
-				else{
-					int a = rand.nextInt(2);
-					if(a == 1 && currentYTile() != 19 && DrawGame.character.getCurrentRoom().getCollisionMap()[currentYTile()+1][currentXTile()] != 1){
-						moveDown = true;
-					}
-					if(currentYTile() != 0 && DrawGame.character.getCurrentRoom().getCollisionMap()[currentYTile()-1][currentXTile()] != 1){
-						moveUp = true;
-					}
-				}
+		if(!dead){
+			if(Math.abs(currentXTile() - DrawGame.character.getXTile()) <= 1 && Math.abs(currentYTile() - DrawGame.character.getYTile()) <= 1 && (currentXTile() == DrawGame.character.getXTile() || currentYTile() == DrawGame.character.getYTile())){
+				attack();
 			}
 			else{
-				if(moveToPlayer){
-					if(DrawGame.character.getXTile() >currentXTile() && currentXTile() != 31){
-						if(DrawGame.character.getCurrentRoom().getCollisionMap()[currentYTile()][currentXTile()+1] != 1)
-							moveRight = true;
+				moving = true;
+				moveCounter = 16;
+				if(Math.abs(DrawGame.character.getYTile()-currentYTile()) <= 7 && Math.abs(DrawGame.character.getXTile()-currentXTile()) <= 7){
+					moveToPlayer=true;
+				}
+				if(direction == 0){
+					if(moveToPlayer){
+						if(DrawGame.character.getYTile() > currentYTile() && currentYTile() != 19){
+							if(DrawGame.character.getCurrentRoom().getCollisionMap()[currentYTile()+1][currentXTile()] != 1)
+								moveDown = true;
+						}
+						if(DrawGame.character.getYTile() < currentYTile() && currentYTile() != 0){
+							if(DrawGame.character.getCurrentRoom().getCollisionMap()[currentYTile()-1][currentXTile()] != 1)
+								moveUp = true;
+						}
 					}
-					if(DrawGame.character.getXTile() < currentXTile() && currentXTile() != 0){
-						if(DrawGame.character.getCurrentRoom().getCollisionMap()[currentYTile()][currentXTile()-1] != 1)
-							moveLeft = true;
+					else{
+						int a = rand.nextInt(2);
+						if(a == 1 && currentYTile() != 19 && DrawGame.character.getCurrentRoom().getCollisionMap()[currentYTile()+1][currentXTile()] != 1){
+							moveDown = true;
+						}
+						if(currentYTile() != 0 && DrawGame.character.getCurrentRoom().getCollisionMap()[currentYTile()-1][currentXTile()] != 1){
+							moveUp = true;
+						}
 					}
 				}
 				else{
-					int a = rand.nextInt(2);
-					if(a == 1 && currentXTile() != 31 && DrawGame.character.getCurrentRoom().getCollisionMap()[currentYTile()][currentXTile()+1] != 1){
-						moveRight = true;
+					if(moveToPlayer){
+						if(DrawGame.character.getXTile() >currentXTile() && currentXTile() != 31){
+							if(DrawGame.character.getCurrentRoom().getCollisionMap()[currentYTile()][currentXTile()+1] != 1)
+								moveRight = true;
+						}
+						if(DrawGame.character.getXTile() < currentXTile() && currentXTile() != 0){
+							if(DrawGame.character.getCurrentRoom().getCollisionMap()[currentYTile()][currentXTile()-1] != 1)
+								moveLeft = true;
+						}
 					}
-					if(currentXTile() != 0 && DrawGame.character.getCurrentRoom().getCollisionMap()[currentYTile()][currentXTile()-1] != 1){
-						moveLeft = true;
+					else{
+						int a = rand.nextInt(2);
+						if(a == 1 && currentXTile() != 31 && DrawGame.character.getCurrentRoom().getCollisionMap()[currentYTile()][currentXTile()+1] != 1){
+							moveRight = true;
+						}
+						if(currentXTile() != 0 && DrawGame.character.getCurrentRoom().getCollisionMap()[currentYTile()][currentXTile()-1] != 1){
+							moveLeft = true;
+						}
 					}
 				}
 			}
@@ -383,6 +394,10 @@ public class Monster {
 
 	public int getMoveCounter(){
 		return moveCounter;
+	}
+	
+	public int getHealth(){
+		return currentHealth;
 	}
 
 }
