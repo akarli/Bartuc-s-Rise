@@ -794,14 +794,14 @@ public class Character {
 					int damageUpgrade = rand.nextInt(level*10) + 5*level;
 					damage += damageUpgrade;
 					addEpicSwordsFound(); // Adds total epic swords found
-					GameMain.infoBox.append("\n You found a legendary sword" + Engine.epicGear[epicMessage] + "\n Damage increased by " + damageUpgrade + ".");
+					GameMain.infoBox.append("\n You found a legendary sword" + Engine.epicGear[epicMessage] + "\n Damage increased by " + GameMain.decimals.format(damageUpgrade) + ".");
 					Engine.writingSound = true;
 				}
 				else{
 					int damageUpgrade = rand.nextInt(level) + level; 
 					damage += damageUpgrade;
 					addSwordsFound(); // Adds total swords found
-					GameMain.infoBox.append("\n You found a mighty sword from a fallen enemy! \n Damage increased by " + damageUpgrade + ".");
+					GameMain.infoBox.append("\n You found a mighty sword from a fallen enemy! \n Damage increased by " + GameMain.decimals.format(damageUpgrade) + ".");
 				}
 			}
 			else if(lootType == 3){
@@ -810,14 +810,14 @@ public class Character {
 					int armorUpgrade = rand.nextInt(4*level) + 2*level;
 					armor += armorUpgrade;
 					addEpicShieldsFound(); // Adds total epic shields found
-					GameMain.infoBox.append("\n You found a huge kite shield" + Engine.epicGear[epicMessage] + "\n Armor increased by " + armorUpgrade + ".");
+					GameMain.infoBox.append("\n You found a huge kite shield" + Engine.epicGear[epicMessage] + "\n Armor increased by " + GameMain.decimals.format(armorUpgrade) + ".");
 					Engine.writingSound = true;
 				}
 				else{
 					int armorUpgrade = rand.nextInt(2*level) + level;
 					armor += armorUpgrade;
 					addShieldsFound(); // Adds total shields found
-					GameMain.infoBox.append("\n You found a robust targe shield from a fallen enemy! \n Armor increased by " + armorUpgrade + ".");
+					GameMain.infoBox.append("\n You found a robust targe shield from a fallen enemy! \n Armor increased by " + GameMain.decimals.format(armorUpgrade) + ".");
 				}
 			}
 			else{
@@ -837,7 +837,7 @@ public class Character {
 					manaRegenUpgrade.doubleValue();
 					manaRegen += manaRegenUpgrade;
 					addEpicGearFound(); // Adds total epic armor found
-					GameMain.infoBox.append("\n You found " + Engine.gearTypeEpic[gearType] + Engine.epicGear[epicMessage] + "\n Armor increased by " + armorUpgrade + ".\n Health increased by " + healthUpgrade +  ".\n Mana increased by " + manaUpgrade +  ". \n Heath regeneration increased by " + GameMain.oneDigit.format(hpRegenUpgrade) +". \n Mana  regeneration increased by " + GameMain.oneDigit.format(manaRegenUpgrade));
+					GameMain.infoBox.append("\n You found " + Engine.gearTypeEpic[gearType] + Engine.epicGear[epicMessage] + "\n Armor increased by " + GameMain.decimals.format(armorUpgrade) + ".\n Health increased by " + GameMain.decimals.format(healthUpgrade) +  ".\n Mana increased by " + GameMain.decimals.format(manaUpgrade) +  ". \n Heath regeneration increased by " + GameMain.oneDigit.format(hpRegenUpgrade) +". \n Mana  regeneration increased by " + GameMain.oneDigit.format(manaRegenUpgrade));
 					Engine.writingSound = true;
 				}
 				else{
@@ -851,7 +851,7 @@ public class Character {
 						hpRegenUpgrade.doubleValue();
 						hpRegen += hpRegenUpgrade;
 						addGearFound(); // Adds total gear found
-						GameMain.infoBox.append("\n You found " + Engine.gearTypeHealth[gearType] + " from a fallen enemy! \n Armor increased by " + armorUpgrade + ". \n Health increased by " + healthUpgrade + ". \n Heath regeneration increased by " + GameMain.oneDigit.format(hpRegenUpgrade));
+						GameMain.infoBox.append("\n You found " + Engine.gearTypeHealth[gearType] + " from a fallen enemy! \n Armor increased by " + GameMain.decimals.format(armorUpgrade) + ". \n Health increased by " + GameMain.decimals.format(healthUpgrade) + ". \n Heath regeneration increased by " + GameMain.oneDigit.format(hpRegenUpgrade));
 					}
 					else{
 						int manaUpgrade = rand.nextInt(level) + level;
@@ -860,7 +860,7 @@ public class Character {
 						manaRegenUpgrade.doubleValue();
 						manaRegen += manaRegenUpgrade;
 						addGearFound(); // Adds total gear found
-						GameMain.infoBox.append("\n You found " + Engine.gearTypeMana[gearType] + " from a fallen enemy! \n Armor increased by " + armorUpgrade + ". \n Mana increased by " + manaUpgrade + ". \n Mana regeneration increased by " + GameMain.oneDigit.format(manaRegenUpgrade));
+						GameMain.infoBox.append("\n You found " + Engine.gearTypeMana[gearType] + " from a fallen enemy! \n Armor increased by " + GameMain.decimals.format(armorUpgrade) + ". \n Mana increased by " + GameMain.decimals.format(manaUpgrade) + ". \n Mana regeneration increased by " + GameMain.oneDigit.format(manaRegenUpgrade));
 					}
 				}
 			}
@@ -1301,46 +1301,46 @@ public class Character {
 	}
 	public String getStatMessage(){
 		statsMessage = "\n\n Feats of strength \n\n Combat\n\n You have slain "
-				+ getTotalKills()
+				+ GameMain.decimals.format(getTotalKills())
 				+ " of bartucs minions. "
-				+ getSwordKills()
+				+ GameMain.decimals.format(getSwordKills())
 				+ " by sword and "
-				+ getMagicKills()
+				+ GameMain.decimals.format(getMagicKills())
 				+ " by magic \n You have dealt "
-				+ getDamageDealt()
+				+ GameMain.decimals.format(getDamageDealt())
 				+ " damage. "
-				+ getSwordDamageDealt()
+				+ GameMain.decimals.format(getSwordDamageDealt())
 				+ " by sword and "
-				+ getMagicDamageDealt()
+				+ GameMain.decimals.format(getMagicDamageDealt())
 				+ " by magic \n You have conjured "
-				+ getFireBalls()
+				+ GameMain.decimals.format(getFireBalls())
 				+ " fireballs. "
-				+ getMissedFireBalls()
+				+ GameMain.decimals.format(getMissedFireBalls())
 				+ " of them missed their target \n You have slain the mighty Bartuc "
-				+ getBartucKills() + " times \n You have taken "
-				+ getDamageTaken()
+				+ GameMain.decimals.format(getBartucKills()) + " times \n You have taken "
+				+ GameMain.decimals.format(getDamageTaken())
 				+ " damage by bartucs minions and "
-				+ getDamageTakenBartuc()
+				+ GameMain.decimals.format(getDamageTakenBartuc())
 				+ " by Bartuc himself \n You have used "
-				+ getHealthPotsUsed() + " health potions and "
-				+ getManaPotsUsed()
+				+ GameMain.decimals.format(getHealthPotsUsed()) + " health potions and "
+				+ GameMain.decimals.format(getManaPotsUsed())
 				+ " mana potions \n\n Loot \n\n You have looted "
-				+ getGearFound()
+				+ GameMain.decimals.format(getGearFound())
 				+ " pieces of armor \n You have looted "
-				+ getEpicGearFound()
+				+ GameMain.decimals.format(getEpicGearFound())
 				+ " pieces of legendary armor \n You have looted "
-				+ getSwordsFound()
+				+ GameMain.decimals.format(getSwordsFound())
 				+ " swords \n You have looted "
-				+ getEpicSwordsFound()
+				+ GameMain.decimals.format(getEpicSwordsFound())
 				+ " legendary swords \n You have looted "
-				+ getShieldsFound()
+				+ GameMain.decimals.format(getShieldsFound())
 				+ " shields \n You have looted "
-				+ getEpicShieldsFound()
+				+ GameMain.decimals.format(getEpicShieldsFound())
 				+ " legendary shields \n\n Exploration\n\n You have taken "
-				+ getStepsTaken()
+				+ GameMain.decimals.format(getStepsTaken())
 				+ " steps \n You have walked between zones "
-				+ getZoneChanges() + " times \n You have entered bartucs cave "
-				+ getTimesInCave() + " times";
+				+ GameMain.decimals.format(getZoneChanges()) + " times \n You have entered bartucs cave "
+				+ GameMain.decimals.format(getTimesInCave()) + " times";
 		
 		return statsMessage;
 	}
