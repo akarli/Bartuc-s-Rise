@@ -21,16 +21,19 @@ public class Character {
 	private BufferedImage[] attackDown;
 	private BufferedImage[] attackLeft;
 	private BufferedImage[] attackRight;
+	private BufferedImage[] healing;
 	private BufferedImage lastSprite;
 	private BufferedImage charAttack;
+	private BufferedImage heal;
 	private String statsMessage;
 	private int currentSprite = 0;
 	private int animationCounter=1;
 	private int x = 0;
 	private int moveCounter = 0;
 	private int sprite = 0;
+	private int hpSprite =0;
 	private String name;
-	private boolean levelingUp, castingFireBall, aLeft, aRight, aUp, aDown, mLeft, mRight, mUp, mDown;
+	private boolean levelingUp, castingFireBall, aLeft, aRight, aUp, aDown, mLeft, mRight, mUp, mDown, useHpPot;
 	private boolean bartucEngage = false;
 	boolean attacking;
 	private FireBall eldBoll;
@@ -47,6 +50,7 @@ public class Character {
 		character = loadCharacterImage("Graphics\\charwalk.png");
 		levelup = loadCharacterImage("Graphics\\levelup.png");
 		charAttack = loadCharacterImage("Graphics\\charattack.png");
+		heal = loadCharacterImage("Graphics\\healing.png");
 		moveUp = new BufferedImage[4];
 		moveDown = new BufferedImage[4];
 		moveRight = new BufferedImage[4];
@@ -56,6 +60,7 @@ public class Character {
 		attackDown = new BufferedImage[4];
 		attackLeft = new BufferedImage[4];
 		attackRight = new BufferedImage[4];
+		healing = new BufferedImage[15];
 		for(int i = 0; i < 4; i++){
 			moveUp[i] = character.getSubimage(x+(i*34), 64, 34, 53);
 			x = x+3;
@@ -93,6 +98,16 @@ public class Character {
 		attackRight[1] = charAttack.getSubimage(396, 72, 34, 73);
 		attackRight[2] = charAttack.getSubimage(432, 72, 51, 73);
 		attackRight[3] = charAttack.getSubimage(485, 72, 41, 73);
+		x = 0;
+		int y = 0;
+		for(int i = 0; i < 15; i++){
+			if(i == 5 || i == 10){
+				y++;
+				x=0;
+			}
+			healing[i] = heal.getSubimage(x*96, y*96, 96, 96);
+			x++;
+		}
 
 		for(int i = 0; i < 39 ;i++){
 			levelUp[i] = levelup.getSubimage(0 + (i*128), 0, 128, 128);
@@ -371,7 +386,6 @@ public class Character {
 					int dealtDamage = DrawGame.character.getAttackDamage();
 					DrawGame.character.addSwordDamageDealt(dealtDamage); // Adds total sword damage
 					if(a.takeDamage(dealtDamage)){
-						//DrawGame.monsterList[DrawGame.monsterHash.get(currentRoom)].remove(j);
 						DrawGame.character.increaseXP(25);
 						DrawGame.character.addSwordKills(); // Adds total sword kills
 					}
@@ -383,7 +397,6 @@ public class Character {
 					int dealtDamage = DrawGame.character.getAttackDamage();
 					DrawGame.character.addSwordDamageDealt(dealtDamage); // Adds total sword damage
 					if(a.takeDamage(dealtDamage)){
-						//DrawGame.monsterList[DrawGame.monsterHash.get(currentRoom)].remove(j);
 						DrawGame.character.increaseXP(25);
 						DrawGame.character.addSwordKills(); // Adds total sword kills
 					}
@@ -395,7 +408,6 @@ public class Character {
 					int dealtDamage = DrawGame.character.getAttackDamage();
 					DrawGame.character.addSwordDamageDealt(dealtDamage); // Adds total sword damage
 					if(a.takeDamage(dealtDamage)){
-						//DrawGame.monsterList[DrawGame.monsterHash.get(currentRoom)].remove(j);
 						DrawGame.character.increaseXP(25);
 						DrawGame.character.addSwordKills(); // Adds total sword kills
 					}
@@ -407,7 +419,6 @@ public class Character {
 					int dealtDamage = DrawGame.character.getAttackDamage();
 					DrawGame.character.addSwordDamageDealt(dealtDamage); // Adds total sword damage
 					if(a.takeDamage(dealtDamage)){
-						//DrawGame.monsterList[DrawGame.monsterHash.get(currentRoom)].remove(j);
 						DrawGame.character.increaseXP(25);
 						DrawGame.character.addSwordKills(); // Adds total sword kills
 					}
@@ -642,6 +653,7 @@ public class Character {
 					currentHealth = maxHealth;
 				}
 				healthPotions--;
+				useHpPot = true;
 				if(!Engine.potionSound){
 					Engine.potionSound = true;
 				}
@@ -875,6 +887,14 @@ public class Character {
 		}
 		return levelUp[sprite/2];
 	}
+	
+	public BufferedImage getHpPotImage(){
+		if(hpSprite == 30){
+			hpSprite = 0;
+			useHpPot = false;
+		}
+		return healing[hpSprite/2];
+	}
 
 	public void die(){		
 		Engine.playerDeathSound = true;
@@ -981,6 +1001,10 @@ public class Character {
 				bartucEngage = true;
 			}
 			
+		}
+		if(useHpPot){
+			g.drawImage(getHpPotImage(), xPosition - 30, yPosition-27, null);
+			hpSprite++;
 		}
 		manaCounter++;
 		healthCounter++;
