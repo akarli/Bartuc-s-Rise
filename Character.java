@@ -461,14 +461,14 @@ public class Character {
 		if (aLeft && currentRoom == Engine.caveZone && DrawGame.bartuc.alive) {
 			if ((DrawGame.bartuc.getXTile() == getXTile() || DrawGame.bartuc
 					.getXTile() - getXTile() == -1 || DrawGame.bartuc
-					.getXTile() - getXTile() == -2) && (DrawGame.bartuc.getYTile() - getYTile() == 1 || DrawGame.bartuc.getYTile() == getYTile())) {
+					.getXTile() - getXTile() == -2) && (DrawGame.bartuc.getYTile() - getYTile() == -1 || DrawGame.bartuc.getYTile() == getYTile())) {
 				DrawGame.bartuc
 						.takeDamage(DrawGame.character.getAttackDamage());
 			}
 		}
 		if (aRight && currentRoom == Engine.caveZone && DrawGame.bartuc.alive) {
 			if ((DrawGame.bartuc.getXTile() == getXTile() || DrawGame.bartuc
-					.getXTile() - getXTile() == +1)  && (DrawGame.bartuc.getYTile() - getYTile() == 1 || DrawGame.bartuc.getYTile() == getYTile())) {
+					.getXTile() - getXTile() == 1)  && (DrawGame.bartuc.getYTile() - getYTile() == -1 || DrawGame.bartuc.getYTile() == getYTile())) {
 				DrawGame.bartuc
 						.takeDamage(DrawGame.character.getAttackDamage());
 			}
