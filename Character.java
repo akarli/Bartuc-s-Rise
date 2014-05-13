@@ -22,9 +22,11 @@ public class Character {
 	private BufferedImage[] attackLeft;
 	private BufferedImage[] attackRight;
 	private BufferedImage[] healing;
+	private BufferedImage[] manas;
 	private BufferedImage lastSprite;
 	private BufferedImage charAttack;
 	private BufferedImage heal;
+	private BufferedImage mana;
 	private String statsMessage;
 	private int currentSprite = 0;
 	private int animationCounter=1;
@@ -32,8 +34,9 @@ public class Character {
 	private int moveCounter = 0;
 	private int sprite = 0;
 	private int hpSprite =0;
+	private int manaSprite = 0;
 	private String name;
-	private boolean levelingUp, castingFireBall, aLeft, aRight, aUp, aDown, mLeft, mRight, mUp, mDown, useHpPot;
+	private boolean levelingUp, castingFireBall, aLeft, aRight, aUp, aDown, mLeft, mRight, mUp, mDown, useHpPot, useManaPot;
 	private boolean bartucEngage = false;
 	boolean attacking;
 	private FireBall eldBoll;
@@ -46,11 +49,13 @@ public class Character {
 	private int bartucKills, totalKills, magicKills, swordKills, damageDealt, magicDamageDealt, swordDamageDealt, fireBalls, missedFireBalls, damageTaken;
 	private int damageTakenBartuc, healthPotsUsed, manaPotsUsed, gearFound, epicGearFound, swordsFound, epicSwordsFound, shieldsFound, epicShieldsFound, stepsTaken, zoneChanges, timesInCave;
 
+
 	public Character(){
 		character = loadCharacterImage("Graphics\\charwalk.png");
 		levelup = loadCharacterImage("Graphics\\levelup.png");
 		charAttack = loadCharacterImage("Graphics\\charattack.png");
 		heal = loadCharacterImage("Graphics\\healing.png");
+		mana = loadCharacterImage("Graphics\\mana.png");
 		moveUp = new BufferedImage[4];
 		moveDown = new BufferedImage[4];
 		moveRight = new BufferedImage[4];
@@ -61,6 +66,7 @@ public class Character {
 		attackLeft = new BufferedImage[4];
 		attackRight = new BufferedImage[4];
 		healing = new BufferedImage[15];
+		manas = new BufferedImage[20];
 		for(int i = 0; i < 4; i++){
 			moveUp[i] = character.getSubimage(x+(i*34), 64, 34, 53);
 			x = x+3;
@@ -106,6 +112,16 @@ public class Character {
 				x=0;
 			}
 			healing[i] = heal.getSubimage(x*96, y*96, 96, 96);
+			x++;
+		}
+		x = 0;
+		y = 0;
+		for(int i = 0; i < 20; i++){
+			if(i == 5 || i == 10 || i == 15){
+				y++;
+				x=0;
+			}
+			manas[i] = mana.getSubimage(x*96, y*96, 96, 96);
 			x++;
 		}
 
@@ -687,6 +703,7 @@ public class Character {
 					currentMana = maxMana;
 				}
 				manaPotions--;
+				useManaPot = true;
 				if(!Engine.potionSound){
 					Engine.potionSound = true;
 				}
@@ -889,11 +906,19 @@ public class Character {
 	}
 	
 	public BufferedImage getHpPotImage(){
-		if(hpSprite == 30){
+		if(hpSprite == 28){
 			hpSprite = 0;
 			useHpPot = false;
 		}
 		return healing[hpSprite/2];
+	}
+	
+	public BufferedImage getManaPotImage(){
+		if(manaSprite == 40){
+			manaSprite = 0;
+			useManaPot = false;
+		}
+		return manas[manaSprite/2];
 	}
 
 	public void die(){		
@@ -1005,6 +1030,10 @@ public class Character {
 		if(useHpPot){
 			g.drawImage(getHpPotImage(), xPosition - 30, yPosition-27, null);
 			hpSprite++;
+		}
+		if(useManaPot){
+			g.drawImage(getManaPotImage(), xPosition - 30, yPosition-18, null);
+			manaSprite++;
 		}
 		manaCounter++;
 		healthCounter++;
