@@ -99,7 +99,7 @@ public class Bartuc {
 		currentHealth -= damage;
 		int sound = rand.nextInt(2);
 		if(getCurrentHealth() > 0){
-			GameMain.infoBox.append("\n You hit Bartuc for " + damage + " damage. He has " + getCurrentHealth() + " health left.");
+			GameMain.infoBox.append("\n You hit Bartuc for " + GameMain.decimals.format(damage) + " damage. He has " + GameMain.decimals.format(getCurrentHealth()) + " health left.");
 			GameMain.infoBox.setCaretPosition(GameMain.infoBox.getDocument().getLength());
 		}
 		if(sound == 0){
