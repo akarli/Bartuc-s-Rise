@@ -414,7 +414,7 @@ public class Character {
 		for(int j = 0; j < DrawGame.monsterList[DrawGame.monsterHash.get(currentRoom)].size();j++){ 
 			Monster a = (Monster) DrawGame.monsterList[DrawGame.monsterHash.get(currentRoom)].get(j);
 			if(aLeft){
-				if((a.currentXTile() == getXTile() || a.currentXTile() - getXTile() == -1) && a.currentYTile() == getYTile()){
+				if(a.dead && (a.currentXTile() == getXTile() || a.currentXTile() - getXTile() == -1) && a.currentYTile() == getYTile()){
 					int dealtDamage = DrawGame.character.getAttackDamage();
 					DrawGame.character.addSwordDamageDealt(dealtDamage); // Adds total sword damage
 					if(a.takeDamage(dealtDamage)){
@@ -425,7 +425,7 @@ public class Character {
 				lastSprite = moveLeft[1];
 			}
 			else if(aRight){
-				if((a.currentXTile() == getXTile() || a.currentXTile() - getXTile() == 1) && (a.currentYTile() == getYTile())){
+				if(a.dead && (a.currentXTile() == getXTile() || a.currentXTile() - getXTile() == 1) && (a.currentYTile() == getYTile())){
 					int dealtDamage = DrawGame.character.getAttackDamage();
 					DrawGame.character.addSwordDamageDealt(dealtDamage); // Adds total sword damage
 					if(a.takeDamage(dealtDamage)){
@@ -436,7 +436,7 @@ public class Character {
 				lastSprite = moveRight[1];
 			}
 			else if(aUp){
-				if((a.currentXTile() == getXTile()) && (a.currentYTile() == getYTile() || a.currentYTile() - getYTile() == -1)){
+				if(a.dead && (a.currentXTile() == getXTile()) && (a.currentYTile() == getYTile() || a.currentYTile() - getYTile() == -1)){
 					int dealtDamage = DrawGame.character.getAttackDamage();
 					DrawGame.character.addSwordDamageDealt(dealtDamage); // Adds total sword damage
 					if(a.takeDamage(dealtDamage)){
@@ -447,7 +447,7 @@ public class Character {
 				lastSprite = moveUp[1];
 			}
 			else if(aDown){
-				if((a.currentXTile() == getXTile()) && (a.currentYTile() == getYTile() || a.currentYTile() - getYTile() == 1)){
+				if(a.dead && (a.currentXTile() == getXTile()) && (a.currentYTile() == getYTile() || a.currentYTile() - getYTile() == 1)){
 					int dealtDamage = DrawGame.character.getAttackDamage();
 					DrawGame.character.addSwordDamageDealt(dealtDamage); // Adds total sword damage
 					if(a.takeDamage(dealtDamage)){
