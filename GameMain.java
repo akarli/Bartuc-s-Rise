@@ -131,7 +131,7 @@ public class GameMain extends JFrame implements ActionListener {
 		characterLevel.setFont(new Font("Serif", Font.PLAIN, 20));
 		characterLevel.setBounds(360, 0, 171, 50);
 		
-		characterXP.setFont(new Font("Serif", Font.PLAIN, 15));
+		characterXP.setFont(new Font("Serif", Font.PLAIN, 16));
 		characterXP.setBounds(40, 140, 171, 50);
 		
 		characterMana.setFont(new Font("Serif", Font.PLAIN, 16));
