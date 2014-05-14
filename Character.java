@@ -40,7 +40,7 @@ public class Character {
 	private int manaSprite = 0;
 	private int lootSprite = 0;
 	private String name;
-	private ArrayList<Item> inventory;
+	public ArrayList<Item> inventory;
 	private Item helm;
 	private Item boots;
 	private Item gloves;
