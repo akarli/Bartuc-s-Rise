@@ -34,7 +34,7 @@ public class Monster {
 		bonePile = loadMonsterImage("Graphics\\bonepile.png");
 		maxHealth = rand.nextInt(40*DrawGame.character.getLevel()) + 20*DrawGame.character.getLevel();
 		currentHealth = maxHealth;
-		damage = rand.nextInt(DrawGame.character.getLevel()*20)  + DrawGame.character.getLevel()*10;
+		damage = rand.nextInt(DrawGame.character.getLevel()*10)  + (DrawGame.character.getLevel()-1)*45 + 20;
 		moveCounter = 0;
 		moveUpPic = new BufferedImage[4];
 		moveDownPic = new BufferedImage[4];
