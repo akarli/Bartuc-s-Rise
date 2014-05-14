@@ -878,14 +878,14 @@ public class Character {
 	}
 
 	public void removeItemFromInventory(int index){
-		index = index -1;
+		index = index - 1;
 		if(inventory.size() > index  && inventory.size() > 0){
 			inventory.remove(index);
-			GameMain.infoBox.append("\n Item removed");
+			GameMain.infoBox.append("\n Item dropped.");
 			GameMain.infoBox.setCaretPosition(GameMain.infoBox.getDocument().getLength());
 		}
 		else{
-			GameMain.infoBox.append("\n Not a valid index");
+			GameMain.infoBox.append("\n Not a valid index.");
 			GameMain.infoBox.setCaretPosition(GameMain.infoBox.getDocument().getLength());
 		}
 		GameMain.listModel.clear();
