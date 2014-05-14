@@ -154,7 +154,7 @@ public class GameMain extends JFrame implements ActionListener {
 			characterCritDamage.setBounds(20, 280, 300, 40);
 
 			characterXP.setFont(new Font("Serif", Font.PLAIN, 16));
-			characterXP.setBounds(20, 360, 130, 40);
+			characterXP.setBounds(20, 360, 250, 40);
 			
 			characterDodge.setFont(new Font("Serif", Font.PLAIN, 16));
 			characterDodge.setBounds(20, 320, 130, 40);
@@ -298,7 +298,7 @@ public class GameMain extends JFrame implements ActionListener {
 		String lineArray[] = command.split("\\s+");
 		if((lineArray[0].trim().equals("help") && lineArray.length == 1) || (lineArray[0].trim().equals("Help") && lineArray.length == 1)){
 			infoBox.append(Engine.helpMessage);
-			infoBox.setCaretPosition(infoBox.getDocument().getLength());
+			infoBox.setCaretPosition(infoBox.getDocument().getLength() - 200);
 		}
 		else if((lineArray[0].trim().equals("load") && lineArray.length == 1) || (lineArray[0].trim().equals("Load") && lineArray.length == 1)){
 			infoBox.append("\n Loading...");
@@ -312,15 +312,15 @@ public class GameMain extends JFrame implements ActionListener {
 		}
 		else if((lineArray[0].trim().equals("controls") && lineArray.length == 1) || (lineArray[0].trim().equals("Controls") && lineArray.length == 1)){
 			infoBox.append(Engine.controlsMessage);
-			infoBox.setCaretPosition(infoBox.getDocument().getLength());
+			infoBox.setCaretPosition(infoBox.getDocument().getLength() - 100);
 		}
 		else if((lineArray[0].trim().equals("commands") && lineArray.length == 1) || (lineArray[0].trim().equals("Commands") && lineArray.length == 1)){
 			infoBox.append(Engine.commandsMessage);
-			infoBox.setCaretPosition(infoBox.getDocument().getLength() - 150);
+			infoBox.setCaretPosition(infoBox.getDocument().getLength() - 250);
 		}
 		else if((lineArray[0].trim().equals("stats") && lineArray.length == 1) || (lineArray[0].trim().equals("Stats") && lineArray.length == 1)){
 			infoBox.append(DrawGame.character.getStatMessage());
-			infoBox.setCaretPosition(infoBox.getDocument().getLength() - 420);
+			infoBox.setCaretPosition(infoBox.getDocument().getLength() - 650);
 		}
 		else if((lineArray[0].trim().equals("setname") || lineArray[0].trim().equals("Setname")) && lineArray.length <= 4){
 			if(lineArray.length == 2){
