@@ -872,7 +872,9 @@ public class Character {
 		else{
 			GameMain.infoBox.append("\n Your inventory is already empty.");
 		}
-		GameMain.infoBox.setCaretPosition(GameMain.infoBox.getDocument().getLength()); 
+		GameMain.infoBox.setCaretPosition(GameMain.infoBox.getDocument().getLength());
+		GameMain.listModel.clear();
+		printInventory();
 	}
 
 	public void removeItemFromInventory(int index){
@@ -886,6 +888,8 @@ public class Character {
 			GameMain.infoBox.append("\n Not a valid index");
 			GameMain.infoBox.setCaretPosition(GameMain.infoBox.getDocument().getLength());
 		}
+		GameMain.listModel.clear();
+		printInventory();
 	}
 
 	public void printEquipment(){
@@ -959,17 +963,15 @@ public class Character {
 			GameMain.infoBox.append("\n Not a valid index.");
 			GameMain.infoBox.setCaretPosition(GameMain.infoBox.getDocument().getLength());
 		}
+		GameMain.listModel.clear();
+		printInventory();
 	}
-
-
-
-
 
 	public void getLoot(){
 		Boolean epicGear = false;
 		int drop = rand.nextInt(100);
 		int dropMessage = 0;
-		if(drop >= 84){
+		if(drop >= 0){
 			findLoot = true;
 			Engine.lootSound = true;
 			int quality = rand.nextInt(100);
@@ -1059,6 +1061,8 @@ public class Character {
 					GameMain.infoBox.append("\n You found a pair of pauldrons from a fallen enemy.\n It increases armor by " + GameMain.decimals.format(newItem.getArmor()) + ", mana by " + GameMain.decimals.format(newItem.getBonusMana()) + " and mana regeneration by " + GameMain.oneDigit.format(newItem.getManaRegen()) + " per second.");
 					addGearFound();
 				}
+				GameMain.listModel.clear();
+				printInventory();
 			}
 
 			GameMain.infoBox.setCaretPosition(GameMain.infoBox.getDocument().getLength());
@@ -1254,6 +1258,9 @@ public class Character {
 		setY(416);
 
 		inventory.clear();
+		
+		GameMain.listModel.clear();
+		printInventory();
 
 		//GameMain.infoBox.append("\n" + Engine.startMessage);
 		GameMain.infoBox.setCaretPosition(GameMain.infoBox.getDocument().getLength());
