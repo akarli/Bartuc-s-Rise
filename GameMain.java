@@ -53,7 +53,10 @@ public class GameMain extends JFrame implements ActionListener {
 	JLabel characterXP = new JLabel("Experience: " + decimals.format(DrawGame.character.getXP()) + "/" + decimals.format(DrawGame.character.getMaxXP()), JLabel.LEFT);
 	JLabel characterMana = new JLabel("Mana: " + decimals.format(DrawGame.character.getMana()) + "/" + decimals.format(DrawGame.character.getMaxMana()), JLabel.LEFT);
 	JLabel characterManaPots = new JLabel("Mana potions: " + decimals.format(DrawGame.character.getManaPots()), JLabel.LEFT);
-
+	JLabel characterCritChance = new JLabel("Critical hit chance: " + decimals.format(DrawGame.character.gloves().getBonusStat()) + "%", JLabel.LEFT);
+	JLabel characterCritDamage = new JLabel("Critical hit damage: " + decimals.format(DrawGame.character.helm().getBonusStat()) + "%", JLabel.LEFT);
+	JLabel characterDodge = new JLabel("Dodge chance: " + decimals.format(DrawGame.character.boots().getBonusStat()) + "%", JLabel.LEFT);
+	
 	public static JTextArea infoBox = new JTextArea(Engine.startMessage); // The box containing all info text
 	public static JTextField commandBox = new JTextField(); // The box containing all info text
 
@@ -108,38 +111,47 @@ public class GameMain extends JFrame implements ActionListener {
 		 */
 
 		characterStatistics.setFont(new Font("Serif", Font.PLAIN, 22));
-		characterStatistics.setBounds(40, 0, 300, 50);
+		characterStatistics.setBounds(40, 0, 300, 40);
 
 		characterHealth.setFont(new Font("Serif", Font.PLAIN, 16));
-		characterHealth.setBounds(40, 40, 171, 50);
+		characterHealth.setBounds(40, 30, 171, 40);
 
 		characterDamage.setFont(new Font("Serif", Font.PLAIN, 16));
-		characterDamage.setBounds(205, 140, 171, 50);
+		characterDamage.setBounds(40, 110, 171, 40);
 
 		characterArmor.setFont(new Font("Serif", Font.PLAIN, 16));
-		characterArmor.setBounds(360, 140, 171, 50);
+		characterArmor.setBounds(200, 150, 171, 40);
 
 		characterHPRegen.setFont(new Font("Serif", Font.PLAIN, 16));
-		characterHPRegen.setBounds(205, 40, 170, 50);
+		characterHPRegen.setBounds(200, 30, 170, 40);
 
 		characterManaRegen.setFont(new Font("Serif", Font.PLAIN, 16));
-		characterManaRegen.setBounds(205, 90, 170, 50);
+		characterManaRegen.setBounds(200, 70, 170, 40);
 
 		characterHealthPots.setFont(new Font("Serif", Font.PLAIN, 16));
-		characterHealthPots.setBounds(360, 40, 171, 50);
+		characterHealthPots.setBounds(360, 30, 171, 40);
 
 		characterLevel.setFont(new Font("Serif", Font.PLAIN, 20));
-		characterLevel.setBounds(360, 0, 171, 50);
+		characterLevel.setBounds(360, 0, 171, 40);
 
 		characterXP.setFont(new Font("Serif", Font.PLAIN, 16));
-		characterXP.setBounds(40, 140, 171, 50);
+		characterXP.setBounds(40, 150, 171, 40);
 
 		characterMana.setFont(new Font("Serif", Font.PLAIN, 16));
-		characterMana.setBounds(40, 90, 171, 50);
+		characterMana.setBounds(40, 70, 171, 40);
 
 		characterManaPots.setFont(new Font("Serif", Font.PLAIN, 16));
-		characterManaPots.setBounds(360, 90, 171, 50);
-
+		characterManaPots.setBounds(360, 70, 171, 40);
+		
+		characterCritChance.setFont(new Font("Serif", Font.PLAIN, 16));
+		characterCritChance.setBounds(360, 110, 170, 40);
+		
+		characterCritDamage.setFont(new Font("Serif", Font.PLAIN, 16));
+		characterCritDamage.setBounds(200, 110, 170, 40);
+		
+		characterDodge.setFont(new Font("Serif", Font.PLAIN, 16));
+		characterDodge.setBounds(360, 150, 170, 40);
+		
 		/**
 		 * SCROLL AREA PREFERENCES
 		 */
@@ -218,6 +230,9 @@ public class GameMain extends JFrame implements ActionListener {
 		statsPanel.add(characterManaRegen);
 		statsPanel.add(characterHealthPots);
 		statsPanel.add(characterManaPots);
+		statsPanel.add(characterCritChance);
+		statsPanel.add(characterCritDamage);
+		statsPanel.add(characterDodge);
 
 		pack();
 
@@ -246,6 +261,9 @@ public class GameMain extends JFrame implements ActionListener {
 		characterManaRegen.setText("Mana/s: " + oneDigit.format(DrawGame.character.getManaRegen()));
 		characterHealthPots.setText("Health potions: " + decimals.format(DrawGame.character.getHPPots()));
 		characterManaPots.setText("Mana potions: " + decimals.format(DrawGame.character.getManaPots()));
+		characterCritChance.setText("Critical hit chance: " + decimals.format(DrawGame.character.gloves().getBonusStat()) + "%");
+		characterCritDamage.setText("Critical hit damage: " + decimals.format(DrawGame.character.helm().getBonusStat()) + "%"); 
+		characterDodge.setText("Dodge chance: " + decimals.format(DrawGame.character.boots().getBonusStat()) + "%");
 
 		draw.repaint();
 	}
