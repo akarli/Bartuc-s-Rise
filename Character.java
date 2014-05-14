@@ -835,37 +835,37 @@ public class Character {
 
 	public void printInventory(){
 		if(inventory.size() == 0){
-			GameMain.infoBox.append("\n Your inventory is empty.");
+			GameMain.inventoryBox.append(" Your inventory is empty.");
 		}
 		else{
 			for(int i = 0; i < inventory.size(); i++){
 				if(inventory.get(i).getType().matches("sword")){
-					GameMain.infoBox.append("\n " + (i+1) + ". Sword - " + GameMain.decimals.format(inventory.get(i).getDamage()) + " damage.");
+					GameMain.inventoryBox.append((i+1) + ". Sword - " + GameMain.decimals.format(inventory.get(i).getDamage()) + " damage.\n");
 				}
 				if(inventory.get(i).getType().matches("shield")){
-					GameMain.infoBox.append("\n " + (i+1) + ". Shield - " + GameMain.decimals.format(inventory.get(i).getArmor()) + " armor.");
+					GameMain.inventoryBox.append((i+1) + ". Shield - " + GameMain.decimals.format(inventory.get(i).getArmor()) + " armor.\n");
 				}
 				if(inventory.get(i).getType().matches("chest")){
-					GameMain.infoBox.append("\n " + (i+1) + ". Chest - " + GameMain.decimals.format(inventory.get(i).getArmor()) + " armor, " + GameMain.decimals.format(inventory.get(i).getBonusHealth()) + " health and " + GameMain.oneDigit.format(inventory.get(i).getHpRegen()) + " health regeneration per second.");
+					GameMain.inventoryBox.append((i+1) + ". Chest - " + GameMain.decimals.format(inventory.get(i).getArmor()) + " armor, " + GameMain.decimals.format(inventory.get(i).getBonusHealth()) + " hp, " + GameMain.oneDigit.format(inventory.get(i).getHpRegen()) + " hp/s.\n");
 				}
 				if(inventory.get(i).getType().matches("pants")){
-					GameMain.infoBox.append("\n " + (i+1) + ". Legs - " + GameMain.decimals.format(inventory.get(i).getArmor()) + " armor, " + GameMain.decimals.format(inventory.get(i).getBonusHealth()) + " health and " + GameMain.oneDigit.format(inventory.get(i).getHpRegen()) + " health regeneration per second.");
+					GameMain.inventoryBox.append((i+1) + ". Legs - " + GameMain.decimals.format(inventory.get(i).getArmor()) + " armor, " + GameMain.decimals.format(inventory.get(i).getBonusHealth()) + " health, " + GameMain.oneDigit.format(inventory.get(i).getHpRegen()) + " hp/s.\n");
 				}
 				if(inventory.get(i).getType().matches("shoulders")){
-					GameMain.infoBox.append("\n " + (i+1) + ". Shoulders - " + GameMain.decimals.format(inventory.get(i).getArmor()) + " armor, " + GameMain.decimals.format(inventory.get(i).getBonusMana()) + " mana and " + GameMain.oneDigit.format(inventory.get(i).getManaRegen()) + " mana regeneration per second.");
+					GameMain.inventoryBox.append((i+1) + ". Shoulders - " + GameMain.decimals.format(inventory.get(i).getArmor()) + " armor, " + GameMain.decimals.format(inventory.get(i).getBonusMana()) + " mana, " + GameMain.oneDigit.format(inventory.get(i).getManaRegen()) + " mana/s.\n");
 				}
 				if(inventory.get(i).getType().matches("helm")){
-					GameMain.infoBox.append("\n " + (i+1) + ". Helmet - " + GameMain.decimals.format(inventory.get(i).getArmor()) + " armor and " +  GameMain.decimals.format(inventory.get(i).getBonusStat()) + "% critical hit damage.");
+					GameMain.inventoryBox.append((i+1) + ". Helmet - " + GameMain.decimals.format(inventory.get(i).getArmor()) + " armor,  " +  GameMain.decimals.format(inventory.get(i).getBonusStat()) + "% critical hit damage.\n");
 				}
 				if(inventory.get(i).getType().matches("gloves")){
-					GameMain.infoBox.append("\n " + (i+1) + ". Gloves - " + GameMain.decimals.format(inventory.get(i).getArmor()) + " armor and " +  GameMain.decimals.format(inventory.get(i).getBonusStat()) + "% critical hit chance.");
+					GameMain.inventoryBox.append((i+1) + ". Gloves - " + GameMain.decimals.format(inventory.get(i).getArmor()) + " armor, " +  GameMain.decimals.format(inventory.get(i).getBonusStat()) + "% critical hit chance.\n");
 				}
 				if(inventory.get(i).getType().matches("boots")){
-					GameMain.infoBox.append("\n " + (i+1) + ". Boots - " + GameMain.decimals.format(inventory.get(i).getArmor()) + " armor and " +  GameMain.decimals.format(inventory.get(i).getBonusStat()) + "% dodge chance.");
+					GameMain.inventoryBox.append((i+1) + ". Boots - " + GameMain.decimals.format(inventory.get(i).getArmor()) + " armor, " +  GameMain.decimals.format(inventory.get(i).getBonusStat()) + "% dodge chance.\n");
 				}
 			} 
 		}
-		GameMain.infoBox.setCaretPosition(GameMain.infoBox.getDocument().getLength());
+		GameMain.inventoryBox.setCaretPosition(GameMain.inventoryBox.getDocument().getLength());
 
 	}
 
@@ -894,16 +894,16 @@ public class Character {
 	}
 
 	public void printEquipment(){
-		GameMain.infoBox.append("\n\n Your equipped items:");
-		GameMain.infoBox.append("\n Helmet - " + GameMain.decimals.format(helm.getArmor()) + " armor and " +  GameMain.decimals.format(helm.getBonusStat()) + " critical hit damage.");
-		GameMain.infoBox.append("\n Chest - " + GameMain.decimals.format(chest.getArmor()) + " armor, " + GameMain.decimals.format(chest.getBonusHealth()) + " health and " + GameMain.oneDigit.format(chest.getHpRegen()) + " health regeneration per second.");
-		GameMain.infoBox.append("\n Gloves - " + GameMain.decimals.format(gloves.getArmor()) + " armor and " + GameMain.decimals.format(gloves.getBonusStat()) + "% critical hit chance.");
-		GameMain.infoBox.append("\n Shoulders - " + GameMain.decimals.format(shoulders.getArmor()) + " armor, " + GameMain.decimals.format(shoulders.getBonusMana()) + " mana and " + GameMain.oneDigit.format(shoulders.getManaRegen()) + " mana regeneration per second.");
-		GameMain.infoBox.append("\n Boots - " + GameMain.decimals.format(boots.getArmor()) + " armor and " + GameMain.decimals.format(boots.getBonusStat()) + "% dodge chance.");
-		GameMain.infoBox.append("\n Legs - " + GameMain.decimals.format(pants.getArmor()) + " armor, " + GameMain.decimals.format(pants.getBonusHealth()) + " health and " + GameMain.oneDigit.format(pants.getHpRegen()) + " health regeneration per second.");
-		GameMain.infoBox.append("\n Shield - " + GameMain.decimals.format(shield.getArmor()) + " armor.");
-		GameMain.infoBox.append("\n Sword - " + GameMain.decimals.format(sword.getDamage()) + " damage.");
-		GameMain.infoBox.setCaretPosition(GameMain.infoBox.getDocument().getLength());
+		GameMain.equipmentBox.append(" Your equipped items:");
+		GameMain.equipmentBox.append("\n Helmet - " + GameMain.decimals.format(helm.getArmor()) + " armor, " +  GameMain.decimals.format(helm.getBonusStat()) + "% critical hit damage.");
+		GameMain.equipmentBox.append("\n Chest - " + GameMain.decimals.format(chest.getArmor()) + " armor, " + GameMain.decimals.format(chest.getBonusHealth()) + " hp, " + GameMain.oneDigit.format(chest.getHpRegen()) + " hp/s.");
+		GameMain.equipmentBox.append("\n Gloves - " + GameMain.decimals.format(gloves.getArmor()) + " armor, " + GameMain.decimals.format(gloves.getBonusStat()) + "% critical hit chance.");
+		GameMain.equipmentBox.append("\n Shoulders - " + GameMain.decimals.format(shoulders.getArmor()) + " armor, " + GameMain.decimals.format(shoulders.getBonusMana()) + " mana, " + GameMain.oneDigit.format(shoulders.getManaRegen()) + " mana/s.");
+		GameMain.equipmentBox.append("\n Boots - " + GameMain.decimals.format(boots.getArmor()) + " armor and " + GameMain.decimals.format(boots.getBonusStat()) + "% dodge chance.");
+		GameMain.equipmentBox.append("\n Legs - " + GameMain.decimals.format(pants.getArmor()) + " armor, " + GameMain.decimals.format(pants.getBonusHealth()) + " hp, " + GameMain.oneDigit.format(pants.getHpRegen()) + " hp/s.");
+		GameMain.equipmentBox.append("\n Shield - " + GameMain.decimals.format(shield.getArmor()) + " armor.");
+		GameMain.equipmentBox.append("\n Sword - " + GameMain.decimals.format(sword.getDamage()) + " damage.");
+		GameMain.equipmentBox.setCaretPosition(GameMain.equipmentBox.getDocument().getLength());
 
 	}
 
