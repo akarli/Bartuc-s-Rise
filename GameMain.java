@@ -177,11 +177,15 @@ public class GameMain extends JFrame implements ActionListener {
 			MouseListener mouseListener = new MouseAdapter() {
 			    public void mouseClicked(MouseEvent e) {
 		        	draw.requestFocus();
-			    	if (e.getClickCount() == 1 && DrawGame.character.inventory.size() != 0){
+			    	if (SwingUtilities.isLeftMouseButton(e) && DrawGame.character.inventory.size() != 0){
 			        	int index = inventoryBox.locationToIndex(e.getPoint());
 			        	DrawGame.character.changeItem(index+1);
 			        	DrawGame.character.printEquipment();
-			         }  
+			         }
+			    	if(SwingUtilities.isRightMouseButton(e) && DrawGame.character.inventory.size() != 0){
+			    		int index = inventoryBox.locationToIndex(e.getPoint());
+			    		DrawGame.character.removeItemFromInventory(index+1);
+			    	}
 			    }
 			};
 			inventoryBox.addMouseListener(mouseListener);
