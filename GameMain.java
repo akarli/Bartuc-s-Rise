@@ -61,9 +61,10 @@ public class GameMain extends JFrame implements ActionListener {
 	public static JTabbedPane equipmentWindow = new JTabbedPane();
 	public static JTextField commandBox = new JTextField(); // The box containing all info text
 	
+	public static DefaultListModel listModel = new DefaultListModel();
+	
 	public static JTextArea equipmentBox = new JTextArea("");
-	public static JTextArea inventoryBox = new JTextArea("asda");
-
+	public static JList inventoryBox = new JList(listModel);
 
 	JScrollPane scroll = new JScrollPane(infoBox, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED); // Making the infoBox scrollable
 	JScrollPane scrollEquipment = new JScrollPane(equipmentBox, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
@@ -170,6 +171,9 @@ public class GameMain extends JFrame implements ActionListener {
 			
 			equipmentBox.setFont(new Font("Serif", Font.PLAIN, 15));
 			inventoryBox.setFont(new Font("Serif", Font.PLAIN, 15));
+			
+			DrawGame.character.printInventory();
+			
 		/**
 		 * SCROLL AREA PREFERENCES
 		 */
@@ -288,8 +292,6 @@ public class GameMain extends JFrame implements ActionListener {
 		
 		equipmentBox.setText("");
 		DrawGame.character.printEquipment();
-		inventoryBox.setText("");
-		DrawGame.character.printInventory();
 
 		draw.repaint();
 	}
@@ -367,7 +369,7 @@ public class GameMain extends JFrame implements ActionListener {
 			writer.println("Current Health: ");
 			writer.println(DrawGame.character.getCurrHP());
 			writer.println("Current Mana: ");
-			writer.println(DrawGame.character.getCurrHP());
+			writer.println(DrawGame.character.getMana());
 			writer.println("Experience: ");
 			writer.println(DrawGame.character.getXP());
 			writer.println("Health potions:");
@@ -424,7 +426,7 @@ public class GameMain extends JFrame implements ActionListener {
 			writer.println(DrawGame.character.gloves().type + " " + DrawGame.character.gloves().armor +  " " +DrawGame.character.gloves().critChance);
 			writer.println(DrawGame.character.helm().type +  " " +DrawGame.character.helm().armor +  " " +DrawGame.character.helm().critDamage);
 			writer.println(DrawGame.character.boots().type +  " " +DrawGame.character.boots().armor + " " + DrawGame.character.boots().dodge);
-			writer.println(DrawGame.character.shield().type +  " " +DrawGame.character.chest().armor);
+			writer.println(DrawGame.character.shield().type +  " " +DrawGame.character.shield().armor);
 			writer.println(DrawGame.character.sword().type +  " " +DrawGame.character.sword().damage);
 
 			infoBox.append(Engine.saveMessage);
