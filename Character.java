@@ -634,7 +634,7 @@ public class Character {
 	public int getAttackDamage(){
 		int randDamage = rand.nextInt((getDamage()/10))+(getDamage() - getDamage()/20);
 		int crit = rand.nextInt(100);
-		if(crit >= gloves.getCritChance()){
+		if(crit <= gloves.getCritChance()){
 			GameMain.infoBox.append("\n Critical hit!");
 			return (randDamage*(helm.getCritDamage()+100))/100;
 		}
@@ -971,7 +971,7 @@ public class Character {
 		Boolean epicGear = false;
 		int drop = rand.nextInt(100);
 		int dropMessage = 0;
-		if(drop >= 0){
+		if(drop >= 84){
 			findLoot = true;
 			Engine.lootSound = true;
 			int quality = rand.nextInt(100);
