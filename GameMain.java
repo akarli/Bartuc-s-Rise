@@ -58,10 +58,17 @@ public class GameMain extends JFrame implements ActionListener {
 	JLabel characterDodge = new JLabel("Dodge chance: " + decimals.format(DrawGame.character.boots().getBonusStat()) + "%", JLabel.LEFT);
 	
 	public static JTextArea infoBox = new JTextArea(Engine.startMessage); // The box containing all info text
+	public static JTabbedPane equipmentWindow = new JTabbedPane();
 	public static JTextField commandBox = new JTextField(); // The box containing all info text
+	
+	public static JTextArea equipmentBox = new JTextArea("");
+	public static JTextArea inventoryBox = new JTextArea("asda");
+
 
 	JScrollPane scroll = new JScrollPane(infoBox, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED); // Making the infoBox scrollable
-
+	JScrollPane scrollEquipment = new JScrollPane(equipmentBox, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+	JScrollPane scrollInventory = new JScrollPane(inventoryBox, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+	
 	JButton sendButton = new JButton(buttonString); // The button that will send the input command.
 
 	DrawGame draw = new DrawGame(); // The game
@@ -77,8 +84,8 @@ public class GameMain extends JFrame implements ActionListener {
 		 */
 
 		setLayout(null); // Allows for free placement of components in this window
-		setPreferredSize(new Dimension(32 * Engine.TILE_WIDTH, 20 * Engine.TILE_HEIGHT + 220)); // Sets the size for the game window
-		setLocation((screenWidth/2) - 512, (screenHeight/2) - 430); // Centers the window
+		setPreferredSize(new Dimension(32 * Engine.TILE_WIDTH + 300, 20 * Engine.TILE_HEIGHT + 120));
+		setLocation((screenWidth/2) - 670, (screenHeight/2) - 320);
 		setResizable(false);
 		setUndecorated(false);
 		setBackground(Color.WHITE);
@@ -87,17 +94,17 @@ public class GameMain extends JFrame implements ActionListener {
 		/**
 		 * PANEL PREFERENCES
 		 */
+		
+			gamePanel.setBounds(0, -5, 1024, 640); // Sets the size and position of the game panel
 
-		gamePanel.setBounds(0, -5, 1024, 640); // Sets the size and position of the game panel
+			statsPanel.setBounds(1024, -5, 300, 740); // Sets the size and position for the stats panel
+			statsPanel.setBackground(Color.WHITE);
+			statsPanel.setLayout(null); // Allows for free placement of components in this panel
+			statsPanel.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED)); // Adds a border to the panel
 
-		statsPanel.setBounds(0, 635, 512, 197); // Sets the size and position for the stats panel
-		statsPanel.setBackground(Color.WHITE);
-		statsPanel.setLayout(null); // Allows for free placement of components in this panel
-		statsPanel.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED)); // Adds a border to the panel
-
-		infoPanel.setBounds(513, 635, 512, 200); // Sets the size and position for the info panel
-		infoPanel.setBackground(Color.WHITE);
-		infoPanel.setLayout(null); // Allows for free placement of components in this panel
+			infoPanel.setBounds(0, 635, 1024, 120); // Sets the size and position for the info panel
+			infoPanel.setBackground(Color.WHITE);
+			infoPanel.setLayout(null); // Allows for free placement of components in this panel
 
 		/**
 		 * GAME PREFERENCES
@@ -110,57 +117,68 @@ public class GameMain extends JFrame implements ActionListener {
 		 * Sets the font, size and position for each label.
 		 */
 
-		characterStatistics.setFont(new Font("Serif", Font.PLAIN, 22));
-		characterStatistics.setBounds(40, 0, 300, 40);
+			characterStatistics.setFont(new Font("Serif", Font.PLAIN, 22));
+			characterStatistics.setBounds(20, 10, 260, 40);
+			
+			characterLevel.setFont(new Font("Serif", Font.PLAIN, 20));
+			characterLevel.setBounds(20, 43, 260, 40);
 
-		characterHealth.setFont(new Font("Serif", Font.PLAIN, 16));
-		characterHealth.setBounds(40, 30, 171, 40);
+			characterHealth.setFont(new Font("Serif", Font.PLAIN, 16));
+			characterHealth.setBounds(20, 80, 130, 40);
+			
+			characterHPRegen.setFont(new Font("Serif", Font.PLAIN, 16));
+			characterHPRegen.setBounds(170, 80, 130, 40);
+			
+			characterMana.setFont(new Font("Serif", Font.PLAIN, 16));
+			characterMana.setBounds(20, 120, 130, 40);
+			
+			characterManaRegen.setFont(new Font("Serif", Font.PLAIN, 16));
+			characterManaRegen.setBounds(170, 120, 130, 40);
+					
+			characterHealthPots.setFont(new Font("Serif", Font.PLAIN, 16));
+			characterHealthPots.setBounds(20, 160, 130, 40);
+			
+			characterManaPots.setFont(new Font("Serif", Font.PLAIN, 16));
+			characterManaPots.setBounds(170, 160, 130, 40);
+			
+			characterDamage.setFont(new Font("Serif", Font.PLAIN, 16));
+			characterDamage.setBounds(20, 200, 130, 40);
 
-		characterDamage.setFont(new Font("Serif", Font.PLAIN, 16));
-		characterDamage.setBounds(40, 110, 171, 40);
+			characterArmor.setFont(new Font("Serif", Font.PLAIN, 16));
+			characterArmor.setBounds(170, 200, 130, 40);
+			
+			characterCritChance.setFont(new Font("Serif", Font.PLAIN, 16));
+			characterCritChance.setBounds(20, 240, 300, 40);
+			
+			characterCritDamage.setFont(new Font("Serif", Font.PLAIN, 16));
+			characterCritDamage.setBounds(20, 280, 300, 40);
 
-		characterArmor.setFont(new Font("Serif", Font.PLAIN, 16));
-		characterArmor.setBounds(200, 150, 171, 40);
+			characterXP.setFont(new Font("Serif", Font.PLAIN, 16));
+			characterXP.setBounds(20, 360, 130, 40);
+			
+			characterDodge.setFont(new Font("Serif", Font.PLAIN, 16));
+			characterDodge.setBounds(20, 320, 130, 40);
+			
+			equipmentWindow.setFont(new Font("Serif", Font.PLAIN, 15));
+			equipmentWindow.setBounds(13, 400, 270, 320);
+			equipmentWindow.setBackground(Color.WHITE);
+			equipmentWindow.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
 
-		characterHPRegen.setFont(new Font("Serif", Font.PLAIN, 16));
-		characterHPRegen.setBounds(200, 30, 170, 40);
-
-		characterManaRegen.setFont(new Font("Serif", Font.PLAIN, 16));
-		characterManaRegen.setBounds(200, 70, 170, 40);
-
-		characterHealthPots.setFont(new Font("Serif", Font.PLAIN, 16));
-		characterHealthPots.setBounds(360, 30, 171, 40);
-
-		characterLevel.setFont(new Font("Serif", Font.PLAIN, 20));
-		characterLevel.setBounds(360, 0, 171, 40);
-
-		characterXP.setFont(new Font("Serif", Font.PLAIN, 16));
-		characterXP.setBounds(40, 150, 171, 40);
-
-		characterMana.setFont(new Font("Serif", Font.PLAIN, 16));
-		characterMana.setBounds(40, 70, 171, 40);
-
-		characterManaPots.setFont(new Font("Serif", Font.PLAIN, 16));
-		characterManaPots.setBounds(360, 70, 171, 40);
-		
-		characterCritChance.setFont(new Font("Serif", Font.PLAIN, 16));
-		characterCritChance.setBounds(360, 110, 170, 40);
-		
-		characterCritDamage.setFont(new Font("Serif", Font.PLAIN, 16));
-		characterCritDamage.setBounds(200, 110, 170, 40);
-		
-		characterDodge.setFont(new Font("Serif", Font.PLAIN, 16));
-		characterDodge.setBounds(360, 150, 170, 40);
-		
+			
+			equipmentWindow.addTab("Equipment", null, scrollEquipment, "This is your equipped items.");
+			equipmentWindow.addTab("Inventory", null, scrollInventory, "This is your inventory.");
+			
+			equipmentBox.setFont(new Font("Serif", Font.PLAIN, 15));
+			inventoryBox.setFont(new Font("Serif", Font.PLAIN, 15));
 		/**
 		 * SCROLL AREA PREFERENCES
 		 */
-
 		infoBox.setEditable(false); // Makes the info box uneditable
-		scroll.setBounds(0, 0, 507, 170); // Sets the size and position of the info box
-		infoBox.setBackground(Color.WHITE); // Sets the background color of the info box
-		infoBox.setFont(new Font("Serif", Font.PLAIN, 14)); // Sets the font of the info box
-
+			infoBox.setBounds(0, 0, 800, 100);
+			scroll.setBounds(0, 0, 800, 100); // Sets the size and position of the info box
+			infoBox.setBackground(Color.WHITE); // Sets the background color of the info box
+			infoBox.setFont(new Font("Serif", Font.PLAIN, 14)); // Sets the font of the info box
+		
 		/**
 		 * COMMAND AREA PREFERENCES
 		 */
@@ -182,9 +200,9 @@ public class GameMain extends JFrame implements ActionListener {
 				draw.requestFocus();
 			}
 		}); 
-		sendButton.setBounds(430, 170, 74, 25); // Sets the size and position of the send button
-		sendButton.setFont(new Font("Serif", Font.PLAIN, 14)); // Sets the font of the send button
-
+			sendButton.setBounds(875, 60, 74, 25); // Sets the size and position of the send button
+			sendButton.setFont(new Font("Serif", Font.PLAIN, 14)); // Sets the font of the send button
+			
 		commandBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e)
 			{
@@ -202,8 +220,8 @@ public class GameMain extends JFrame implements ActionListener {
 				draw.requestFocus();
 			}
 		});
-		commandBox.setBounds(0, 170, 430, 25); // Sets the size and position of the command box
-		commandBox.setFont(new Font("Serif", Font.PLAIN, 14)); // Sets the font of the command box
+			commandBox.setBounds(800, 20, 224, 25); // Sets the size and position of the command box
+			commandBox.setFont(new Font("Serif", Font.PLAIN, 14)); // Sets the font of the command box
 
 		/**
 		 * BUILDNING THE WINDOW
@@ -233,6 +251,9 @@ public class GameMain extends JFrame implements ActionListener {
 		statsPanel.add(characterCritChance);
 		statsPanel.add(characterCritDamage);
 		statsPanel.add(characterDodge);
+		if(screenHeight > 820){
+			statsPanel.add(equipmentWindow);
+		}
 
 		pack();
 
@@ -264,6 +285,11 @@ public class GameMain extends JFrame implements ActionListener {
 		characterCritChance.setText("Critical hit chance: " + decimals.format(DrawGame.character.gloves().getBonusStat()) + "%");
 		characterCritDamage.setText("Critical hit damage: " + decimals.format(DrawGame.character.helm().getBonusStat()) + "%"); 
 		characterDodge.setText("Dodge chance: " + decimals.format(DrawGame.character.boots().getBonusStat()) + "%");
+		
+		equipmentBox.setText("");
+		DrawGame.character.printEquipment();
+		inventoryBox.setText("");
+		DrawGame.character.printInventory();
 
 		draw.repaint();
 	}
@@ -314,12 +340,6 @@ public class GameMain extends JFrame implements ActionListener {
 		else if((lineArray[0].trim().equals("setname") || lineArray[0].trim().equals("Setname")) && lineArray.length > 4){
 			infoBox.append(Engine.setNameError);
 			infoBox.setCaretPosition(infoBox.getDocument().getLength());
-		}
-		else if((lineArray[0].trim().equals("equip") || lineArray[0].trim().equals("Equip")) && lineArray[1].matches("\\d+") && lineArray.length == 2){
-			   DrawGame.character.changeItem(Integer.parseInt(lineArray[1]));
-		}
-		else if(lineArray[0].trim().equals("inventory") || lineArray[0].trim().equals("Inventory")){
-			DrawGame.character.printInventory();
 		}
 		else if(lineArray[0].trim().equals("equipment") || lineArray[0].trim().equals("Equipment")){
 			DrawGame.character.printEquipment();
