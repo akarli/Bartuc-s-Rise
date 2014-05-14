@@ -2,6 +2,7 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Random;
 
 import javax.imageio.ImageIO;
@@ -9,8 +10,8 @@ import javax.imageio.ImageIO;
 
 public class Character {
 	private BufferedImage character, levelup;
-	private int xPosition, yPosition, damage, level, armor, currentExperience, maxExperience, manaCounter, healthCounter, healthPotions, manaPotions;
-	private double manaRegen, hpRegen, currentHealth, maxHealth, currentMana, maxMana;
+	private int xPosition, yPosition, baseDamage, level, armor, currentExperience, maxExperience, manaCounter, healthCounter, healthPotions, manaPotions;
+	private double manaRegen, hpRegen, currentHealth, maxHealth, currentMana, maxMana, baseHealth, baseMana, baseManaRegen, baseHpRegen;
 	private Room currentRoom;
 	private BufferedImage[] moveUp;
 	private BufferedImage[] moveDown;
@@ -39,12 +40,21 @@ public class Character {
 	private int manaSprite = 0;
 	private int lootSprite = 0;
 	private String name;
+	private ArrayList<Item> inventory;
+	private Item helm;
+	private Item boots;
+	private Item gloves;
+	private Item pants;
+	private Item shoulders;
+	private Item chest;
+	private Item sword;
+	private Item shield;
 	private boolean levelingUp, castingFireBall, aLeft, aRight, aUp, aDown, mLeft, mRight, mUp, mDown, useHpPot, useManaPot, findLoot;
 	private boolean bartucEngage = false;
 	boolean attacking;
 	private FireBall eldBoll;
 	Random rand = new Random();
-	
+
 	/**
 	 * STATS COUNTERS
 	 * Keeps track of most of the statistics in the game.
@@ -129,7 +139,7 @@ public class Character {
 			manas[i] = mana.getSubimage(x*96, y*96, 96, 96);
 			x++;
 		}
-		
+
 		x = 0;
 		y = 0;
 		for(int i = 0; i < 16; i++){
@@ -145,31 +155,66 @@ public class Character {
 			levelUp[i] = levelup.getSubimage(0 + (i*128), 0, 128, 128);
 		}
 
+		sword = Engine.startSword;
+		sword.setDamage(10);
+
+		helm = Engine.startHelm;
+		helm.setArmor(10);
+		helm.setCritDmg(10);
+
+		boots = Engine.startBoots;
+		boots.setArmor(10);
+		boots.setDodge(5);
+
+		gloves = Engine.startGloves;
+		gloves.setArmor(10);
+		gloves.setCritChance(10);
+
+		pants = Engine.startPants;
+		pants.setArmor(10);
+		pants.setBonusHealth(0);
+		pants.setHPregen(0);
+
+		shoulders = Engine.startShoulders;
+		shoulders.setArmor(10);
+		shoulders.setBonusMana(0);
+		shoulders.setManaRegen(0);
+
+		chest = Engine.startChest;
+		chest.setArmor(10);
+		chest.setBonusHealth(0);
+		chest.setHPregen(0);
+
+		shield = Engine.startShield;
+		shield.setArmor(20);
+
 		xPosition = 448;
 		yPosition = 416;
-		maxHealth = 100.0;
+		baseHealth = 100.0;
 		currentHealth = 100.0;
-		damage = 25;
-		armor = 0;
+
+		setArmor();
+		setHP(100.0);
 		level = 1;
+		baseDamage = 10;
 		currentExperience = 0;
 		maxExperience = level*100;
 		currentRoom = Engine.centralZone;
 		currentMana = 100.0;
-		maxMana = 100.0;
+		setMana(100.0);
 		healthPotions = 0;
 		manaCounter = 60;
 		healthCounter = 60;
 		manaPotions = 0;
-		hpRegen = 1.0;
-		manaRegen = 1.0;
+		baseHpRegen = 1.0;
+		baseManaRegen = 1.0;
 		name = "Hero";
-		
+		inventory = new ArrayList<Item>();		
 		/**
 		 * STATS
 		 * Initializing the stats variables
 		 */
-		
+
 		bartucKills = 0;
 		magicKills = 0;
 		swordKills = 0;
@@ -192,7 +237,7 @@ public class Character {
 		stepsTaken = 0;
 		zoneChanges = 0;
 		timesInCave = 0;
-		
+
 	}
 	public BufferedImage loadCharacterImage(String fileName){
 		BufferedImage img = null;
@@ -463,28 +508,28 @@ public class Character {
 					.getXTile() - getXTile() == -1 || DrawGame.bartuc
 					.getXTile() - getXTile() == -2) && (DrawGame.bartuc.getYTile() - getYTile() == -1 || DrawGame.bartuc.getYTile() == getYTile())) {
 				DrawGame.bartuc
-						.takeDamage(DrawGame.character.getAttackDamage());
+				.takeDamage(DrawGame.character.getAttackDamage());
 			}
 		}
 		if (aRight && currentRoom == Engine.caveZone && DrawGame.bartuc.alive) {
 			if ((DrawGame.bartuc.getXTile() == getXTile() || DrawGame.bartuc
 					.getXTile() - getXTile() == 1)  && (DrawGame.bartuc.getYTile() - getYTile() == -1 || DrawGame.bartuc.getYTile() == getYTile())) {
 				DrawGame.bartuc
-						.takeDamage(DrawGame.character.getAttackDamage());
+				.takeDamage(DrawGame.character.getAttackDamage());
 			}
 		}
 		if (aUp && currentRoom == Engine.caveZone && DrawGame.bartuc.alive) {
 			if ((DrawGame.bartuc.getYTile() == getYTile() || DrawGame.bartuc
 					.getYTile() - getYTile() == -1) && (DrawGame.bartuc.getXTile() - getXTile() == -1 || DrawGame.bartuc.getXTile() == getXTile())) {
 				DrawGame.bartuc
-						.takeDamage(DrawGame.character.getAttackDamage());
+				.takeDamage(DrawGame.character.getAttackDamage());
 			}
 		}
 		if (aDown && currentRoom == Engine.caveZone && DrawGame.bartuc.alive) {
 			if ((DrawGame.bartuc.getYTile() == getYTile() || DrawGame.bartuc
 					.getYTile() - getYTile() == +1) && (DrawGame.bartuc.getXTile() - getXTile() == -1 || DrawGame.bartuc.getXTile() == getXTile())) {
 				DrawGame.bartuc
-						.takeDamage(DrawGame.character.getAttackDamage());
+				.takeDamage(DrawGame.character.getAttackDamage());
 			}
 		}
 		aLeft = false;
@@ -503,15 +548,16 @@ public class Character {
 		currentExperience = currentExperience - maxExperience;
 		maxExperience = level*100;
 
-		maxHealth += Engine.HP_LVL_UP;
-		maxMana += Engine.MANA_LVL_UP;
-		damage += Engine.DAMAGE_LVL_UP;
-		armor += Engine.ARMOR_LVL_UP;
-		hpRegen += Engine.HPREGEN_LVL_UP;
-		manaRegen += Engine.MANAREGEN_LVL_UP;
+		baseHealth += Engine.HP_LVL_UP;
+		setHP(baseHealth);
+		baseMana += Engine.MANA_LVL_UP;
+		setMana(baseMana);
+		baseDamage += Engine.DAMAGE_LVL_UP;
+		baseHpRegen += Engine.HPREGEN_LVL_UP;
+		baseManaRegen += Engine.MANAREGEN_LVL_UP;
 
-		currentHealth = maxHealth;
-		currentMana = maxMana;
+		currentHealth = getMaxHP();
+		currentMana = getMaxMana();
 
 		GameMain.infoBox.append(Engine.levelUpMessage);
 		GameMain.infoBox.setCaretPosition(GameMain.infoBox.getDocument().getLength());
@@ -581,28 +627,33 @@ public class Character {
 	}
 
 	public void setHP(Double double1){
-		maxHealth = double1;
+		baseHealth = double1;
+		maxHealth = baseHealth + chest.getBonusHealth() + pants.getBonusHealth();
 	}
 
 	public int getDamage(){
-		return damage;
+		return sword.getDamage() + baseDamage;
 	}
 
 	public int getAttackDamage(){
-		int randDamage = rand.nextInt((damage/10))+(damage - damage/20);
+		int randDamage = rand.nextInt((getDamage()/10))+(getDamage() - getDamage()/20);
+		int crit = rand.nextInt(100);
+		if(crit <= gloves.getCritChance()){
+			return (randDamage*(helm.getCritDamage()))/10;
+		}
 		return randDamage;
 	}
 
 	public void setDamage(int damage){
-		this.damage = damage;
+		this.baseDamage = damage;
 	}
 
 	public int getArmor(){
 		return armor;
 	}
 
-	public void setArmor(int armor){
-		this.armor = armor;
+	public void setArmor(){
+		this.armor = shield.getArmor() + helm.getArmor() + chest.getArmor() + pants.getArmor() + gloves.getArmor() + boots.getArmor() + shoulders.getArmor();
 	}
 
 	public int getXP(){
@@ -610,7 +661,7 @@ public class Character {
 	}
 
 	public double getHPRegen(){
-		return hpRegen;
+		return baseHpRegen + pants.getHpRegen() + chest.getHpRegen();
 	}
 
 	public void setHPRegen(Double double1){
@@ -618,7 +669,7 @@ public class Character {
 	}
 
 	public double getManaRegen(){
-		return manaRegen;
+		return baseManaRegen + shoulders.getManaRegen();
 	}
 
 	public void setManaRegen(Double double1){
@@ -638,11 +689,12 @@ public class Character {
 	}
 
 	public double getMaxMana(){
-		return maxMana;
+		return baseMana + shoulders.getBonusMana();
 	}
 
 	public void setMana(Double double1){
-		maxMana = double1;
+		baseMana = double1;
+		maxMana = baseMana + shoulders.getBonusMana();
 	}
 
 	public Room getCurrentRoom(){
@@ -655,10 +707,6 @@ public class Character {
 
 	public void setCurrMana(Double double1){
 		currentMana = double1;
-	}
-
-	public void setMaxXP(){
-		maxExperience = level*100;
 	}
 
 	public int getHPPots(){
@@ -701,7 +749,7 @@ public class Character {
 				addHealthPotsUsed(); // Adds total health pots used
 				GameMain.infoBox.append(Engine.hpPotMessage);
 			}
-			
+
 		}
 		else{
 			GameMain.infoBox.append(Engine.noHpPotsMessage);
@@ -741,15 +789,15 @@ public class Character {
 		}
 		GameMain.infoBox.setCaretPosition(GameMain.infoBox.getDocument().getLength());
 	}
-	
+
 	public void setName(String name){
 		this.name = name;
 	}
-	
+
 	public String getName(){
 		return name;
 	}
-	
+
 	public void takeDamageBartuc(double damage) {
 		double damageReduction = (0.06 * armor) / (1 + 0.06 * armor);
 		damage = damage * (1 - damageReduction);
@@ -758,112 +806,292 @@ public class Character {
 		}
 		currentHealth -= damage;
 		addDamageTakenBartuc(Math.ceil(damage)); // Adds total damage taken from
-													// bartuc
+		// bartuc
 		if (!Engine.hitSound) {
 			Engine.hitSound = true;
 		}
 	}
 
 	public void takeDamage(double damage) {
-		double damageReduction = (0.06 * armor) / (1 + 0.06 * armor);
-		damage = damage * (1 - damageReduction);
-		if (damage < 0) {
-			damage = 0;
+		int dodge = boots.getDodge();
+		int dodgeRand = rand.nextInt(100);
+		if(!(dodge >= dodgeRand)){
+			double damageReduction = (0.06 * armor) / (1 + 0.06 * armor);
+			damage = damage * (1 - damageReduction);
+			if (damage < 0) {
+				damage = 0;
+			}
+			currentHealth -= damage;
+			addDamageTaken(Math.ceil(damage)); // Adds total damage taken
+			if(!Engine.hitSound){
+				Engine.hitSound = true;
+			}
 		}
-		currentHealth -= damage;
-		addDamageTaken(Math.ceil(damage)); // Adds total damage taken
-		if(!Engine.hitSound){
-			Engine.hitSound = true;
+		else{
+			GameMain.infoBox.append("\n You dodged");
+			GameMain.infoBox.setCaretPosition(GameMain.infoBox.getDocument().getLength());
 		}
 	}
+
+	public void printInventory(){
+		if(inventory.size() == 0){
+			GameMain.infoBox.append("\n Your inventory is empty.");
+		}
+		else{
+			for(int i = 0; i < inventory.size(); i++){
+				if(inventory.get(i).getType().matches("sword")){
+					GameMain.infoBox.append("\n " + (i+1) + ". Sword - " + GameMain.decimals.format(inventory.get(i).getDamage()) + " damage.");
+				}
+				if(inventory.get(i).getType().matches("shield")){
+					GameMain.infoBox.append("\n " + (i+1) + ". Shield - " + GameMain.decimals.format(inventory.get(i).getArmor()) + " armor.");
+				}
+				if(inventory.get(i).getType().matches("chest")){
+					GameMain.infoBox.append("\n " + (i+1) + ". Chest - " + GameMain.decimals.format(inventory.get(i).getArmor()) + " armor, " + GameMain.decimals.format(inventory.get(i).getBonusHealth()) + " health and " + GameMain.oneDigit.format(inventory.get(i).getHpRegen()) + " health regeneration per second.");
+				}
+				if(inventory.get(i).getType().matches("pants")){
+					GameMain.infoBox.append("\n " + (i+1) + ". Legs - " + GameMain.decimals.format(inventory.get(i).getArmor()) + " armor, " + GameMain.decimals.format(inventory.get(i).getBonusHealth()) + " health and " + GameMain.oneDigit.format(inventory.get(i).getHpRegen()) + " health regeneration per second.");
+				}
+				if(inventory.get(i).getType().matches("shoulders")){
+					GameMain.infoBox.append("\n " + (i+1) + ". Shoulders - " + GameMain.decimals.format(inventory.get(i).getArmor()) + " armor, " + GameMain.decimals.format(inventory.get(i).getBonusMana()) + " mana and " + GameMain.oneDigit.format(inventory.get(i).getManaRegen()) + " mana regeneration per second.");
+				}
+				if(inventory.get(i).getType().matches("helmet")){
+					GameMain.infoBox.append("\n " + (i+1) + ". Helmet - " + GameMain.decimals.format(inventory.get(i).getArmor()) + " armor and " +  GameMain.decimals.format(inventory.get(i).getBonusStat()) + "% critical hit damage.");
+				}
+				if(inventory.get(i).getType().matches("gloves")){
+					GameMain.infoBox.append("\n " + (i+1) + ". Gloves - " + GameMain.decimals.format(inventory.get(i).getArmor()) + " armor and " +  GameMain.decimals.format(inventory.get(i).getBonusStat()) + "% critical hit chance.");
+				}
+				if(inventory.get(i).getType().matches("boots")){
+					GameMain.infoBox.append("\n " + (i+1) + ". Boots - " + GameMain.decimals.format(inventory.get(i).getArmor()) + " armor and " +  GameMain.decimals.format(inventory.get(i).getBonusStat()) + "% dodge chance.");
+				}
+			} 
+		}
+		GameMain.infoBox.setCaretPosition(GameMain.infoBox.getDocument().getLength());
+
+	}
+
+	public void clearInventory(){
+		if(inventory.size() > 0){
+			inventory.clear();
+			GameMain.infoBox.append("\n Inventory emptied.");
+		}
+		else{
+			GameMain.infoBox.append("\n Your inventory is already empty.");
+		}
+		GameMain.infoBox.setCaretPosition(GameMain.infoBox.getDocument().getLength()); 
+	}
+
+	public void removeItemFromInventory(int index){
+		index = index -1;
+		if(inventory.size() > index  && inventory.size() > 0){
+			inventory.remove(index);
+			GameMain.infoBox.append("\n Item removed");
+			GameMain.infoBox.setCaretPosition(GameMain.infoBox.getDocument().getLength());
+		}
+		else{
+			GameMain.infoBox.append("\n Not a valid index");
+			GameMain.infoBox.setCaretPosition(GameMain.infoBox.getDocument().getLength());
+		}
+	}
+
+	public void printEquipment(){
+		GameMain.infoBox.append("\n\n Your equipped items:");
+		GameMain.infoBox.append("\n Helmet - " + GameMain.decimals.format(helm.getArmor()) + " armor and " +  GameMain.decimals.format(helm.getBonusStat()) + " critical hit damage.");
+		GameMain.infoBox.append("\n Chest - " + GameMain.decimals.format(chest.getArmor()) + " armor, " + GameMain.decimals.format(chest.getBonusHealth()) + " health and " + GameMain.oneDigit.format(chest.getHpRegen()) + " health regeneration per second.");
+		GameMain.infoBox.append("\n Gloves - " + GameMain.decimals.format(gloves.getArmor()) + " armor and " + GameMain.decimals.format(gloves.getBonusStat()) + "% critical hit chance.");
+		GameMain.infoBox.append("\n Shoulders - " + GameMain.decimals.format(shoulders.getArmor()) + " armor, " + GameMain.decimals.format(shoulders.getBonusMana()) + " mana and " + GameMain.oneDigit.format(shoulders.getManaRegen()) + " mana regeneration per second.");
+		GameMain.infoBox.append("\n Boots - " + GameMain.decimals.format(boots.getArmor()) + " armor and " + GameMain.decimals.format(boots.getBonusStat()) + "% dodge chance.");
+		GameMain.infoBox.append("\n Legs - " + GameMain.decimals.format(pants.getArmor()) + " armor, " + GameMain.decimals.format(pants.getBonusHealth()) + " health and " + GameMain.oneDigit.format(pants.getHpRegen()) + " health regeneration per second.");
+		GameMain.infoBox.append("\n Shield - " + GameMain.decimals.format(shield.getArmor()) + " armor.");
+		GameMain.infoBox.append("\n Sword - " + GameMain.decimals.format(sword.getDamage()) + " damage.");
+		GameMain.infoBox.setCaretPosition(GameMain.infoBox.getDocument().getLength());
+
+	}
+
+	public void changeItem(int index){
+		index = index - 1;
+		if(inventory.size() > index  && inventory.size() > 0){
+			Item temp;
+			if(inventory.get(index).getType().matches("helm")){
+				temp = helm;
+				helm = inventory.get(index);
+				inventory.set(index, temp);
+			}
+			if(inventory.get(index).getType().matches("gloves")){
+				temp = gloves;
+				gloves= inventory.get(index);
+				inventory.set(index, temp);
+			}
+			if(inventory.get(index).getType().matches("chest")){
+				temp = chest;
+				chest = inventory.get(index);
+				setHP(baseHealth);
+				hpRegen += chest.getHpRegen();
+				inventory.set(index, temp);
+			}
+			if(inventory.get(index).getType().matches("pants")){
+				temp = pants;
+				pants = inventory.get(index);
+				setHP(baseHealth);
+				hpRegen += chest.getHpRegen();
+				inventory.set(index, temp);
+			}
+			if( inventory.get(index).getType().matches("boots")){
+				temp = boots;
+				boots = inventory.get(index);
+				inventory.set(index, temp);
+			}
+			if(inventory.get(index).getType().matches("shoulders")){
+				temp = shoulders;
+				shoulders = inventory.get(index);
+				inventory.set(index, temp);
+			}
+			if(inventory.get(index).getType().matches("sword")){
+				temp = sword;
+				sword = inventory.get(index);
+				inventory.set(index, temp);
+			}
+			if(inventory.get(index).getType().matches("shield")){
+				temp = shield;
+				shield = inventory.get(index);
+				inventory.set(index, temp);
+			}
+			setArmor();
+			GameMain.infoBox.append("\n You equipped the new item");
+			GameMain.infoBox.setCaretPosition(GameMain.infoBox.getDocument().getLength());
+		}
+		else{
+			GameMain.infoBox.append("\n Not a valid index");
+			GameMain.infoBox.setCaretPosition(GameMain.infoBox.getDocument().getLength());
+		}
+	}
+
+
+
+
 
 	public void getLoot(){
 		Boolean epicGear = false;
 		int drop = rand.nextInt(100);
-		if(drop >= 84){
+		int dropMessage = 0;
+		if(drop >= 0){
 			findLoot = true;
 			Engine.lootSound = true;
 			int quality = rand.nextInt(100);
-			if(quality >= 84){
+			if(quality >= 49){
 				epicGear = true;
+				dropMessage = rand.nextInt(3);
 			}
-			int lootType = rand.nextInt(4);
-			if(lootType == 2){
+			int type = rand.nextInt(8);
+			Item newItem = new Item(level, epicGear, Engine.gearType[type]);
+			inventory.add(newItem);
+			if(newItem.getType().matches("sword")){
 				if(epicGear){
-					int epicMessage = rand.nextInt(3);
-					int damageUpgrade = rand.nextInt(level*10) + 5*level;
-					damage += damageUpgrade;
-					addEpicSwordsFound(); // Adds total epic swords found
-					GameMain.infoBox.append("\n You found a legendary sword" + Engine.epicGear[epicMessage] + "\n Damage increased by " + GameMain.decimals.format(damageUpgrade) + ".");
-					Engine.writingSound = true;
+					GameMain.infoBox.append("\n You found a legendary sword" + Engine.epicGear[dropMessage] + "\n It increases damage by " + GameMain.decimals.format(newItem.getDamage()) + ".");
+					addEpicSwordsFound();
 				}
 				else{
-					int damageUpgrade = rand.nextInt(level) + level; 
-					damage += damageUpgrade;
-					addSwordsFound(); // Adds total swords found
-					GameMain.infoBox.append("\n You found a mighty sword from a fallen enemy! \n Damage increased by " + GameMain.decimals.format(damageUpgrade) + ".");
+					GameMain.infoBox.append("\n You found a mighty sword from a fallen enemy. \n It increases damage by " + GameMain.decimals.format(newItem.getDamage()) + ".");
+					addSwordsFound();
 				}
 			}
-			else if(lootType == 3){
+			if(newItem.getType().matches("shield")){
 				if(epicGear){
-					int epicMessage = rand.nextInt(3);
-					int armorUpgrade = rand.nextInt(4*level) + 2*level;
-					armor += armorUpgrade;
-					addEpicShieldsFound(); // Adds total epic shields found
-					GameMain.infoBox.append("\n You found a huge kite shield" + Engine.epicGear[epicMessage] + "\n Armor increased by " + GameMain.decimals.format(armorUpgrade) + ".");
-					Engine.writingSound = true;
+					GameMain.infoBox.append("\n You found a magnificent kite shield" + Engine.epicGear[dropMessage] + "\n It increases armor by " + GameMain.decimals.format(newItem.getArmor()) + ".");
+					addEpicShieldsFound();
 				}
 				else{
-					int armorUpgrade = rand.nextInt(2*level) + level;
-					armor += armorUpgrade;
-					addShieldsFound(); // Adds total shields found
-					GameMain.infoBox.append("\n You found a robust targe shield from a fallen enemy! \n Armor increased by " + GameMain.decimals.format(armorUpgrade) + ".");
+					GameMain.infoBox.append("\n You found a robust targe shield from a fallen enemy. \n It increases armor by " + GameMain.decimals.format(newItem.getArmor()) + ".");
+					addShieldsFound();
 				}
 			}
-			else{
-				int gearType = rand.nextInt(6);
+			if(newItem.getType().matches("helm")){
 				if(epicGear){
-					int epicMessage = rand.nextInt(3);
-					int armorUpgrade = rand.nextInt(2*level) + level;
-					armor += armorUpgrade;
-					int healthUpgrade = rand.nextInt(5*level) + 3*level;
-					maxHealth += healthUpgrade;
-					int manaUpgrade = rand.nextInt(3*level)+2*level;
-					maxMana += manaUpgrade;
-					Double hpRegenUpgrade = (rand.nextInt(2*level)/10.0) + 0.2*level;
-					hpRegenUpgrade.doubleValue();
-					hpRegen += hpRegenUpgrade;
-					Double manaRegenUpgrade = (rand.nextInt(2*level)/10.0) + 0.2*level;
-					manaRegenUpgrade.doubleValue();
-					manaRegen += manaRegenUpgrade;
-					addEpicGearFound(); // Adds total epic armor found
-					GameMain.infoBox.append("\n You found " + Engine.gearTypeEpic[gearType] + Engine.epicGear[epicMessage] + "\n Armor increased by " + GameMain.decimals.format(armorUpgrade) + ".\n Health increased by " + GameMain.decimals.format(healthUpgrade) +  ".\n Mana increased by " + GameMain.decimals.format(manaUpgrade) +  ". \n Heath regeneration increased by " + GameMain.oneDigit.format(hpRegenUpgrade) +". \n Mana  regeneration increased by " + GameMain.oneDigit.format(manaRegenUpgrade));
-					Engine.writingSound = true;
+					GameMain.infoBox.append("\n You found a glorious barbute" + Engine.epicGear[dropMessage] + "\n It increases armor by " + GameMain.decimals.format(newItem.getArmor()) + " and critical hit damage by " + newItem.getBonusStat() + "%.");
+					addEpicGearFound();
 				}
 				else{
-					int stat = rand.nextInt(2);
-					int armorUpgrade = rand.nextInt(level) + 1;
-					armor += armorUpgrade;
-					if(stat == 0){
-						int healthUpgrade = rand.nextInt(3*level)+level;
-						maxHealth += healthUpgrade;
-						Double hpRegenUpgrade = (rand.nextInt(level)/10.0) + 0.1*level;
-						hpRegenUpgrade.doubleValue();
-						hpRegen += hpRegenUpgrade;
-						addGearFound(); // Adds total gear found
-						GameMain.infoBox.append("\n You found " + Engine.gearTypeHealth[gearType] + " from a fallen enemy! \n Armor increased by " + GameMain.decimals.format(armorUpgrade) + ". \n Health increased by " + GameMain.decimals.format(healthUpgrade) + ". \n Heath regeneration increased by " + GameMain.oneDigit.format(hpRegenUpgrade));
-					}
-					else{
-						int manaUpgrade = rand.nextInt(level) + level;
-						maxMana += manaUpgrade;
-						Double manaRegenUpgrade = (rand.nextInt(level)/10.0) + 0.1*level;
-						manaRegenUpgrade.doubleValue();
-						manaRegen += manaRegenUpgrade;
-						addGearFound(); // Adds total gear found
-						GameMain.infoBox.append("\n You found " + Engine.gearTypeMana[gearType] + " from a fallen enemy! \n Armor increased by " + GameMain.decimals.format(armorUpgrade) + ". \n Mana increased by " + GameMain.decimals.format(manaUpgrade) + ". \n Mana regeneration increased by " + GameMain.oneDigit.format(manaRegenUpgrade));
-					}
+					GameMain.infoBox.append("\n You found a barbute from a fallen enemy. \n It increases armor by " + GameMain.decimals.format(newItem.getArmor()) + " and critical hit damage by " + newItem.getBonusStat() + "%.");
+					addGearFound();
 				}
 			}
+			if(newItem.getType().matches("chest")){
+				if(epicGear){
+					GameMain.infoBox.append("\n You found a glorious cuirass" + Engine.epicGear[dropMessage] + "\n It increases armor by " + GameMain.decimals.format(newItem.getArmor()) + ", health by " + GameMain.decimals.format(newItem.getBonusHealth()) + " and health regeneration by " + GameMain.oneDigit.format(newItem.getHpRegen()) +  " per second.");
+					addEpicGearFound();
+				}
+				else{
+					GameMain.infoBox.append("\n You found a cuirass from a fallen enemy.\n It increases armor by " + GameMain.decimals.format(newItem.getArmor()) + ", health by " + GameMain.decimals.format(newItem.getBonusHealth()) + " and health regeneration by " + GameMain.oneDigit.format(newItem.getHpRegen()) + " per second.");
+					addGearFound();
+				}
+			}
+			if(newItem.getType().matches("pants")){
+				if(epicGear){
+					GameMain.infoBox.append("\n You found a pair of glorious greaves" + Engine.epicGear[dropMessage] + "\n It increases armor by " + GameMain.decimals.format(newItem.getArmor()) + ", health by " + GameMain.decimals.format(newItem.getBonusHealth()) + " and health regeneration by " + GameMain.oneDigit.format(newItem.getHpRegen()) +  " per second.");
+					addEpicGearFound();
+				}
+				else{
+					GameMain.infoBox.append("\n You found a pair of greaves from a fallen enemy.\n It increases armor by " + GameMain.decimals.format(newItem.getArmor()) + ", health by " + GameMain.decimals.format(newItem.getBonusHealth()) + " and health regeneration by " + GameMain.oneDigit.format(newItem.getHpRegen()) + " per second.");
+					addGearFound();
+				}
+			}
+			if(newItem.getType().matches("gloves")){
+				if(epicGear){
+					GameMain.infoBox.append("\n You found a pair of glorious gauntlets" + Engine.epicGear[dropMessage] + "\n It increases armor by " + GameMain.decimals.format(newItem.getArmor()) + " and critical hit chance by " + GameMain.decimals.format(newItem.getBonusStat())  +  "%.");
+					addEpicGearFound();
+				}
+				else{
+					GameMain.infoBox.append("\n You found a pair of gauntlets from a fallen enemy.\n It increases armor by " + GameMain.decimals.format(newItem.getArmor()) + " and critical hit chance by " + GameMain.decimals.format(newItem.getBonusStat())  +  "%.");
+					addGearFound();
+				}
+			}
+			if(newItem.getType().matches("boots")){
+				if(epicGear){
+					GameMain.infoBox.append("\n You found a pair of glorious sabatons" + Engine.epicGear[dropMessage] + "\n It increases armor by " + GameMain.decimals.format(newItem.getArmor()) + " and dodge chance by " + GameMain.decimals.format(newItem.getBonusStat())  +  "%.");
+					addEpicGearFound();
+				}
+				else{
+					GameMain.infoBox.append("\n You found a pair of sabatons from a fallen enemy.\n It increases armor by " + GameMain.decimals.format(newItem.getArmor()) + " and dodge chance by " + GameMain.decimals.format(newItem.getBonusStat())  +  "%.");
+					addGearFound();
+				}
+			}
+			if(newItem.getType().matches("shoulders")){
+				if(epicGear){
+					GameMain.infoBox.append("\n You found a pair of glorious pauldrons" + Engine.epicGear[dropMessage] + "\n It increases armor by " + GameMain.decimals.format(newItem.getArmor()) + ", mana by " + GameMain.decimals.format(newItem.getBonusMana()) + " and mana regeneration by " + GameMain.oneDigit.format(newItem.getManaRegen()) +  " per second.");
+					addEpicGearFound();
+				}
+				else{
+					GameMain.infoBox.append("\n You found a pair of pauldrons from a fallen enemy.\n It increases armor by " + GameMain.decimals.format(newItem.getArmor()) + ", mana by " + GameMain.decimals.format(newItem.getBonusMana()) + " and mana regeneration by " + GameMain.oneDigit.format(newItem.getManaRegen()) + " per second.");
+					addGearFound();
+				}
+			}
+
+			GameMain.infoBox.setCaretPosition(GameMain.infoBox.getDocument().getLength());
+			GameMain.infoBox.append("\n Your currently equipped ");
+			if(newItem.getType().matches("chest")){
+				GameMain.infoBox.append("chest armor gives you " + GameMain.decimals.format(chest.getArmor()) + " armor, " + GameMain.decimals.format(chest.getBonusHealth()) + " health and \n " + GameMain.oneDigit.format(chest.getHpRegen()) + " health regeneration per second.");
+			}
+			if(newItem.getType().matches("gloves")){
+				GameMain.infoBox.append("gloves gives you " +  GameMain.decimals.format(gloves.getArmor()) + " armor and " + GameMain.decimals.format(gloves.getBonusStat()) + "% critical hit chance.");
+			}
+			if(newItem.getType().matches("pants")){
+				GameMain.infoBox.append("leg armor gives you " + GameMain.decimals.format(pants.getArmor()) + " armor, " + GameMain.decimals.format(pants.getBonusHealth()) + " health and \n " + GameMain.oneDigit.format(pants.getHpRegen()) + " health regeneration per second.");
+			}
+			if(newItem.getType().matches("boots")){
+				GameMain.infoBox.append("boots gives you " +  GameMain.decimals.format(boots.getArmor()) + " armor and " + GameMain.decimals.format(boots.getBonusStat()) + "% dodge chance.");
+			}
+			if(newItem.getType().matches("helm")){
+				GameMain.infoBox.append("helmet gives you " +  GameMain.decimals.format(helm.getArmor()) + " armor and " + GameMain.decimals.format(helm.getBonusStat()) + "% critical hit damage.");
+			}
+			if(newItem.getType().matches("shoulders")){
+				GameMain.infoBox.append("shoulder armor gives you " + GameMain.decimals.format(shoulders.getArmor()) + " armor, " + GameMain.decimals.format(shoulders.getBonusMana()) + " mana and \n " + GameMain.oneDigit.format(shoulders.getManaRegen()) + " mana regeneration per second.");
+			}
+			if(newItem.getType().matches("shield")){
+				GameMain.infoBox.append("shield gives you " + shield.getArmor() + " armor.");
+			}
+			if(newItem.getType().matches("sword")){
+				GameMain.infoBox.append("sword gives you " + sword.getDamage() + " damage.");
+			} 
+
 			GameMain.infoBox.setCaretPosition(GameMain.infoBox.getDocument().getLength());
 		}
 		int potionDrop = rand.nextInt(4);
@@ -878,7 +1106,7 @@ public class Character {
 				GameMain.infoBox.append(" \n You found a mana potion!");
 			}
 		}
-		GameMain.infoBox.setCaretPosition(GameMain.infoBox.getDocument().getLength());
+
 	}
 	public BufferedImage getImage(){
 		if(animationCounter == 8){
@@ -930,7 +1158,7 @@ public class Character {
 		}
 		return levelUp[sprite/2];
 	}
-	
+
 	public BufferedImage getHpPotImage(){
 		if(hpSprite == 30){
 			hpSprite = 0;
@@ -939,7 +1167,7 @@ public class Character {
 		}
 		return healing[hpSprite/2];
 	}
-	
+
 	public BufferedImage getManaPotImage(){
 		if(manaSprite == 40){
 			manaSprite = 0;
@@ -970,22 +1198,56 @@ public class Character {
 		if(!Engine.mainThemeSound){
 			Engine.mainThemeSound = true;
 		}
+		sword = Engine.startSword;
+		sword.setDamage(10);
+
+		helm = Engine.startHelm;
+		helm.setArmor(10);
+		helm.setCritDmg(10);
+
+		boots = Engine.startBoots;
+		boots.setArmor(10);
+		boots.setDodge(5);
+
+		gloves = Engine.startGloves;
+		gloves.setArmor(10);
+		gloves.setCritChance(10);
+
+		pants = Engine.startPants;
+		pants.setArmor(10);
+		pants.setBonusHealth(0);
+		pants.setHPregen(0);
+
+		shoulders = Engine.startShoulders;
+		shoulders.setArmor(10);
+		shoulders.setBonusMana(0);
+		shoulders.setManaRegen(0);
+
+		chest = Engine.startChest;
+		chest.setArmor(10);
+		chest.setBonusHealth(0);
+		chest.setHPregen(0);
+
+		shield = Engine.startShield;
+		shield.setArmor(20);
 
 		GameMain.infoBox.append(Engine.deathMessage);
 		stopMoving();
 		level = 1;
 		currentHealth = 100;
-		maxHealth = 100;
+		baseHealth = 100;
+		setHP(baseHealth);
 		currentMana = 100;
-		maxMana = 100;
-		damage = 25;
-		armor = 0;
+		baseMana = 100;
+		setMana(baseMana);
+		baseDamage = 10;
+		setArmor();
 		currentExperience = 0;
 		maxExperience = level*100;
 		manaPotions = 0;
 		healthPotions = 0;
-		hpRegen = 1.0;
-		manaRegen = 1.0;
+		baseHpRegen = 1.0;
+		baseManaRegen = 1.0;
 		DrawGame.bartuc.aggro = false;
 		DrawGame.bartuc.reset();
 		resetStats();
@@ -994,6 +1256,8 @@ public class Character {
 		currentRoom = Engine.centralZone;
 		setX(448);
 		setY(416);
+
+		inventory.clear();
 
 		//GameMain.infoBox.append("\n" + Engine.startMessage);
 		GameMain.infoBox.setCaretPosition(GameMain.infoBox.getDocument().getLength());
@@ -1034,14 +1298,14 @@ public class Character {
 		}
 
 		if(currentHealth < maxHealth && healthCounter >= 60){
-			currentHealth += hpRegen;
+			currentHealth += getHPRegen();
 			if(currentHealth > maxHealth){
 				currentHealth = maxHealth;
 			}
 			healthCounter = 0;
 		}
 		if(currentMana < maxMana && manaCounter >= 60){
-			currentMana += manaRegen;
+			currentMana += getManaRegen();
 			if(currentMana > maxMana){
 				currentMana = maxMana;
 			}
@@ -1059,7 +1323,7 @@ public class Character {
 				GameMain.infoBox.setCaretPosition(GameMain.infoBox.getDocument().getLength());
 				bartucEngage = true;
 			}
-			
+
 		}
 		if(useHpPot){
 			g.drawImage(getHpPotImage(), xPosition - 30, yPosition-27, null);
@@ -1076,12 +1340,12 @@ public class Character {
 		manaCounter++;
 		healthCounter++;
 	}
-	
+
 	/**
 	 * STAT METHODS
 	 * Methods for getting, setting and changing the statistics
 	 */
-	
+
 	public int getBartucKills(){
 		return bartucKills;
 	}
@@ -1341,7 +1605,69 @@ public class Character {
 				+ " steps \n You have walked between zones "
 				+ GameMain.decimals.format(getZoneChanges()) + " times \n You have entered bartucs cave "
 				+ GameMain.decimals.format(getTimesInCave()) + " times";
-		
+
 		return statsMessage;
 	}
+
+	public void load(Item helm, Item boots, Item gloves, Item pants, Item shoulders, Item chest, Item sword, Item shield, int level, 
+			double currHp, double currMana, int healthPots, int manaPots, int currXP){
+		this.helm = helm;
+		this.boots = boots;
+		this.gloves = gloves;
+		this.pants = pants;
+		this.shoulders = shoulders;
+		this.chest = chest;
+		this.sword = sword;
+		this.shield = shield;
+		this.level = level;
+		this.healthPotions = healthPots;
+		this.manaPotions = manaPots;
+		this.baseManaRegen = 1.0;
+		this.baseHpRegen = 1.0;
+		for(int i = 0 ; i < level-1; i++){
+			this.level++;
+
+			baseHealth += Engine.HP_LVL_UP;
+			baseMana += Engine.MANA_LVL_UP;
+			baseDamage += Engine.DAMAGE_LVL_UP;
+			baseHpRegen += Engine.HPREGEN_LVL_UP;
+			baseManaRegen += Engine.MANAREGEN_LVL_UP;
+
+
+
+		}
+		setHP(baseHealth);
+		setMana(baseMana);
+		maxExperience = level*100;
+		this.currentExperience = currXP;
+		this.currentHealth = currHp;
+		this.currentMana = currMana;
+		setArmor();
+	}
+
+	public Item chest(){
+		return chest;
+	}
+	public Item gloves(){
+		return gloves;
+	}
+	public Item pants(){
+		return pants;
+	}
+	public Item helm(){
+		return helm;
+	}
+	public Item boots(){
+		return boots;
+	}
+	public Item shoulders(){
+		return shoulders;
+	}
+	public Item shield(){
+		return shield;
+	}
+	public Item sword(){
+		return sword;
+	}
+
 }
