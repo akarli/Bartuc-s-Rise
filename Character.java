@@ -634,9 +634,9 @@ public class Character {
 	public int getAttackDamage(){
 		int randDamage = rand.nextInt((getDamage()/10))+(getDamage() - getDamage()/20);
 		int crit = rand.nextInt(100);
-		if(crit <= gloves.getCritChance()){
+		if(crit >= gloves.getCritChance()){
 			GameMain.infoBox.append("\n Critical hit!");
-			return (randDamage*(1 + helm.getCritDamage()))/100;
+			return (randDamage*(helm.getCritDamage()+100))/100;
 		}
 		return randDamage;
 	}
