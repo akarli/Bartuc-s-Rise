@@ -174,6 +174,18 @@ public class GameMain extends JFrame implements ActionListener {
 			
 			DrawGame.character.printInventory();
 			
+			MouseListener mouseListener = new MouseAdapter() {
+			    public void mouseClicked(MouseEvent e) {
+		        	draw.requestFocus();
+			    	if (e.getClickCount() == 1 && DrawGame.character.inventory.size() != 0){
+			        	int index = inventoryBox.locationToIndex(e.getPoint());
+			        	DrawGame.character.changeItem(index+1);
+			        	DrawGame.character.printEquipment();
+			         }  
+			    }
+			};
+			inventoryBox.addMouseListener(mouseListener);
+			
 		/**
 		 * SCROLL AREA PREFERENCES
 		 */
@@ -541,6 +553,8 @@ public class GameMain extends JFrame implements ActionListener {
 			DrawGame.reset();
 
 			infoBox.append(Engine.loadMessage);
+			listModel.clear();
+			DrawGame.character.clearInventory();
 
 		} catch (FileNotFoundException a){
 			infoBox.append("\n The save file was not found. Game not loaded.");
