@@ -86,7 +86,7 @@ public class GameMain extends JFrame implements ActionListener {
 
 		setLayout(null); // Allows for free placement of components in this window
 		setPreferredSize(new Dimension(32 * Engine.TILE_WIDTH + 300, 20 * Engine.TILE_HEIGHT + 120));
-		setLocation((screenWidth/2) - 670, (screenHeight/2) - 320);
+		setLocation((screenWidth/2) - 662, (screenHeight/2) - 380);
 		setResizable(false);
 		setUndecorated(false);
 		setBackground(Color.WHITE);
