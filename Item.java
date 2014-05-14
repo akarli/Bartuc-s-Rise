@@ -11,37 +11,106 @@ public class Item {
 	public Item(int level, boolean epic, String type){
 		this.type = type;
 		if(type.matches("helm")){
-			armor = rand.nextInt(level*5) + level * 10;
-			critDamage = rand.nextInt(level*5) + level * 50;
+			if(epic){
+				armor = rand.nextInt(level*5) + level * 4;
+				critDamage = rand.nextInt(level*5) + level * 10;
+				if(critDamage > 500){
+					critDamage = 500;
+				}
+			}
+			else{
+				armor = rand.nextInt(level*3) + level * 2;
+				critDamage = rand.nextInt(level*3) + level * 5;
+				if(critDamage > 400){
+					critDamage = 400;
+				}
+			}
 		}
 		if(type.matches("gloves")){
-			armor = rand.nextInt(level*5) + level * 10;
-			critChance = rand.nextInt(level * 25) + 40*level;
+			if(epic){
+				armor = rand.nextInt(level*4) + level * 3;
+				critChance = rand.nextInt((level*5)/10 + 1) + level;
+				if(critChance > 50){
+					critChance = 50;
+				}
+			}
+			else{
+				armor = rand.nextInt(level*2) + level;
+				critChance = rand.nextInt((level*3/10) + 1) + level/2;
+				if(critChance > 50){
+					critChance = 50;
+				}
+			}
 		}
 		if(type.matches("chest")){
-			armor = rand.nextInt(level*5) + level * 10;
-			bonusHealth = rand.nextInt(5*level) + 2*level;
-			hpRegen = (rand.nextInt(2*level)/10.0) + 0.2*level;
+			if(epic){
+				armor = rand.nextInt(level*8) + level * 7;
+				bonusHealth = rand.nextInt(5*level) + 10*level;
+				hpRegen = (rand.nextInt(4*level)/10.0) + 0.4*level;
+			}
+			else{
+				armor = rand.nextInt(level*4) + level * 3;
+				bonusHealth = rand.nextInt(3*level) + 5*level;
+				hpRegen = (rand.nextInt(2*level)/10.0) + 0.2*level;
+			}
+			
 		}
 		if(type.matches("pants")){
-			armor = rand.nextInt(level*5) + level * 10;
-			bonusHealth = rand.nextInt(5*level) + 2*level;
-			hpRegen = (rand.nextInt(2*level)/10.0) + 0.2*level;
+			if(epic){
+				armor = rand.nextInt(level*6) + level * 5;
+				bonusHealth = rand.nextInt(4*level) + 8*level;
+				hpRegen = (rand.nextInt(3*level)/10.0) + 0.3*level;
+			}
+			else{
+				armor = rand.nextInt(level*3) + level * 2;
+				bonusHealth = rand.nextInt(5*level) + 2*level;
+				hpRegen = (rand.nextInt(level)/10.0) + 0.1*level;
+			}
 		}
 		if(type.matches("boots")){
-			armor = rand.nextInt(level*5) + level * 10;
-			dodge = rand.nextInt(level*10)+ level * 10;
+			if(epic){
+				armor = rand.nextInt(level*4) + level * 3;
+				dodge = rand.nextInt(level + 1)+ level;
+				if(dodge>40){
+					dodge = 40;
+				}
+			}
+			else{
+				armor = rand.nextInt(level*2) + level;
+				dodge = rand.nextInt(level/2 + 1)+ level/2;
+				if(dodge>30){
+					dodge = 30;
+				}
+			}
 		}
 		if(type.matches("shoulders")){
-			armor = rand.nextInt(level*5) + level * 10;
-			bonusMana = rand.nextInt(level * 10) + level *5;
-			manaRegen = (rand.nextInt(2*level)/10.0) + 0.2*level;
+			if(epic){
+				armor = rand.nextInt(level*6) + level * 5;
+				bonusMana = rand.nextInt(5*level) + 10*level;
+				manaRegen = (rand.nextInt(4*level)/10.0) + 0.4*level;
+			}
+			else{
+				armor = rand.nextInt(level*3) + level * 2;
+				bonusMana = rand.nextInt(3*level) + 5*level;
+				manaRegen = (rand.nextInt(2*level)/10.0) + 0.2*level;
+			}
 		}
 		if(type.matches("sword")){
-			damage = rand.nextInt(level*5)+ level * 10;
+			if(epic){
+				damage = rand.nextInt(level*7) + level * 13;
+			}
+			else{
+				damage = rand.nextInt(level*4)+ level * 7;
+			}
 		}
 		if(type.matches("shield")){
-			armor = rand.nextInt(level*5) + level * 10;
+			if(epic){
+				armor = rand.nextInt(level*10) + level * 9;
+			}
+			else{
+				armor = rand.nextInt(level*6) + level * 5;
+			}
+
 		}
 
 	}
