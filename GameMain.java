@@ -297,7 +297,7 @@ public class GameMain extends JFrame implements ActionListener {
 			infoBox.append(Engine.setNameError);
 			infoBox.setCaretPosition(infoBox.getDocument().getLength());
 		}
-		else if((lineArray[0].trim().equals("change") || lineArray[0].trim().equals("Change")) && lineArray[1].matches("\\d+") && lineArray.length == 2){
+		else if((lineArray[0].trim().equals("equip") || lineArray[0].trim().equals("Equip")) && lineArray[1].matches("\\d+") && lineArray.length == 2){
 			   DrawGame.character.changeItem(Integer.parseInt(lineArray[1]));
 		}
 		else if(lineArray[0].trim().equals("inventory") || lineArray[0].trim().equals("Inventory")){
