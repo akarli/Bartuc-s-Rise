@@ -614,10 +614,6 @@ public class Character {
 		return level;
 	}
 
-	public void setLevel(int level){
-		this.level = level;
-	}
-
 	public double getCurrHP(){
 		return currentHealth;
 	}
@@ -836,40 +832,38 @@ public class Character {
 
 	public void printInventory(){
 		if(inventory.size() == 0){
-			GameMain.inventoryBox.append(" Your inventory is empty.");
+			GameMain.listModel.addElement(" Your inventory is empty.");
 		}
 		else{
 			for(int i = 0; i < inventory.size(); i++){
 				if(inventory.get(i).getType().matches("sword")){
-					GameMain.inventoryBox.append((i+1) + ". Sword - " + GameMain.decimals.format(inventory.get(i).getDamage()) + " damage.\n");
+					GameMain.listModel.addElement((i+1) + ". Sword - " + GameMain.decimals.format(inventory.get(i).getDamage()) + " damage.\n");
 				}
 				if(inventory.get(i).getType().matches("shield")){
-					GameMain.inventoryBox.append((i+1) + ". Shield - " + GameMain.decimals.format(inventory.get(i).getArmor()) + " armor.\n");
+					GameMain.listModel.addElement((i+1) + ". Shield - " + GameMain.decimals.format(inventory.get(i).getArmor()) + " armor.\n");
 				}
 				if(inventory.get(i).getType().matches("chest")){
-					GameMain.inventoryBox.append((i+1) + ". Chest - " + GameMain.decimals.format(inventory.get(i).getArmor()) + " armor, " + GameMain.decimals.format(inventory.get(i).getBonusHealth()) + " hp, " + GameMain.oneDigit.format(inventory.get(i).getHpRegen()) + " hp/s.\n");
+					GameMain.listModel.addElement((i+1) + ". Chest - " + GameMain.decimals.format(inventory.get(i).getArmor()) + " armor, " + GameMain.decimals.format(inventory.get(i).getBonusHealth()) + " hp, " + GameMain.oneDigit.format(inventory.get(i).getHpRegen()) + " hp/s.\n");
 				}
 				if(inventory.get(i).getType().matches("pants")){
-					GameMain.inventoryBox.append((i+1) + ". Legs - " + GameMain.decimals.format(inventory.get(i).getArmor()) + " armor, " + GameMain.decimals.format(inventory.get(i).getBonusHealth()) + " health, " + GameMain.oneDigit.format(inventory.get(i).getHpRegen()) + " hp/s.\n");
+					GameMain.listModel.addElement((i+1) + ". Legs - " + GameMain.decimals.format(inventory.get(i).getArmor()) + " armor, " + GameMain.decimals.format(inventory.get(i).getBonusHealth()) + " health, " + GameMain.oneDigit.format(inventory.get(i).getHpRegen()) + " hp/s.\n");
 				}
 				if(inventory.get(i).getType().matches("shoulders")){
-					GameMain.inventoryBox.append((i+1) + ". Shoulders - " + GameMain.decimals.format(inventory.get(i).getArmor()) + " armor, " + GameMain.decimals.format(inventory.get(i).getBonusMana()) + " mana, " + GameMain.oneDigit.format(inventory.get(i).getManaRegen()) + " mana/s.\n");
+					GameMain.listModel.addElement((i+1) + ". Shoulders - " + GameMain.decimals.format(inventory.get(i).getArmor()) + " armor, " + GameMain.decimals.format(inventory.get(i).getBonusMana()) + " mana, " + GameMain.oneDigit.format(inventory.get(i).getManaRegen()) + " mana/s.\n");
 				}
 				if(inventory.get(i).getType().matches("helm")){
-					GameMain.inventoryBox.append((i+1) + ". Helmet - " + GameMain.decimals.format(inventory.get(i).getArmor()) + " armor,  " +  GameMain.decimals.format(inventory.get(i).getBonusStat()) + "% critical hit damage.\n");
+					GameMain.listModel.addElement((i+1) + ". Helmet - " + GameMain.decimals.format(inventory.get(i).getArmor()) + " armor,  " +  GameMain.decimals.format(inventory.get(i).getBonusStat()) + "% critical hit damage.\n");
 				}
 				if(inventory.get(i).getType().matches("gloves")){
-					GameMain.inventoryBox.append((i+1) + ". Gloves - " + GameMain.decimals.format(inventory.get(i).getArmor()) + " armor, " +  GameMain.decimals.format(inventory.get(i).getBonusStat()) + "% critical hit chance.\n");
+					GameMain.listModel.addElement((i+1) + ". Gloves - " + GameMain.decimals.format(inventory.get(i).getArmor()) + " armor, " +  GameMain.decimals.format(inventory.get(i).getBonusStat()) + "% critical hit chance.\n");
 				}
 				if(inventory.get(i).getType().matches("boots")){
-					GameMain.inventoryBox.append((i+1) + ". Boots - " + GameMain.decimals.format(inventory.get(i).getArmor()) + " armor, " +  GameMain.decimals.format(inventory.get(i).getBonusStat()) + "% dodge chance.\n");
+					GameMain.listModel.addElement((i+1) + ". Boots - " + GameMain.decimals.format(inventory.get(i).getArmor()) + " armor, " +  GameMain.decimals.format(inventory.get(i).getBonusStat()) + "% dodge chance.\n");
 				}
 			} 
 		}
-		GameMain.inventoryBox.setCaretPosition(GameMain.inventoryBox.getDocument().getLength());
-
+		//GameMain.inventoryBox.setCaretPosition(GameMain.inventoryBox.getDocument().getLength());
 	}
-
 	public void clearInventory(){
 		if(inventory.size() > 0){
 			inventory.clear();
@@ -944,6 +938,7 @@ public class Character {
 			if(inventory.get(index).getType().matches("shoulders")){
 				temp = shoulders;
 				shoulders = inventory.get(index);
+				setMana(baseMana);
 				inventory.set(index, temp);
 			}
 			if(inventory.get(index).getType().matches("sword")){
@@ -1107,7 +1102,8 @@ public class Character {
 				GameMain.infoBox.append(" \n You found a mana potion!");
 			}
 		}
-
+		GameMain.listModel.clear();
+		printInventory();
 	}
 	public BufferedImage getImage(){
 		if(animationCounter == 8){
@@ -1609,7 +1605,7 @@ public class Character {
 		return statsMessage;
 	}
 
-	public void load(Item helm, Item boots, Item gloves, Item pants, Item shoulders, Item chest, Item sword, Item shield, int level, 
+	public void load(Item helm, Item boots, Item gloves, Item pants, Item shoulders, Item chest, Item sword, Item shield, int savedlevel, 
 			double currHp, double currMana, int healthPots, int manaPots, int currXP){
 		this.helm = helm;
 		this.boots = boots;
@@ -1619,26 +1615,26 @@ public class Character {
 		this.chest = chest;
 		this.sword = sword;
 		this.shield = shield;
-		this.level = level;
+		this.level = savedlevel;
 		this.healthPotions = healthPots;
 		this.manaPotions = manaPots;
+		this.baseHealth = 100.0;
+		this.baseMana = 100.0;
 		this.baseManaRegen = 1.0;
 		this.baseHpRegen = 1.0;
-		for(int i = 0 ; i < level-1; i++){
+		this.baseDamage = 10;
+		this.level = 1;
+		for(int i = 0 ; i < savedlevel-1; i++){
 			this.level++;
-
 			baseHealth += Engine.HP_LVL_UP;
 			baseMana += Engine.MANA_LVL_UP;
 			baseDamage += Engine.DAMAGE_LVL_UP;
 			baseHpRegen += Engine.HPREGEN_LVL_UP;
 			baseManaRegen += Engine.MANAREGEN_LVL_UP;
-
-
-
 		}
 		setHP(baseHealth);
 		setMana(baseMana);
-		maxExperience = level*100;
+		maxExperience = this.level*100;
 		this.currentExperience = currXP;
 		this.currentHealth = currHp;
 		this.currentMana = currMana;
