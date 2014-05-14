@@ -330,7 +330,7 @@ public class GameMain extends JFrame implements ActionListener {
 		}
 		else if((lineArray[0].trim().equals("controls") && lineArray.length == 1) || (lineArray[0].trim().equals("Controls") && lineArray.length == 1)){
 			infoBox.append(Engine.controlsMessage);
-			infoBox.setCaretPosition(infoBox.getDocument().getLength() - 100);
+			infoBox.setCaretPosition(infoBox.getDocument().getLength() - 200);
 		}
 		else if((lineArray[0].trim().equals("commands") && lineArray.length == 1) || (lineArray[0].trim().equals("Commands") && lineArray.length == 1)){
 			infoBox.append(Engine.commandsMessage);
@@ -365,7 +365,7 @@ public class GameMain extends JFrame implements ActionListener {
 		else if((lineArray[0].trim().equals("clear") || (lineArray[0].trim().equals("Clear")) && (lineArray[1].trim().equals("inventory") || lineArray[1].trim().equals("Inventory"))) && lineArray.length == 2){
 			DrawGame.character.clearInventory();
 		}
-		else if((lineArray[0].trim().equals("remove") || lineArray[0].trim().equals("Remove")) && lineArray[1].trim().matches("\\d+") && lineArray.length == 2){
+		else if((lineArray[0].trim().equals("drop") || lineArray[0].trim().equals("Drop")) && lineArray[1].trim().matches("\\d+") && lineArray.length == 2){
 			   DrawGame.character.removeItemFromInventory(Integer.parseInt(lineArray[1]));
 		}
 		else{
