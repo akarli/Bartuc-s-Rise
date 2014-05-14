@@ -159,34 +159,34 @@ public class Character {
 		sword.setDamage(10);
 
 		helm = Engine.startHelm;
-		helm.setArmor(10);
+		helm.setArmor(0);
 		helm.setCritDmg(10);
 
 		boots = Engine.startBoots;
-		boots.setArmor(10);
+		boots.setArmor(0);
 		boots.setDodge(5);
 
 		gloves = Engine.startGloves;
-		gloves.setArmor(10);
-		gloves.setCritChance(10);
+		gloves.setArmor(0);
+		gloves.setCritChance(5);
 
 		pants = Engine.startPants;
-		pants.setArmor(10);
+		pants.setArmor(0);
 		pants.setBonusHealth(0);
 		pants.setHPregen(0);
 
 		shoulders = Engine.startShoulders;
-		shoulders.setArmor(10);
+		shoulders.setArmor(0);
 		shoulders.setBonusMana(0);
 		shoulders.setManaRegen(0);
 
 		chest = Engine.startChest;
-		chest.setArmor(10);
+		chest.setArmor(0);
 		chest.setBonusHealth(0);
 		chest.setHPregen(0);
 
 		shield = Engine.startShield;
-		shield.setArmor(20);
+		shield.setArmor(3);
 
 		xPosition = 448;
 		yPosition = 416;
@@ -639,7 +639,8 @@ public class Character {
 		int randDamage = rand.nextInt((getDamage()/10))+(getDamage() - getDamage()/20);
 		int crit = rand.nextInt(100);
 		if(crit <= gloves.getCritChance()){
-			return (randDamage*(helm.getCritDamage()))/10;
+			GameMain.infoBox.append("\n Critical hit!");
+			return (randDamage*(1 + helm.getCritDamage()))/100;
 		}
 		return randDamage;
 	}
@@ -973,11 +974,11 @@ public class Character {
 		Boolean epicGear = false;
 		int drop = rand.nextInt(100);
 		int dropMessage = 0;
-		if(drop >= 0){
+		if(drop >= 84){
 			findLoot = true;
 			Engine.lootSound = true;
 			int quality = rand.nextInt(100);
-			if(quality >= 49){
+			if(quality >= 84){
 				epicGear = true;
 				dropMessage = rand.nextInt(3);
 			}
