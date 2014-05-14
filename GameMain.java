@@ -303,7 +303,7 @@ public class GameMain extends JFrame implements ActionListener {
 		characterHealthPots.setText("Health potions: " + decimals.format(DrawGame.character.getHPPots()));
 		characterManaPots.setText("Mana potions: " + decimals.format(DrawGame.character.getManaPots()));
 		characterCritChance.setText("Critical hit chance: " + decimals.format(DrawGame.character.gloves().getBonusStat()) + "%");
-		characterCritDamage.setText("Critical hit damage: " + decimals.format(DrawGame.character.helm().getBonusStat()) + "%"); 
+		characterCritDamage.setText("Critical hit damage: " + decimals.format(DrawGame.character.helm().getBonusStat() + 100) + "%"); 
 		characterDodge.setText("Dodge chance: " + decimals.format(DrawGame.character.boots().getBonusStat()) + "%");
 		
 		equipmentBox.setText("");
