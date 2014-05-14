@@ -22,7 +22,7 @@ public class Engine {
 	public final static int HP_LVL_UP = 10;
 	public final static int MANA_LVL_UP = 20;
 	public final static int DAMAGE_LVL_UP = 5;
-	public final static int ARMOR_LVL_UP = 2;
+	public final static int ARMOR_LVL_UP = 0;
 	public final static double HPREGEN_LVL_UP = 0.1;
 	public final static double MANAREGEN_LVL_UP = 0.1;
 
@@ -626,7 +626,7 @@ public class Engine {
 	public static final String levelUpMessage = "\n You gained a level! \n Health and mana restored. \n Health increased by " + HP_LVL_UP + ".\n Mana increased by " + MANA_LVL_UP + ".\n Damage increased by " + DAMAGE_LVL_UP + ".\n Armor increased by " + ARMOR_LVL_UP + ".\n Health regeneration and mana regeneration increased by " + HPREGEN_LVL_UP + " per second.";
 	public static final String noManaMessage = "\n You don't have enough mana to cast that.";
 	public static final String controlsMessage = "\n W - move up \n S - move down \n A - move left \n D - move right \n Left Mouse Button - attack \n Right Mose Button - cast fire ball \n Q - use a health potion \n E - use a mana potion";
-	public static final String commandsMessage = "\n \"help\" - view the help message \n \"controls\" - view the controls \n \"commands\" - view the available commands \n \"equipment\" - view your currently equipped equipment \n \"inventory\" - view your inventory \n \"equip x\" - equip the item on position x in your inventory \n \"remove x\" - remove the item on position x in your inventory \n \"clear inventory\" - empty your inventory \n \"stats\" - view you accomplishments and statistics \n \"save\" - save your character \n \"load\" - load a character \n \"setname name\" - set your characters name";
+	public static final String commandsMessage = "\n \"help\" - view the help message \n \"controls\" - view the controls \n \"commands\" - view the available commands \n \"equip x\" - equip the item on position x in your inventory \n \"remove x\" - remove the item on position x in your inventory \n \"clear inventory\" - empty your inventory \n \"stats\" - view you accomplishments and statistics \n \"save\" - save your character \n \"load\" - load a character \n \"setname name\" - set your characters name";
 	public static final String hpPotMessage = "\n You used a health potion. Some health was restored.";
 	public static final String manaPotMessage = "\n You used a mana potion. Some mana was restored.";
 	public static final String noHpPotsMessage = "\n You don't have any health potions.";
