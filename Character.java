@@ -854,7 +854,7 @@ public class Character {
 				if(inventory.get(i).getType().matches("shoulders")){
 					GameMain.infoBox.append("\n " + (i+1) + ". Shoulders - " + GameMain.decimals.format(inventory.get(i).getArmor()) + " armor, " + GameMain.decimals.format(inventory.get(i).getBonusMana()) + " mana and " + GameMain.oneDigit.format(inventory.get(i).getManaRegen()) + " mana regeneration per second.");
 				}
-				if(inventory.get(i).getType().matches("helmet")){
+				if(inventory.get(i).getType().matches("helm")){
 					GameMain.infoBox.append("\n " + (i+1) + ". Helmet - " + GameMain.decimals.format(inventory.get(i).getArmor()) + " armor and " +  GameMain.decimals.format(inventory.get(i).getBonusStat()) + "% critical hit damage.");
 				}
 				if(inventory.get(i).getType().matches("gloves")){
