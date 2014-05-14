@@ -697,8 +697,10 @@ public class Engine {
 	public static final File walk = new File("Sounds\\walk.wav");
 	public static final File bartucHit1 = new File("Sounds\\bartuchit1.wav");
 	public static final File bartucHit2 = new File("Sounds\\bartuchit2.wav");
+	public static final File bartucDeath = new File("Sounds\\bartucdeath.wav");
+	public static final File bartucDeathTheme = new File("Sounds\\bartucdeaththeme.wav");
 	public static final File write = new File("Sounds\\writing.wav");
-	
+
 	public static final MediaPlayer mainThemePlayer = new MediaPlayer(mainTheme);
 	public static final MediaPlayer caveThemePlayer = new MediaPlayer(caveTheme);
 	public static final MediaPlayer bartucThemePlayer = new MediaPlayer(bartucTheme);
@@ -713,12 +715,12 @@ public class Engine {
 	public static final MediaPlayer potionPickupPlayer = new MediaPlayer(potionPickUp);
 	public static final MediaPlayer walkPlayer = new MediaPlayer(walk);
 	public static final MediaPlayer writePlayer = new MediaPlayer(write);
-	
+
 	/**
 	 * SOUND BOOLEANS
 	 * Booleans for checking which sound to play
 	 */
-	
+
 	public static boolean mainThemeSound = true;
 	public static boolean caveThemeSound = false;
 	public static boolean bartucThemeSound = false;
