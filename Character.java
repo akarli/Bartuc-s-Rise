@@ -160,15 +160,15 @@ public class Character {
 
 		helm = Engine.startHelm;
 		helm.setArmor(0);
-		helm.setCritDmg(10);
+		helm.setCritDmg(5);
 
 		boots = Engine.startBoots;
 		boots.setArmor(0);
-		boots.setDodge(5);
+		boots.setDodge(1);
 
 		gloves = Engine.startGloves;
 		gloves.setArmor(0);
-		gloves.setCritChance(5);
+		gloves.setCritChance(1);
 
 		pants = Engine.startPants;
 		pants.setArmor(0);
@@ -957,11 +957,11 @@ public class Character {
 				inventory.set(index, temp);
 			}
 			setArmor();
-			GameMain.infoBox.append("\n You equipped the new item");
+			GameMain.infoBox.append("\n You equipped the new item.");
 			GameMain.infoBox.setCaretPosition(GameMain.infoBox.getDocument().getLength());
 		}
 		else{
-			GameMain.infoBox.append("\n Not a valid index");
+			GameMain.infoBox.append("\n Not a valid index.");
 			GameMain.infoBox.setCaretPosition(GameMain.infoBox.getDocument().getLength());
 		}
 	}
@@ -1203,35 +1203,34 @@ public class Character {
 		sword.setDamage(10);
 
 		helm = Engine.startHelm;
-		helm.setArmor(10);
-		helm.setCritDmg(10);
+		helm.setArmor(0);
+		helm.setCritDmg(5);
 
 		boots = Engine.startBoots;
-		boots.setArmor(10);
-		boots.setDodge(5);
+		boots.setArmor(0);
+		boots.setDodge(1);
 
 		gloves = Engine.startGloves;
-		gloves.setArmor(10);
-		gloves.setCritChance(10);
+		gloves.setArmor(0);
+		gloves.setCritChance(1);
 
 		pants = Engine.startPants;
-		pants.setArmor(10);
+		pants.setArmor(0);
 		pants.setBonusHealth(0);
 		pants.setHPregen(0);
 
 		shoulders = Engine.startShoulders;
-		shoulders.setArmor(10);
+		shoulders.setArmor(0);
 		shoulders.setBonusMana(0);
 		shoulders.setManaRegen(0);
 
 		chest = Engine.startChest;
-		chest.setArmor(10);
+		chest.setArmor(0);
 		chest.setBonusHealth(0);
 		chest.setHPregen(0);
 
 		shield = Engine.startShield;
-		shield.setArmor(20);
-
+		shield.setArmor(3);
 		GameMain.infoBox.append(Engine.deathMessage);
 		stopMoving();
 		level = 1;
