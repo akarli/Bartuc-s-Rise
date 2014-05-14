@@ -623,10 +623,10 @@ public class Engine {
 	public static final String loadMessage = "\n Character loaded.";
 	public static final String saveMessage = "\n Character saved.";
 	public static final String noSuchCommandMessage = "\n That is not a valid command.";
-	public static final String levelUpMessage = "\n You gained a level! \n Health and mana restored. \n Health increased by " + HP_LVL_UP + ".\n Mana increased by " + MANA_LVL_UP + ".\n Damage increased by " + DAMAGE_LVL_UP + ".\n Armor increased by " + ARMOR_LVL_UP + ".\n Health regeneration and mana regeneration increased by " + HPREGEN_LVL_UP + ".";
+	public static final String levelUpMessage = "\n You gained a level! \n Health and mana restored. \n Health increased by " + HP_LVL_UP + ".\n Mana increased by " + MANA_LVL_UP + ".\n Damage increased by " + DAMAGE_LVL_UP + ".\n Armor increased by " + ARMOR_LVL_UP + ".\n Health regeneration and mana regeneration increased by " + HPREGEN_LVL_UP + " per second.";
 	public static final String noManaMessage = "\n You don't have enough mana to cast that.";
 	public static final String controlsMessage = "\n W - move up \n S - move down \n A - move left \n D - move right \n Left Mouse Button - attack \n Right Mose Button - cast fire ball \n Q - use a health potion \n E - use a mana potion";
-	public static final String commandsMessage = "\n \"help\" - display help message \n \"controls\" - display controls \n \"commands\" - display available commands \n \"stats\" - view you accomplishments and statistics \n \"save\" - save your character \n \"load\" - load a character \n \"setname name\" - set your characters name";
+	public static final String commandsMessage = "\n \"help\" - view the help message \n \"controls\" - view the controls \n \"commands\" - view the available commands \n \"equipment\" - view your currently equipped equipment \n \"inventory\" - view your inventory \n \"change x\" - equip the item on position x in your inventory \n \"remove x\" - remove the item on position x in your inventory \n \"clear inventory\" - empty your inventory \n \"stats\" - view you accomplishments and statistics \n \"save\" - save your character \n \"load\" - load a character \n \"setname name\" - set your characters name";
 	public static final String hpPotMessage = "\n You used a health potion. Some health was restored.";
 	public static final String manaPotMessage = "\n You used a mana potion. Some mana was restored.";
 	public static final String noHpPotsMessage = "\n You don't have any health potions.";
@@ -639,10 +639,24 @@ public class Engine {
 	public static final String bartucDeathMessage = "\n You have slain Bartuc! The world is safe thanks to you! At least for a while...";
 	public static final String bartucSpawnMessage = "\n Your rest was short. Bartuc has risen again! Now even stronger than before...";
 	
+	public static final String[] gearType = {"helm", "chest", "gloves", "pants", "boots", "shoulders", "sword", "shield"};
 	public static final String[] gearTypeHealth = {"a sturdy barbute", "a sturdy cuirass", "a pair of sturdy gauntlets", "a pair of sturdy greaves", "a pair of sturdy sabatons", "a pair of sturdy pauldrons"};
 	public static final String[] gearTypeMana = {"an enchanted barbute", "an enchanted cuirass", "a pair of enchanted gauntlets", "a pair of enchanted greaves", "a pair of enchanted sabatons", "a pair of enchanted pauldrons"};
 	public static final String[] gearTypeEpic = {"a glorious barbute", "a glorious cuirass", "a pair of glorious gauntlets", "a pair of glorious greaves", "a pair of glorious sabatons", "a pair of glorious pauldrons"};
 	public static final String[] epicGear = {" worn by angles!", " used by champions!", " forged by the gods!"};
+	
+	/**
+	 * Starting gear
+	 * This is the gear you start with.
+	 */
+	public static Item startSword = new Item(1, false, "sword");
+	public static Item startChest = new Item(1, false, "chest");
+	public static Item startHelm = new Item(1, false, "helm");
+	public static Item startGloves = new Item(1, false, "gloves");
+	public static Item startShoulders = new Item(1, false, "shoulders");
+	public static Item startPants = new Item(1, false, "pants");
+	public static Item startBoots = new Item(1, false, "boots");
+	public static Item startShield = new Item(1, false, "shield");
 	
 	/**
 	 * ZONES
