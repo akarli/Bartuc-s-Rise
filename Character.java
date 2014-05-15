@@ -314,14 +314,18 @@ public class Character {
 						DrawGame.bartuc.reset();
 						DrawGame.bartuc.aggro = false;
 						bartucEngage = false;
-						GameMain.infoBox.append(Engine.bartucFledMessage);
-						GameMain.infoBox.setCaretPosition(GameMain.infoBox.getDocument().getLength());
+						GameMain.allTab.append(Engine.bartucFledMessage);
+						GameMain.combatTab.append(Engine.bartucFledMessage);
+						GameMain.allTab.setCaretPosition(GameMain.allTab.getDocument().getLength());
+						GameMain.combatTab.setCaretPosition(GameMain.combatTab.getDocument().getLength());
 						Engine.writingSound = true;
 					}
 					if(!DrawGame.bartuc.alive){
-						GameMain.infoBox.append(Engine.bartucSpawnMessage);
+						GameMain.allTab.append(Engine.bartucSpawnMessage);
+						GameMain.generalTab.append(Engine.bartucSpawnMessage);
 						Engine.writingSound = true;
-						GameMain.infoBox.setCaretPosition(GameMain.infoBox.getDocument().getLength());
+						GameMain.allTab.setCaretPosition(GameMain.allTab.getDocument().getLength());
+						GameMain.generalTab.setCaretPosition(GameMain.generalTab.getDocument().getLength());
 						DrawGame.bartuc.spawn(getBartucKills());
 					}
 					yPosition = 7*Engine.TILE_HEIGHT;
@@ -559,8 +563,10 @@ public class Character {
 		currentHealth = getMaxHP();
 		currentMana = getMaxMana();
 
-		GameMain.infoBox.append(Engine.levelUpMessage);
-		GameMain.infoBox.setCaretPosition(GameMain.infoBox.getDocument().getLength());
+		GameMain.allTab.append(Engine.levelUpMessage);
+		GameMain.generalTab.append(Engine.levelUpMessage);
+		GameMain.allTab.setCaretPosition(GameMain.allTab.getDocument().getLength());
+		GameMain.generalTab.setCaretPosition(GameMain.generalTab.getDocument().getLength());
 		levelingUp = true;
 	}
 
@@ -592,8 +598,10 @@ public class Character {
 				}
 			}
 			else{
-				GameMain.infoBox.append(Engine.noManaMessage);
-				GameMain.infoBox.setCaretPosition(GameMain.infoBox.getDocument().getLength());
+				GameMain.allTab.append(Engine.noManaMessage);
+				GameMain.combatTab.append(Engine.noManaMessage);
+				GameMain.allTab.setCaretPosition(GameMain.allTab.getDocument().getLength());
+				GameMain.combatTab.setCaretPosition(GameMain.combatTab.getDocument().getLength());
 			}
 		}
 	}
@@ -638,7 +646,8 @@ public class Character {
 		int randDamage = rand.nextInt((getDamage()/10))+(getDamage() - getDamage()/20);
 		int crit = rand.nextInt(100);
 		if(crit <= gloves.getCritChance()){
-			GameMain.infoBox.append("\n Critical hit!");
+			GameMain.allTab.append("\n Critical hit!");
+			GameMain.combatTab.append("\n Critical hit!");
 			return (randDamage*(helm.getCritDamage()+100))/100;
 		}
 		return randDamage;
@@ -734,7 +743,8 @@ public class Character {
 	public void useHPPot(){
 		if(healthPotions > 0){
 			if(currentHealth >= maxHealth){
-				GameMain.infoBox.append("\n You're already at full health.");
+				GameMain.allTab.append("\n You're already at full health.");
+				GameMain.combatTab.append("\n You're already at full health.");
 			}
 			else{
 				currentHealth += maxHealth/2;
@@ -747,14 +757,17 @@ public class Character {
 					Engine.potionSound = true;
 				}
 				addHealthPotsUsed(); // Adds total health pots used
-				GameMain.infoBox.append(Engine.hpPotMessage);
+				GameMain.allTab.append(Engine.hpPotMessage);
+				GameMain.combatTab.append(Engine.hpPotMessage);
 			}
 
 		}
 		else{
-			GameMain.infoBox.append(Engine.noHpPotsMessage);
+			GameMain.allTab.append(Engine.noHpPotsMessage);
+			GameMain.combatTab.append(Engine.noHpPotsMessage);
 		}
-		GameMain.infoBox.setCaretPosition(GameMain.infoBox.getDocument().getLength());
+		GameMain.allTab.setCaretPosition(GameMain.allTab.getDocument().getLength());
+		GameMain.combatTab.setCaretPosition(GameMain.combatTab.getDocument().getLength());
 	}
 
 	public int getManaPots(){
@@ -768,7 +781,8 @@ public class Character {
 	public void useManaPot(){
 		if(manaPotions > 0){
 			if(currentMana >= maxMana){
-				GameMain.infoBox.append("\n You're already at full mana.");
+				GameMain.allTab.append("\n You're already at full mana.");
+				GameMain.combatTab.append("\n You're already at full mana.");
 			}
 			else{
 				currentMana += maxMana/2;
@@ -781,13 +795,16 @@ public class Character {
 					Engine.potionSound = true;
 				}
 				addManaPotsUsed(); // Adds total mana pots used
-				GameMain.infoBox.append(Engine.manaPotMessage);
+				GameMain.allTab.append(Engine.manaPotMessage);
+				GameMain.combatTab.append(Engine.manaPotMessage);
 			}
 		}
 		else{
-			GameMain.infoBox.append(Engine.noManaPotsMessage);
+			GameMain.allTab.append(Engine.noManaPotsMessage);
+			GameMain.combatTab.append(Engine.noManaPotsMessage);
 		}
-		GameMain.infoBox.setCaretPosition(GameMain.infoBox.getDocument().getLength());
+		GameMain.allTab.setCaretPosition(GameMain.allTab.getDocument().getLength());
+		GameMain.combatTab.setCaretPosition(GameMain.combatTab.getDocument().getLength());
 	}
 
 	public void setName(String name){
@@ -828,8 +845,10 @@ public class Character {
 			}
 		}
 		else{
-			GameMain.infoBox.append("\n You dodged");
-			GameMain.infoBox.setCaretPosition(GameMain.infoBox.getDocument().getLength());
+			GameMain.allTab.append("\n You dodged");
+			GameMain.combatTab.append("\n You dodged");
+			GameMain.allTab.setCaretPosition(GameMain.allTab.getDocument().getLength());
+			GameMain.combatTab.setCaretPosition(GameMain.combatTab.getDocument().getLength());
 		}
 	}
 
@@ -870,12 +889,15 @@ public class Character {
 	public void clearInventory(){
 		if(inventory.size() > 0){
 			inventory.clear();
-			GameMain.infoBox.append("\n Inventory emptied.");
+			GameMain.allTab.append("\n Inventory emptied.");
+			GameMain.generalTab.append("\n Inventory emptied.");
 		}
 		else{
-			GameMain.infoBox.append("\n Your inventory is already empty.");
+			GameMain.allTab.append("\n Your inventory is already empty.");
+			GameMain.generalTab.append("\n Your inventory is already empty.");
 		}
-		GameMain.infoBox.setCaretPosition(GameMain.infoBox.getDocument().getLength());
+		GameMain.allTab.setCaretPosition(GameMain.allTab.getDocument().getLength());
+		GameMain.generalTab.setCaretPosition(GameMain.generalTab.getDocument().getLength());
 		GameMain.listModel.clear();
 		printInventory();
 	}
@@ -884,13 +906,15 @@ public class Character {
 		index = index - 1;
 		if(inventory.size() > index  && inventory.size() > 0){
 			inventory.remove(index);
-			GameMain.infoBox.append("\n Item dropped.");
-			GameMain.infoBox.setCaretPosition(GameMain.infoBox.getDocument().getLength());
+			GameMain.allTab.append("\n Item dropped.");
+			GameMain.generalTab.append("\n Item dropped.");
 		}
 		else{
-			GameMain.infoBox.append("\n Not a valid index.");
-			GameMain.infoBox.setCaretPosition(GameMain.infoBox.getDocument().getLength());
+			GameMain.allTab.append("\n Not a valid index.");
+			GameMain.generalTab.append("\n Not a valid index.");
 		}
+		GameMain.allTab.setCaretPosition(GameMain.allTab.getDocument().getLength());
+		GameMain.generalTab.setCaretPosition(GameMain.generalTab.getDocument().getLength());
 		GameMain.listModel.clear();
 		printInventory();
 	}
@@ -959,12 +983,16 @@ public class Character {
 				inventory.set(index, temp);
 			}
 			setArmor();
-			GameMain.infoBox.append("\n You equipped the new item.");
-			GameMain.infoBox.setCaretPosition(GameMain.infoBox.getDocument().getLength());
+			GameMain.allTab.append("\n You equipped the new item.");
+			GameMain.generalTab.append("\n You equipped the new item.");
+			GameMain.allTab.setCaretPosition(GameMain.allTab.getDocument().getLength());
+			GameMain.generalTab.setCaretPosition(GameMain.generalTab.getDocument().getLength());
 		}
 		else{
-			GameMain.infoBox.append("\n Not a valid index.");
-			GameMain.infoBox.setCaretPosition(GameMain.infoBox.getDocument().getLength());
+			GameMain.allTab.append("\n Not a valid index.");
+			GameMain.generalTab.append("\n Not a valid index.");
+			GameMain.allTab.setCaretPosition(GameMain.allTab.getDocument().getLength());
+			GameMain.generalTab.setCaretPosition(GameMain.generalTab.getDocument().getLength());
 		}
 		GameMain.listModel.clear();
 		printInventory();
@@ -987,115 +1015,141 @@ public class Character {
 			inventory.add(newItem);
 			if(newItem.getType().matches("sword")){
 				if(epicGear){
-					GameMain.infoBox.append("\n You found a legendary sword" + Engine.epicGear[dropMessage] + "\n It increases damage by " + GameMain.decimals.format(newItem.getDamage()) + ".");
+					GameMain.allTab.append("\n You found a legendary sword" + Engine.epicGear[dropMessage] + "\n It increases damage by " + GameMain.decimals.format(newItem.getDamage()) + ".");
+					GameMain.lootTab.append("\n You found a legendary sword" + Engine.epicGear[dropMessage] + "\n It increases damage by " + GameMain.decimals.format(newItem.getDamage()) + ".");
 					addEpicSwordsFound();
 				}
 				else{
-					GameMain.infoBox.append("\n You found a mighty sword from a fallen enemy. \n It increases damage by " + GameMain.decimals.format(newItem.getDamage()) + ".");
+					GameMain.allTab.append("\n You found a mighty sword from a fallen enemy. \n It increases damage by " + GameMain.decimals.format(newItem.getDamage()) + ".");
+					GameMain.lootTab.append("\n You found a mighty sword from a fallen enemy. \n It increases damage by " + GameMain.decimals.format(newItem.getDamage()) + ".");
 					addSwordsFound();
 				}
 			}
 			if(newItem.getType().matches("shield")){
 				if(epicGear){
-					GameMain.infoBox.append("\n You found a magnificent kite shield" + Engine.epicGear[dropMessage] + "\n It increases armor by " + GameMain.decimals.format(newItem.getArmor()) + ".");
+					GameMain.allTab.append("\n You found a magnificent kite shield" + Engine.epicGear[dropMessage] + "\n It increases armor by " + GameMain.decimals.format(newItem.getArmor()) + ".");
+					GameMain.lootTab.append("\n You found a magnificent kite shield" + Engine.epicGear[dropMessage] + "\n It increases armor by " + GameMain.decimals.format(newItem.getArmor()) + ".");
 					addEpicShieldsFound();
 				}
 				else{
-					GameMain.infoBox.append("\n You found a robust targe shield from a fallen enemy. \n It increases armor by " + GameMain.decimals.format(newItem.getArmor()) + ".");
+					GameMain.allTab.append("\n You found a robust targe shield from a fallen enemy. \n It increases armor by " + GameMain.decimals.format(newItem.getArmor()) + ".");
+					GameMain.lootTab.append("\n You found a robust targe shield from a fallen enemy. \n It increases armor by " + GameMain.decimals.format(newItem.getArmor()) + ".");
 					addShieldsFound();
 				}
 			}
 			if(newItem.getType().matches("helm")){
 				if(epicGear){
-					GameMain.infoBox.append("\n You found a glorious barbute" + Engine.epicGear[dropMessage] + "\n It increases armor by " + GameMain.decimals.format(newItem.getArmor()) + " and critical hit damage by " + newItem.getBonusStat() + "%.");
+					GameMain.allTab.append("\n You found a glorious barbute" + Engine.epicGear[dropMessage] + "\n It increases armor by " + GameMain.decimals.format(newItem.getArmor()) + " and critical hit damage by " + newItem.getBonusStat() + "%.");
+					GameMain.lootTab.append("\n You found a glorious barbute" + Engine.epicGear[dropMessage] + "\n It increases armor by " + GameMain.decimals.format(newItem.getArmor()) + " and critical hit damage by " + newItem.getBonusStat() + "%.");
 					addEpicGearFound();
 				}
 				else{
-					GameMain.infoBox.append("\n You found a barbute from a fallen enemy. \n It increases armor by " + GameMain.decimals.format(newItem.getArmor()) + " and critical hit damage by " + newItem.getBonusStat() + "%.");
+					GameMain.allTab.append("\n You found a barbute from a fallen enemy. \n It increases armor by " + GameMain.decimals.format(newItem.getArmor()) + " and critical hit damage by " + newItem.getBonusStat() + "%.");
+					GameMain.lootTab.append("\n You found a barbute from a fallen enemy. \n It increases armor by " + GameMain.decimals.format(newItem.getArmor()) + " and critical hit damage by " + newItem.getBonusStat() + "%.");
 					addGearFound();
 				}
 			}
 			if(newItem.getType().matches("chest")){
 				if(epicGear){
-					GameMain.infoBox.append("\n You found a glorious cuirass" + Engine.epicGear[dropMessage] + "\n It increases armor by " + GameMain.decimals.format(newItem.getArmor()) + ", health by " + GameMain.decimals.format(newItem.getBonusHealth()) + " and health regeneration by " + GameMain.oneDigit.format(newItem.getHpRegen()) +  " per second.");
+					GameMain.allTab.append("\n You found a glorious cuirass" + Engine.epicGear[dropMessage] + "\n It increases armor by " + GameMain.decimals.format(newItem.getArmor()) + ", health by " + GameMain.decimals.format(newItem.getBonusHealth()) + " and health regeneration by " + GameMain.oneDigit.format(newItem.getHpRegen()) +  " per second.");
+					GameMain.lootTab.append("\n You found a glorious cuirass" + Engine.epicGear[dropMessage] + "\n It increases armor by " + GameMain.decimals.format(newItem.getArmor()) + ", health by " + GameMain.decimals.format(newItem.getBonusHealth()) + " and health regeneration by " + GameMain.oneDigit.format(newItem.getHpRegen()) +  " per second.");
 					addEpicGearFound();
 				}
 				else{
-					GameMain.infoBox.append("\n You found a cuirass from a fallen enemy.\n It increases armor by " + GameMain.decimals.format(newItem.getArmor()) + ", health by " + GameMain.decimals.format(newItem.getBonusHealth()) + " and health regeneration by " + GameMain.oneDigit.format(newItem.getHpRegen()) + " per second.");
+					GameMain.allTab.append("\n You found a cuirass from a fallen enemy.\n It increases armor by " + GameMain.decimals.format(newItem.getArmor()) + ", health by " + GameMain.decimals.format(newItem.getBonusHealth()) + " and health regeneration by " + GameMain.oneDigit.format(newItem.getHpRegen()) + " per second.");
+					GameMain.lootTab.append("\n You found a cuirass from a fallen enemy.\n It increases armor by " + GameMain.decimals.format(newItem.getArmor()) + ", health by " + GameMain.decimals.format(newItem.getBonusHealth()) + " and health regeneration by " + GameMain.oneDigit.format(newItem.getHpRegen()) + " per second.");
 					addGearFound();
 				}
 			}
 			if(newItem.getType().matches("pants")){
 				if(epicGear){
-					GameMain.infoBox.append("\n You found a pair of glorious greaves" + Engine.epicGear[dropMessage] + "\n It increases armor by " + GameMain.decimals.format(newItem.getArmor()) + ", health by " + GameMain.decimals.format(newItem.getBonusHealth()) + " and health regeneration by " + GameMain.oneDigit.format(newItem.getHpRegen()) +  " per second.");
+					GameMain.allTab.append("\n You found a pair of glorious greaves" + Engine.epicGear[dropMessage] + "\n It increases armor by " + GameMain.decimals.format(newItem.getArmor()) + ", health by " + GameMain.decimals.format(newItem.getBonusHealth()) + " and health regeneration by " + GameMain.oneDigit.format(newItem.getHpRegen()) +  " per second.");
+					GameMain.lootTab.append("\n You found a pair of glorious greaves" + Engine.epicGear[dropMessage] + "\n It increases armor by " + GameMain.decimals.format(newItem.getArmor()) + ", health by " + GameMain.decimals.format(newItem.getBonusHealth()) + " and health regeneration by " + GameMain.oneDigit.format(newItem.getHpRegen()) +  " per second.");
 					addEpicGearFound();
 				}
 				else{
-					GameMain.infoBox.append("\n You found a pair of greaves from a fallen enemy.\n It increases armor by " + GameMain.decimals.format(newItem.getArmor()) + ", health by " + GameMain.decimals.format(newItem.getBonusHealth()) + " and health regeneration by " + GameMain.oneDigit.format(newItem.getHpRegen()) + " per second.");
+					GameMain.allTab.append("\n You found a pair of greaves from a fallen enemy.\n It increases armor by " + GameMain.decimals.format(newItem.getArmor()) + ", health by " + GameMain.decimals.format(newItem.getBonusHealth()) + " and health regeneration by " + GameMain.oneDigit.format(newItem.getHpRegen()) + " per second.");
+					GameMain.lootTab.append("\n You found a pair of greaves from a fallen enemy.\n It increases armor by " + GameMain.decimals.format(newItem.getArmor()) + ", health by " + GameMain.decimals.format(newItem.getBonusHealth()) + " and health regeneration by " + GameMain.oneDigit.format(newItem.getHpRegen()) + " per second.");
 					addGearFound();
 				}
 			}
 			if(newItem.getType().matches("gloves")){
 				if(epicGear){
-					GameMain.infoBox.append("\n You found a pair of glorious gauntlets" + Engine.epicGear[dropMessage] + "\n It increases armor by " + GameMain.decimals.format(newItem.getArmor()) + " and critical hit chance by " + GameMain.decimals.format(newItem.getBonusStat())  +  "%.");
+					GameMain.allTab.append("\n You found a pair of glorious gauntlets" + Engine.epicGear[dropMessage] + "\n It increases armor by " + GameMain.decimals.format(newItem.getArmor()) + " and critical hit chance by " + GameMain.decimals.format(newItem.getBonusStat())  +  "%.");
+					GameMain.lootTab.append("\n You found a pair of glorious gauntlets" + Engine.epicGear[dropMessage] + "\n It increases armor by " + GameMain.decimals.format(newItem.getArmor()) + " and critical hit chance by " + GameMain.decimals.format(newItem.getBonusStat())  +  "%.");
 					addEpicGearFound();
 				}
 				else{
-					GameMain.infoBox.append("\n You found a pair of gauntlets from a fallen enemy.\n It increases armor by " + GameMain.decimals.format(newItem.getArmor()) + " and critical hit chance by " + GameMain.decimals.format(newItem.getBonusStat())  +  "%.");
+					GameMain.allTab.append("\n You found a pair of gauntlets from a fallen enemy.\n It increases armor by " + GameMain.decimals.format(newItem.getArmor()) + " and critical hit chance by " + GameMain.decimals.format(newItem.getBonusStat())  +  "%.");
+					GameMain.lootTab.append("\n You found a pair of gauntlets from a fallen enemy.\n It increases armor by " + GameMain.decimals.format(newItem.getArmor()) + " and critical hit chance by " + GameMain.decimals.format(newItem.getBonusStat())  +  "%.");
 					addGearFound();
 				}
 			}
 			if(newItem.getType().matches("boots")){
 				if(epicGear){
-					GameMain.infoBox.append("\n You found a pair of glorious sabatons" + Engine.epicGear[dropMessage] + "\n It increases armor by " + GameMain.decimals.format(newItem.getArmor()) + " and dodge chance by " + GameMain.decimals.format(newItem.getBonusStat())  +  "%.");
+					GameMain.allTab.append("\n You found a pair of glorious sabatons" + Engine.epicGear[dropMessage] + "\n It increases armor by " + GameMain.decimals.format(newItem.getArmor()) + " and dodge chance by " + GameMain.decimals.format(newItem.getBonusStat())  +  "%.");
+					GameMain.lootTab.append("\n You found a pair of glorious sabatons" + Engine.epicGear[dropMessage] + "\n It increases armor by " + GameMain.decimals.format(newItem.getArmor()) + " and dodge chance by " + GameMain.decimals.format(newItem.getBonusStat())  +  "%.");
 					addEpicGearFound();
 				}
 				else{
-					GameMain.infoBox.append("\n You found a pair of sabatons from a fallen enemy.\n It increases armor by " + GameMain.decimals.format(newItem.getArmor()) + " and dodge chance by " + GameMain.decimals.format(newItem.getBonusStat())  +  "%.");
+					GameMain.allTab.append("\n You found a pair of sabatons from a fallen enemy.\n It increases armor by " + GameMain.decimals.format(newItem.getArmor()) + " and dodge chance by " + GameMain.decimals.format(newItem.getBonusStat())  +  "%.");
+					GameMain.lootTab.append("\n You found a pair of sabatons from a fallen enemy.\n It increases armor by " + GameMain.decimals.format(newItem.getArmor()) + " and dodge chance by " + GameMain.decimals.format(newItem.getBonusStat())  +  "%.");
 					addGearFound();
 				}
 			}
 			if(newItem.getType().matches("shoulders")){
 				if(epicGear){
-					GameMain.infoBox.append("\n You found a pair of glorious pauldrons" + Engine.epicGear[dropMessage] + "\n It increases armor by " + GameMain.decimals.format(newItem.getArmor()) + ", mana by " + GameMain.decimals.format(newItem.getBonusMana()) + " and mana regeneration by " + GameMain.oneDigit.format(newItem.getManaRegen()) +  " per second.");
+					GameMain.allTab.append("\n You found a pair of glorious pauldrons" + Engine.epicGear[dropMessage] + "\n It increases armor by " + GameMain.decimals.format(newItem.getArmor()) + ", mana by " + GameMain.decimals.format(newItem.getBonusMana()) + " and mana regeneration by " + GameMain.oneDigit.format(newItem.getManaRegen()) +  " per second.");
+					GameMain.lootTab.append("\n You found a pair of glorious pauldrons" + Engine.epicGear[dropMessage] + "\n It increases armor by " + GameMain.decimals.format(newItem.getArmor()) + ", mana by " + GameMain.decimals.format(newItem.getBonusMana()) + " and mana regeneration by " + GameMain.oneDigit.format(newItem.getManaRegen()) +  " per second.");
 					addEpicGearFound();
 				}
 				else{
-					GameMain.infoBox.append("\n You found a pair of pauldrons from a fallen enemy.\n It increases armor by " + GameMain.decimals.format(newItem.getArmor()) + ", mana by " + GameMain.decimals.format(newItem.getBonusMana()) + " and mana regeneration by " + GameMain.oneDigit.format(newItem.getManaRegen()) + " per second.");
+					GameMain.allTab.append("\n You found a pair of pauldrons from a fallen enemy.\n It increases armor by " + GameMain.decimals.format(newItem.getArmor()) + ", mana by " + GameMain.decimals.format(newItem.getBonusMana()) + " and mana regeneration by " + GameMain.oneDigit.format(newItem.getManaRegen()) + " per second.");
+					GameMain.lootTab.append("\n You found a pair of pauldrons from a fallen enemy.\n It increases armor by " + GameMain.decimals.format(newItem.getArmor()) + ", mana by " + GameMain.decimals.format(newItem.getBonusMana()) + " and mana regeneration by " + GameMain.oneDigit.format(newItem.getManaRegen()) + " per second.");
 					addGearFound();
 				}
 				GameMain.listModel.clear();
 				printInventory();
 			}
-
-			GameMain.infoBox.setCaretPosition(GameMain.infoBox.getDocument().getLength());
-			GameMain.infoBox.append("\n Your currently equipped ");
+			GameMain.allTab.setCaretPosition(GameMain.allTab.getDocument().getLength());
+			GameMain.lootTab.setCaretPosition(GameMain.lootTab.getDocument().getLength());
+			GameMain.allTab.append("\n Your currently equipped ");
+			GameMain.lootTab.append("\n Your currently equipped ");
 			if(newItem.getType().matches("chest")){
-				GameMain.infoBox.append("chest armor gives you " + GameMain.decimals.format(chest.getArmor()) + " armor, " + GameMain.decimals.format(chest.getBonusHealth()) + " health and \n " + GameMain.oneDigit.format(chest.getHpRegen()) + " health regeneration per second.");
+				GameMain.allTab.append("chest armor gives you " + GameMain.decimals.format(chest.getArmor()) + " armor, " + GameMain.decimals.format(chest.getBonusHealth()) + " health and \n " + GameMain.oneDigit.format(chest.getHpRegen()) + " health regeneration per second.");
+				GameMain.lootTab.append("chest armor gives you " + GameMain.decimals.format(chest.getArmor()) + " armor, " + GameMain.decimals.format(chest.getBonusHealth()) + " health and \n " + GameMain.oneDigit.format(chest.getHpRegen()) + " health regeneration per second.");
 			}
 			if(newItem.getType().matches("gloves")){
-				GameMain.infoBox.append("gloves gives you " +  GameMain.decimals.format(gloves.getArmor()) + " armor and " + GameMain.decimals.format(gloves.getBonusStat()) + "% critical hit chance.");
+				GameMain.allTab.append("gloves gives you " +  GameMain.decimals.format(gloves.getArmor()) + " armor and " + GameMain.decimals.format(gloves.getBonusStat()) + "% critical hit chance.");
+				GameMain.lootTab.append("gloves gives you " +  GameMain.decimals.format(gloves.getArmor()) + " armor and " + GameMain.decimals.format(gloves.getBonusStat()) + "% critical hit chance.");
 			}
 			if(newItem.getType().matches("pants")){
-				GameMain.infoBox.append("leg armor gives you " + GameMain.decimals.format(pants.getArmor()) + " armor, " + GameMain.decimals.format(pants.getBonusHealth()) + " health and \n " + GameMain.oneDigit.format(pants.getHpRegen()) + " health regeneration per second.");
+				GameMain.allTab.append("leg armor gives you " + GameMain.decimals.format(pants.getArmor()) + " armor, " + GameMain.decimals.format(pants.getBonusHealth()) + " health and \n " + GameMain.oneDigit.format(pants.getHpRegen()) + " health regeneration per second.");
+				GameMain.lootTab.append("leg armor gives you " + GameMain.decimals.format(pants.getArmor()) + " armor, " + GameMain.decimals.format(pants.getBonusHealth()) + " health and \n " + GameMain.oneDigit.format(pants.getHpRegen()) + " health regeneration per second.");
 			}
 			if(newItem.getType().matches("boots")){
-				GameMain.infoBox.append("boots gives you " +  GameMain.decimals.format(boots.getArmor()) + " armor and " + GameMain.decimals.format(boots.getBonusStat()) + "% dodge chance.");
+				GameMain.allTab.append("boots gives you " +  GameMain.decimals.format(boots.getArmor()) + " armor and " + GameMain.decimals.format(boots.getBonusStat()) + "% dodge chance.");
+				GameMain.lootTab.append("boots gives you " +  GameMain.decimals.format(boots.getArmor()) + " armor and " + GameMain.decimals.format(boots.getBonusStat()) + "% dodge chance.");
 			}
 			if(newItem.getType().matches("helm")){
-				GameMain.infoBox.append("helmet gives you " +  GameMain.decimals.format(helm.getArmor()) + " armor and " + GameMain.decimals.format(helm.getBonusStat()) + "% critical hit damage.");
+				GameMain.allTab.append("helmet gives you " +  GameMain.decimals.format(helm.getArmor()) + " armor and " + GameMain.decimals.format(helm.getBonusStat()) + "% critical hit damage.");
+				GameMain.lootTab.append("helmet gives you " +  GameMain.decimals.format(helm.getArmor()) + " armor and " + GameMain.decimals.format(helm.getBonusStat()) + "% critical hit damage.");
 			}
 			if(newItem.getType().matches("shoulders")){
-				GameMain.infoBox.append("shoulder armor gives you " + GameMain.decimals.format(shoulders.getArmor()) + " armor, " + GameMain.decimals.format(shoulders.getBonusMana()) + " mana and \n " + GameMain.oneDigit.format(shoulders.getManaRegen()) + " mana regeneration per second.");
+				GameMain.allTab.append("shoulder armor gives you " + GameMain.decimals.format(shoulders.getArmor()) + " armor, " + GameMain.decimals.format(shoulders.getBonusMana()) + " mana and \n " + GameMain.oneDigit.format(shoulders.getManaRegen()) + " mana regeneration per second.");
+				GameMain.lootTab.append("shoulder armor gives you " + GameMain.decimals.format(shoulders.getArmor()) + " armor, " + GameMain.decimals.format(shoulders.getBonusMana()) + " mana and \n " + GameMain.oneDigit.format(shoulders.getManaRegen()) + " mana regeneration per second.");
 			}
 			if(newItem.getType().matches("shield")){
-				GameMain.infoBox.append("shield gives you " + shield.getArmor() + " armor.");
+				GameMain.allTab.append("shield gives you " + shield.getArmor() + " armor.");
+				GameMain.lootTab.append("shield gives you " + shield.getArmor() + " armor.");
 			}
 			if(newItem.getType().matches("sword")){
-				GameMain.infoBox.append("sword gives you " + sword.getDamage() + " damage.");
+				GameMain.allTab.append("sword gives you " + sword.getDamage() + " damage.");
+				GameMain.lootTab.append("sword gives you " + sword.getDamage() + " damage.");
 			} 
 
-			GameMain.infoBox.setCaretPosition(GameMain.infoBox.getDocument().getLength());
+			GameMain.allTab.setCaretPosition(GameMain.allTab.getDocument().getLength());
+			GameMain.lootTab.setCaretPosition(GameMain.lootTab.getDocument().getLength());
 		}
 		int potionDrop = rand.nextInt(4);
 		if (potionDrop == 3) {
@@ -1103,11 +1157,16 @@ public class Character {
 			int potion = rand.nextInt(2);
 			if (potion == 1) {
 				healthPotions++;
-				GameMain.infoBox.append(" \n You found a health potion!");
+				GameMain.allTab.append(" \n You found a health potion!");
+				GameMain.lootTab.append(" \n You found a health potion!");
 			} else {
 				manaPotions++;
-				GameMain.infoBox.append(" \n You found a mana potion!");
+				GameMain.allTab.append(" \n You found a mana potion!");
+				GameMain.lootTab.append(" \n You found a mana potion!");
 			}
+
+			GameMain.allTab.setCaretPosition(GameMain.allTab.getDocument().getLength());
+			GameMain.lootTab.setCaretPosition(GameMain.lootTab.getDocument().getLength());
 		}
 		GameMain.listModel.clear();
 		printInventory();
@@ -1234,7 +1293,9 @@ public class Character {
 
 		shield = Engine.startShield;
 		shield.setArmor(3);
-		GameMain.infoBox.append(Engine.deathMessage);
+		GameMain.allTab.append(Engine.deathMessage);
+		GameMain.generalTab.append(Engine.deathMessage);
+		GameMain.combatTab.append(Engine.deathMessage);
 		stopMoving();
 		level = 1;
 		currentHealth = 100;
@@ -1265,8 +1326,9 @@ public class Character {
 		GameMain.listModel.clear();
 		printInventory();
 
-		//GameMain.infoBox.append("\n" + Engine.startMessage);
-		GameMain.infoBox.setCaretPosition(GameMain.infoBox.getDocument().getLength());
+		GameMain.allTab.setCaretPosition(GameMain.allTab.getDocument().getLength());
+		GameMain.generalTab.setCaretPosition(GameMain.generalTab.getDocument().getLength());
+		GameMain.combatTab.setCaretPosition(GameMain.combatTab.getDocument().getLength());
 	}
 
 	public void drawImage(Graphics g){
@@ -1325,8 +1387,12 @@ public class Character {
 			if(Engine.caveThemeSound)
 				Engine.caveThemeSound = false;
 			if(!bartucEngage){
-				GameMain.infoBox.append(Engine.bartucEngageMessage);
-				GameMain.infoBox.setCaretPosition(GameMain.infoBox.getDocument().getLength());
+				GameMain.allTab.append(Engine.bartucEngageMessage);
+				GameMain.generalTab.append(Engine.bartucEngageMessage);
+				GameMain.combatTab.append(Engine.bartucEngageMessage);
+				GameMain.allTab.setCaretPosition(GameMain.allTab.getDocument().getLength());
+				GameMain.generalTab.setCaretPosition(GameMain.generalTab.getDocument().getLength());
+				GameMain.combatTab.setCaretPosition(GameMain.combatTab.getDocument().getLength());
 				bartucEngage = true;
 			}
 
