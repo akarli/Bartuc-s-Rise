@@ -266,8 +266,10 @@ public class Monster {
 		if(!dead){
 			currentHealth -= damage;
 			if (currentHealth <= 0) {
-				GameMain.infoBox.append("\n You hit the skeleton for " + GameMain.decimals.format(damage) + " damage and slayed it.");
-				GameMain.infoBox.setCaretPosition(GameMain.infoBox.getDocument().getLength());
+				GameMain.allTab.append("\n You hit the skeleton for " + GameMain.decimals.format(damage) + " damage and slayed it.");
+				GameMain.combatTab.append("\n You hit the skeleton for " + GameMain.decimals.format(damage) + " damage and slayed it.");
+				GameMain.allTab.setCaretPosition(GameMain.allTab.getDocument().getLength());
+				GameMain.combatTab.setCaretPosition(GameMain.combatTab.getDocument().getLength());
 				DrawGame.character.getLoot();
 				death = true;
 				if(death){
@@ -278,9 +280,10 @@ public class Monster {
 				doneMoving();
 				return true;
 			}
-			GameMain.infoBox.append("\n You hit the skeleton for " + GameMain.decimals.format(damage) + " damage. It has " + GameMain.decimals.format(currentHealth) + " health left.");
-			GameMain.infoBox.setCaretPosition(GameMain.infoBox.getDocument()
-					.getLength());
+			GameMain.allTab.append("\n You hit the skeleton for " + GameMain.decimals.format(damage) + " damage. It has " + GameMain.decimals.format(currentHealth) + " health left.");
+			GameMain.combatTab.append("\n You hit the skeleton for " + GameMain.decimals.format(damage) + " damage. It has " + GameMain.decimals.format(currentHealth) + " health left.");
+			GameMain.allTab.setCaretPosition(GameMain.allTab.getDocument().getLength());
+			GameMain.combatTab.setCaretPosition(GameMain.combatTab.getDocument().getLength());
 			Engine.skeletonHitSound = true;
 		}
 		return false;
