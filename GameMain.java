@@ -57,8 +57,13 @@ public class GameMain extends JFrame implements ActionListener {
 	JLabel characterCritDamage = new JLabel("Critical hit damage: " + decimals.format(DrawGame.character.helm().getBonusStat()) + "%", JLabel.LEFT);
 	JLabel characterDodge = new JLabel("Dodge chance: " + decimals.format(DrawGame.character.boots().getBonusStat()) + "%", JLabel.LEFT);
 	
-	public static JTextArea infoBox = new JTextArea(Engine.startMessage); // The box containing all info text
+	public static JTextArea allTab = new JTextArea(Engine.startMessage); // The box containing all info text
+	public static JTextArea generalTab = new JTextArea(Engine.startMessage); // The box containing all info text
+	public static JTextArea combatTab = new JTextArea(""); // The box containing all info text
+	public static JTextArea lootTab = new JTextArea(""); // The box containing all info text
+	
 	public static JTabbedPane equipmentWindow = new JTabbedPane();
+	public static JTabbedPane infoWindow = new JTabbedPane();
 	public static JTextField commandBox = new JTextField(); // The box containing all info text
 	
 	public static DefaultListModel listModel = new DefaultListModel();
@@ -66,7 +71,11 @@ public class GameMain extends JFrame implements ActionListener {
 	public static JTextArea equipmentBox = new JTextArea("");
 	public static JList inventoryBox = new JList(listModel);
 
-	JScrollPane scroll = new JScrollPane(infoBox, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED); // Making the infoBox scrollable
+	JScrollPane scroll = new JScrollPane(allTab, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED); // Making the allTab scrollable
+	JScrollPane generalScroll = new JScrollPane(generalTab, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED); // Making the allTab scrollable
+	JScrollPane combatScroll = new JScrollPane(combatTab, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED); // Making the allTab scrollable
+	JScrollPane lootScroll = new JScrollPane(lootTab, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED); // Making the allTab scrollable
+	
 	JScrollPane scrollEquipment = new JScrollPane(equipmentBox, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 	JScrollPane scrollInventory = new JScrollPane(inventoryBox, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 	
@@ -85,8 +94,8 @@ public class GameMain extends JFrame implements ActionListener {
 		 */
 
 		setLayout(null); // Allows for free placement of components in this window
-		setPreferredSize(new Dimension(32 * Engine.TILE_WIDTH + 300, 20 * Engine.TILE_HEIGHT + 120));
-		setLocation((screenWidth/2) - 662, (screenHeight/2) - 380);
+		setPreferredSize(new Dimension(32 * Engine.TILE_WIDTH + 320, 20 * Engine.TILE_HEIGHT + 120));
+		setLocation((screenWidth/2) - 672, (screenHeight/2) - 380);
 		setResizable(false);
 		setUndecorated(false);
 		setBackground(Color.WHITE);
@@ -98,7 +107,7 @@ public class GameMain extends JFrame implements ActionListener {
 		
 			gamePanel.setBounds(0, -5, 1024, 640); // Sets the size and position of the game panel
 
-			statsPanel.setBounds(1024, -5, 300, 740); // Sets the size and position for the stats panel
+			statsPanel.setBounds(1024, -5, 320, 740); // Sets the size and position for the stats panel
 			statsPanel.setBackground(Color.WHITE);
 			statsPanel.setLayout(null); // Allows for free placement of components in this panel
 			statsPanel.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED)); // Adds a border to the panel
@@ -160,8 +169,25 @@ public class GameMain extends JFrame implements ActionListener {
 			characterDodge.setFont(new Font("Serif", Font.PLAIN, 16));
 			characterDodge.setBounds(20, 320, 130, 40);
 			
+			infoWindow.setFont(new Font("Serif", Font.PLAIN, 14));
+			infoWindow.setBounds(0, 0, 800, 100);
+			infoWindow.setBackground(Color.WHITE);
+			infoWindow.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
+			
+			infoWindow.addTab("All", null, scroll, "All messages");
+			infoWindow.addTab("General", null, generalScroll, "General messages");
+			infoWindow.addTab("Combat", null, combatScroll, "Combat related messages");
+			infoWindow.addTab("Loot", null, lootScroll, "Loot related messages");
+			
+			generalTab.setFont(new Font("Serif", Font.PLAIN, 14));
+			generalTab.setEditable(false);
+			combatTab.setFont(new Font("Serif", Font.PLAIN, 14));
+			combatTab.setEditable(false);
+			lootTab.setFont(new Font("Serif", Font.PLAIN, 14));
+			lootTab.setEditable(false);
+			
 			equipmentWindow.setFont(new Font("Serif", Font.PLAIN, 15));
-			equipmentWindow.setBounds(13, 400, 270, 320);
+			equipmentWindow.setBounds(13, 400, 290, 320);
 			equipmentWindow.setBackground(Color.WHITE);
 			equipmentWindow.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
 			
@@ -193,11 +219,11 @@ public class GameMain extends JFrame implements ActionListener {
 		/**
 		 * SCROLL AREA PREFERENCES
 		 */
-		infoBox.setEditable(false); // Makes the info box uneditable
-			infoBox.setBounds(0, 0, 800, 100);
+			allTab.setEditable(false); // Makes the info box uneditable
+			allTab.setBounds(0, 0, 800, 100);
 			scroll.setBounds(0, 0, 800, 100); // Sets the size and position of the info box
-			infoBox.setBackground(Color.WHITE); // Sets the background color of the info box
-			infoBox.setFont(new Font("Serif", Font.PLAIN, 14)); // Sets the font of the info box
+			allTab.setBackground(Color.WHITE); // Sets the background color of the info box
+			allTab.setFont(new Font("Serif", Font.PLAIN, 14)); // Sets the font of the info box
 		
 		/**
 		 * COMMAND AREA PREFERENCES
@@ -208,13 +234,17 @@ public class GameMain extends JFrame implements ActionListener {
 			{
 				String input = commandBox.getText();
 				if(input.trim().equals("")){
-					infoBox.append("\n No command entered.");
-					infoBox.setCaretPosition(infoBox.getDocument().getLength());
+					allTab.append("\n No command entered.");
+					generalTab.append("\n No command entered.");
+					allTab.setCaretPosition(allTab.getDocument().getLength());
+					generalTab.setCaretPosition(generalTab.getDocument().getLength());
 				}
 				else{
 					commandBox.setText("");
-					infoBox.append("\n Command entered: \"" + input + "\".");
-					infoBox.setCaretPosition(infoBox.getDocument().getLength());
+					allTab.append("\n Command entered: \"" + input + "\".");
+					generalTab.append("\n Command entered: \"" + input + "\".");
+					allTab.setCaretPosition(allTab.getDocument().getLength());
+					generalTab.setCaretPosition(generalTab.getDocument().getLength());
 					parseCommand(input.trim());
 				}
 				draw.requestFocus();
@@ -228,19 +258,23 @@ public class GameMain extends JFrame implements ActionListener {
 			{
 				String input = commandBox.getText();
 				if(input.trim().equals("")){
-					infoBox.append("\n No command entered.");
-					infoBox.setCaretPosition(infoBox.getDocument().getLength());
+					allTab.append("\n No command entered.");
+					generalTab.append("\n No command entered.");
+					allTab.setCaretPosition(allTab.getDocument().getLength());
+					generalTab.setCaretPosition(generalTab.getDocument().getLength());
 				}
 				else{
 					commandBox.setText("");
-					infoBox.append("\n Command entered: \"" + input + "\".");
-					infoBox.setCaretPosition(infoBox.getDocument().getLength());
+					allTab.append("\n Command entered: \"" + input + "\".");
+					generalTab.append("\n Command entered: \"" + input + "\".");
+					allTab.setCaretPosition(allTab.getDocument().getLength());
+					generalTab.setCaretPosition(generalTab.getDocument().getLength());
 					parseCommand(input.trim());
 				}
 				draw.requestFocus();
 			}
 		});
-			commandBox.setBounds(800, 20, 224, 25); // Sets the size and position of the command box
+			commandBox.setBounds(801, 20, 223, 25); // Sets the size and position of the command box
 			commandBox.setFont(new Font("Serif", Font.PLAIN, 14)); // Sets the font of the command box
 
 		/**
@@ -253,7 +287,7 @@ public class GameMain extends JFrame implements ActionListener {
 
 		gamePanel.add(draw); // Adds the game to the game panel
 
-		infoPanel.add(scroll); // Adds the info box to the info panel
+		infoPanel.add(infoWindow); // Adds the info box to the info panel
 		infoPanel.add(sendButton); // Adds the send button to the info panel
 		infoPanel.add(commandBox); // Adds the command box to the info panel
 
@@ -313,30 +347,41 @@ public class GameMain extends JFrame implements ActionListener {
 	public void parseCommand(String command){
 		String lineArray[] = command.split("\\s+");
 		if((lineArray[0].trim().equals("help") && lineArray.length == 1) || (lineArray[0].trim().equals("Help") && lineArray.length == 1)){
-			infoBox.append(Engine.helpMessage);
-			infoBox.setCaretPosition(infoBox.getDocument().getLength() - 200);
+			allTab.append(Engine.helpMessage);
+			generalTab.append(Engine.helpMessage);
+			allTab.setCaretPosition(allTab.getDocument().getLength() - 200);
+			generalTab.setCaretPosition(generalTab.getDocument().getLength() - 200);
 		}
 		else if((lineArray[0].trim().equals("load") && lineArray.length == 1) || (lineArray[0].trim().equals("Load") && lineArray.length == 1)){
-			infoBox.append("\n Loading...");
+			allTab.append("\n Loading...");
+			generalTab.append("\n Loading...");
 			loadGame();
-			infoBox.setCaretPosition(infoBox.getDocument().getLength());
+			allTab.setCaretPosition(allTab.getDocument().getLength());
+			generalTab.setCaretPosition(generalTab.getDocument().getLength());
 		}
 		else if((lineArray[0].trim().equals("save") && lineArray.length == 1)|| (lineArray[0].trim().equals("Save") && lineArray.length == 1)){
-			infoBox.append("\n Saving...");
+			allTab.append("\n Saving...");
+			generalTab.append("\n Saving...");
 			saveGame();
-			infoBox.setCaretPosition(infoBox.getDocument().getLength());
+			allTab.setCaretPosition(allTab.getDocument().getLength());
 		}
 		else if((lineArray[0].trim().equals("controls") && lineArray.length == 1) || (lineArray[0].trim().equals("Controls") && lineArray.length == 1)){
-			infoBox.append(Engine.controlsMessage);
-			infoBox.setCaretPosition(infoBox.getDocument().getLength() - 200);
+			allTab.append(Engine.controlsMessage);
+			generalTab.append(Engine.controlsMessage);
+			allTab.setCaretPosition(allTab.getDocument().getLength() - 200);
+			generalTab.setCaretPosition(generalTab.getDocument().getLength() - 200);
 		}
 		else if((lineArray[0].trim().equals("commands") && lineArray.length == 1) || (lineArray[0].trim().equals("Commands") && lineArray.length == 1)){
-			infoBox.append(Engine.commandsMessage);
-			infoBox.setCaretPosition(infoBox.getDocument().getLength() - 250);
+			allTab.append(Engine.commandsMessage);
+			generalTab.append(Engine.commandsMessage);
+			allTab.setCaretPosition(allTab.getDocument().getLength() - 250);
+			generalTab.setCaretPosition(generalTab.getDocument().getLength() - 250);
 		}
 		else if((lineArray[0].trim().equals("stats") && lineArray.length == 1) || (lineArray[0].trim().equals("Stats") && lineArray.length == 1)){
-			infoBox.append(DrawGame.character.getStatMessage());
-			infoBox.setCaretPosition(infoBox.getDocument().getLength() - 650);
+			allTab.append(DrawGame.character.getStatMessage());
+			generalTab.append(DrawGame.character.getStatMessage());
+			allTab.setCaretPosition(allTab.getDocument().getLength() - 650);
+			generalTab.setCaretPosition(generalTab.getDocument().getLength() - 650);
 		}
 		else if((lineArray[0].trim().equals("setname") || lineArray[0].trim().equals("Setname")) && lineArray.length <= 4){
 			if(lineArray.length == 2){
@@ -350,12 +395,16 @@ public class GameMain extends JFrame implements ActionListener {
 				String name = lineArray[1] + " " + lineArray[2] + " " + lineArray[3];
 				DrawGame.character.setName(name);
 			}
-			infoBox.append(Engine.setNameMessage);
-			infoBox.setCaretPosition(infoBox.getDocument().getLength());
+			allTab.append(Engine.setNameMessage);
+			generalTab.append(Engine.setNameMessage);
+			allTab.setCaretPosition(allTab.getDocument().getLength());
+			generalTab.setCaretPosition(generalTab.getDocument().getLength());
 		}
 		else if((lineArray[0].trim().equals("setname") || lineArray[0].trim().equals("Setname")) && lineArray.length > 4){
-			infoBox.append(Engine.setNameError);
-			infoBox.setCaretPosition(infoBox.getDocument().getLength());
+			allTab.append(Engine.setNameError);
+			generalTab.append(Engine.setNameError);
+			allTab.setCaretPosition(allTab.getDocument().getLength());
+			generalTab.setCaretPosition(generalTab.getDocument().getLength());
 		}
 		else if((lineArray[0].trim().equals("equip") || lineArray[0].trim().equals("Equip")) && lineArray[1].trim().matches("\\d+") && lineArray.length == 2){
 			DrawGame.character.changeItem(Integer.parseInt(lineArray[1]));
@@ -367,8 +416,10 @@ public class GameMain extends JFrame implements ActionListener {
 			   DrawGame.character.removeItemFromInventory(Integer.parseInt(lineArray[1]));
 		}
 		else{
-			infoBox.append(Engine.noSuchCommandMessage);
-			infoBox.setCaretPosition(infoBox.getDocument().getLength());
+			allTab.append(Engine.noSuchCommandMessage);
+			generalTab.append(Engine.noSuchCommandMessage);
+			allTab.setCaretPosition(allTab.getDocument().getLength());
+			generalTab.setCaretPosition(generalTab.getDocument().getLength());
 		}
 		Engine.writingSound = true;
 	}
@@ -443,9 +494,11 @@ public class GameMain extends JFrame implements ActionListener {
 			writer.println(DrawGame.character.shield().type +  " " +DrawGame.character.shield().armor);
 			writer.println(DrawGame.character.sword().type +  " " +DrawGame.character.sword().damage);
 
-			infoBox.append(Engine.saveMessage);
+			allTab.append(Engine.saveMessage);
+			generalTab.append(Engine.saveMessage);
 		} catch (IOException ex) {
-			infoBox.append("\n Something went wrong, game not saved.");
+			allTab.append("\n Something went wrong, game not saved.");
+			generalTab.append("\n Something went wrong, game not saved.");
 			return;
 		} finally {
 			writer.close();
@@ -554,15 +607,18 @@ public class GameMain extends JFrame implements ActionListener {
 			DrawGame.character.setY(416);
 			DrawGame.reset();
 
-			infoBox.append(Engine.loadMessage);
+			allTab.append(Engine.loadMessage);
+			generalTab.append(Engine.loadMessage);
 			listModel.clear();
 			DrawGame.character.clearInventory();
 
 		} catch (FileNotFoundException a){
-			infoBox.append("\n The save file was not found. Game not loaded.");
+			allTab.append("\n The save file was not found. Game not loaded.");
+			generalTab.append("\n The save file was not found. Game not loaded.");
 		}
 		catch (IOException e) {
-			infoBox.append("\n There was a problem with the save file. Game not loaded.");
+			allTab.append("\n There was a problem with the save file. Game not loaded.");
+			generalTab.append("\n There was a problem with the save file. Game not loaded.");
 		}
 	}
 }
