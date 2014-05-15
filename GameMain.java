@@ -170,6 +170,7 @@ public class GameMain extends JFrame implements ActionListener {
 			equipmentWindow.addTab("Inventory", null, scrollInventory, "This is your inventory.");
 			
 			equipmentBox.setFont(new Font("Serif", Font.PLAIN, 15));
+			equipmentBox.setEditable(false);
 			inventoryBox.setFont(new Font("Serif", Font.PLAIN, 15));
 			
 			DrawGame.character.printInventory();
