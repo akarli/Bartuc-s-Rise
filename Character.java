@@ -625,6 +625,9 @@ public class Character {
 	public void setHP(Double double1){
 		baseHealth = double1;
 		maxHealth = baseHealth + chest.getBonusHealth() + pants.getBonusHealth();
+		if(currentHealth > maxHealth){
+			currentHealth = maxHealth;
+		}
 	}
 
 	public int getDamage(){
