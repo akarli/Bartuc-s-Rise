@@ -271,9 +271,7 @@ public class GameMain extends JFrame implements ActionListener {
 		statsPanel.add(characterCritChance);
 		statsPanel.add(characterCritDamage);
 		statsPanel.add(characterDodge);
-		if(screenHeight > 820){
-			statsPanel.add(equipmentWindow);
-		}
+		statsPanel.add(equipmentWindow);
 
 		pack();
 
