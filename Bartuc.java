@@ -133,8 +133,10 @@ public class Bartuc {
 		currentHealth -= damage;
 		int sound = rand.nextInt(2);
 		if(getCurrentHealth() > 0){
-			GameMain.infoBox.append("\n You hit Bartuc for " + GameMain.decimals.format(damage) + " damage. He has " + GameMain.decimals.format(getCurrentHealth()) + " health left.");
-			GameMain.infoBox.setCaretPosition(GameMain.infoBox.getDocument().getLength());
+			GameMain.allTab.append("\n You hit Bartuc for " + GameMain.decimals.format(damage) + " damage. He has " + GameMain.decimals.format(getCurrentHealth()) + " health left.");
+			GameMain.combatTab.append("\n You hit Bartuc for " + GameMain.decimals.format(damage) + " damage. He has " + GameMain.decimals.format(getCurrentHealth()) + " health left.");
+			GameMain.allTab.setCaretPosition(GameMain.allTab.getDocument().getLength());
+			GameMain.combatTab.setCaretPosition(GameMain.combatTab.getDocument().getLength());
 		}
 		if(sound == 0){
 			hitPlayer.setFile(Engine.bartucHit1);
@@ -165,8 +167,12 @@ public class Bartuc {
 		DrawGame.character.getLoot();
 		DrawGame.character.getLoot();
 		DrawGame.character.getLoot();
-		GameMain.infoBox.append(Engine.bartucDeathMessage);
-		GameMain.infoBox.setCaretPosition(GameMain.infoBox.getDocument().getLength());
+		GameMain.allTab.append(Engine.bartucDeathMessage);
+		GameMain.generalTab.append(Engine.bartucDeathMessage);
+		GameMain.combatTab.append(Engine.bartucDeathMessage);
+		GameMain.allTab.setCaretPosition(GameMain.allTab.getDocument().getLength());
+		GameMain.generalTab.setCaretPosition(GameMain.generalTab.getDocument().getLength());
+		GameMain.combatTab.setCaretPosition(GameMain.combatTab.getDocument().getLength());
 	}
 
 	public void startDying(){
