@@ -164,7 +164,6 @@ public class GameMain extends JFrame implements ActionListener {
 			equipmentWindow.setBounds(13, 400, 270, 320);
 			equipmentWindow.setBackground(Color.WHITE);
 			equipmentWindow.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
-
 			
 			equipmentWindow.addTab("Equipment", null, scrollEquipment, "This is your equipped items.");
 			equipmentWindow.addTab("Inventory", null, scrollInventory, "This is your inventory.");
